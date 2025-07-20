@@ -6,7 +6,7 @@ import styles from "./tickets.module.css";
 export default function Tickets() {
   return (
     <section id="tickets" className={styles.section}>
-      <Title>Compre seu ingresso</Title>
+      <Title>Ingresso</Title>
       <div className={styles.container}>
         {/* Ticket 1 - Primeiro Lote */}
         <div className={`${styles.ticket} ${styles.highlight}`}>

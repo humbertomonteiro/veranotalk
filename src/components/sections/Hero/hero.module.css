@@ -1,7 +1,7 @@
 /* hero.module.css */
 .container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 1200px;
   max-width: 95%;
   margin: 0 auto;
@@ -26,7 +26,7 @@
 
 .title h1 {
   font-family: var(--primary-font);
-  font-size: 4.5rem;
+  font-size: 4rem;
   letter-spacing: 2px;
   margin-bottom: 1rem;
   line-height: 1;
@@ -34,7 +34,7 @@
 }
 
 .title .tagline {
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 3px;
   text-transform: uppercase;
   opacity: 0.9;
@@ -49,7 +49,7 @@
   top: 0;
   height: 100%;
   width: 3px;
-  background: #d4af37;
+  background: var(--secondary-color);
 }
 
 .callToAction {
@@ -59,15 +59,17 @@
 }
 
 .highlightBox {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-around;
   text-align: center;
   gap: 1rem;
-  background: rgba(212, 175, 55, 0.2);
+  background: var(--quartenary-color);
+  color: #fff;
   padding: 0.8rem 1.5rem;
   border-radius: 50px;
-  border: 1px solid rgba(212, 175, 55, 0.5);
+  border: 1px solid var(--border-color);
   font-weight: bold;
   font-size: 0.9rem;
   letter-spacing: 1px;
@@ -79,15 +81,23 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+.subText {
+  color: #fff;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
 .mainMessage {
-  font-size: 3rem;
+  font-size: 1.8rem;
   line-height: 1.1;
   font-weight: 700;
   margin: 0;
 }
 
 .mainMessage span {
-  color: #d4af37;
+  color: var(--secondary-color);
   position: relative;
 }
 
@@ -98,13 +108,13 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background: #d4af37;
+  background: var(--secondary-color);
 }
 
 .subMessage {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   line-height: 1.6;
-  max-width: 90%;
+  max-width: 100%;
   opacity: 0.9;
 }
 
@@ -137,6 +147,14 @@
   border-radius: 10px;
 }
 
+.desktop {
+  display: flex;
+}
+
+.mobile {
+  display: none;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
   .container {
@@ -144,6 +162,10 @@
     height: auto;
     padding: 2rem 1rem;
     gap: 2rem;
+  }
+
+  .text {
+    align-items: stretch;
   }
 
   .title h1 {
@@ -166,6 +188,14 @@
 
   .divider {
     display: none;
+  }
+
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
   }
 }
 

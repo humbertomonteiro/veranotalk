@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  --primary-color: #140f0c;
-  --secondary-color: #d4af37;
-  --tertiary-color: #796553;
+  --primary-color: #000;
+  --secondary-color: #ddd3c3;
+  --tertiary-color: rgba(102, 75, 49, 0.3);
+  --quartenary-color: rgba(255, 255, 255, 0.1);
 
   --border-color: rgba(255, 255, 255, 0.2);
 
@@ -17,10 +18,9 @@
   );
   --secondary-background: linear-gradient(
     to right,
-    #664b31,
-    #503b27,
-    #3a2b1c,
-    #664b31
+    var(--primary-color),
+    #302418,
+    var(--primary-color)
   );
 }
 

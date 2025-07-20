@@ -1,6 +1,7 @@
 /* Estilos base (compartilhados entre ambos) */
 .button {
   appearance: none;
+  border-radius: 2rem;
   border: 0.3px solid var(--border-color);
   box-sizing: border-box;
   cursor: pointer;
@@ -36,8 +37,8 @@
 
 /* Botão BRANCO */
 [data-color="white"] {
-  background-color: #ffffff;
-  color: #1d1d1d;
+  background-color: #fffffe;
+  color: #292929;
 }
 
 [data-color="white"]:before {
@@ -75,6 +76,7 @@
   position: absolute;
   z-index: -1;
   top: 0;
+  border-radius: 2rem;
   transform: translateZ(0);
   transition: clip-path 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
     -webkit-clip-path 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -95,7 +97,7 @@
 }
 
 [data-color="gold"] {
-  background-color: #d4af37;
+  background-color: var(--secondary-color);
   color: #1d1d1d;
 }
 

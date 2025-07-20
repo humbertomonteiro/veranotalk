@@ -2,6 +2,9 @@ import MainButton from "../../shared/MainButton";
 import Title from "../../shared/Title";
 import styles from "./about.module.css";
 
+import anaPaula from "../../../assets/partners/ana-paula.jpeg";
+import lairaDuarte from "../../../assets/partners/laira-duarte.jpeg";
+
 export default function About() {
   return (
     <section id="about" className={styles.section}>
@@ -14,7 +17,7 @@ export default function About() {
             <div className={styles.founderCard}>
               <div className={styles.imageContainer}>
                 <img
-                  src="https://images.pexels.com/photos/31938035/pexels-photo-31938035.jpeg"
+                  src={anaPaula}
                   alt="Ana Paula, Organizadora"
                   className={styles.founderImage}
                 />
@@ -23,9 +26,9 @@ export default function About() {
               <div className={styles.founderInfo}>
                 <h4 className={styles.founderName}>Ana Paula</h4>
                 <p className={styles.founderBio}>
-                  Especialista em educação e saúde com transição para o
-                  empreendedorismo na moda. Acredita no poder da comunicação
-                  como ferramenta de transformação social.
+                  Empresária na área da Saúde e educação, e agora da Moda.
+                  Acredita no poder da comunicação como uma ferramenta de
+                  transformação social .
                 </p>
                 <span className={styles.founderTag}>
                   #Educação #Saúde #Moda
@@ -36,7 +39,7 @@ export default function About() {
             <div className={styles.founderCard}>
               <div className={styles.imageContainer}>
                 <img
-                  src="https://images.pexels.com/photos/18243765/pexels-photo-18243765.jpeg"
+                  src={lairaDuarte}
                   alt="Laira Duarte, Organizadora"
                   className={styles.founderImage}
                 />
@@ -45,9 +48,8 @@ export default function About() {
               <div className={styles.founderInfo}>
                 <h4 className={styles.founderName}>Laira Duarte</h4>
                 <p className={styles.founderBio}>
-                  Empreendedora serial com experiência em varejo e redes
-                  sociais. Expert em criar conexões que transformam negócios e
-                  carreiras.
+                  Profissional da saúde e visionária, fez uma transição de
+                  carreira para o empreendedorismo no ramo da moda.
                 </p>
                 <span className={styles.founderTag}>
                   #Varejo #RedesSociais #Conexões

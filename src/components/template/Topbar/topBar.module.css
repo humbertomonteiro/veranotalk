@@ -8,8 +8,8 @@
   background: rgba(102, 75, 49, 0.95);
   backdrop-filter: blur(5px);
   border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-  padding: 0.5rem 0;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 0;
 }
 
 .content {
@@ -47,7 +47,7 @@
 }
 
 .text strong {
-  color: #d4af37;
+  /* color: var(--primary-color); */
   font-weight: 600;
 }
 
@@ -92,7 +92,6 @@
   .content {
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0.5rem;
   }
 
   .timer {
