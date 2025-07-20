@@ -1,0 +1,193 @@
+/* about.module.css */
+.section {
+  position: relative;
+  /* padding: 5rem; */
+  background: var(--secondary-background);
+  overflow: hidden;
+}
+
+.container {
+  width: 1200px;
+  max-width: 95%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  padding: 1rem;
+}
+
+.backgroundOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("https://images.pexels.com/photos/1884583/pexels-photo-1884583.jpeg")
+    center/cover no-repeat;
+  opacity: 0.15;
+  z-index: -1;
+  border-radius: 1rem;
+}
+
+.content {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+.founders {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.founderCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.founderCard:hover {
+  transform: translateY(-5px);
+}
+
+.imageContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  min-width: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.founderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(212, 175, 55, 0.5);
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.founderInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.founderName {
+  color: #d4af37;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+}
+
+.founderBio {
+  color: #fff;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 0.5rem 0;
+  opacity: 0.9;
+}
+
+.founderTag {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.aboutText {
+  flex: 1;
+  color: #fff;
+}
+
+.sectionHeader {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-family: var(--primary-font);
+  font-size: 2.5rem;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.divider {
+  width: 80px;
+  height: 3px;
+  background: #d4af37;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.description strong {
+  color: #d4af37;
+  font-weight: 600;
+}
+
+.ctaContainer {
+  margin-top: 2.5rem;
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column-reverse;
+    gap: 3rem;
+  }
+
+  .founders {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .founderCard {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .founderCard {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* .section {
+    padding: 3rem 0;
+  } */
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .founderCard {
+    width: 100%;
+  }
+}
