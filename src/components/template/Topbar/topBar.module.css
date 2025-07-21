@@ -5,9 +5,9 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(102, 75, 49, 0.95);
+  background: var(--primary-color);
   backdrop-filter: blur(5px);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  border-bottom: 1px solid var(--border-color);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
   padding: 0.5rem 0;
 }
@@ -29,7 +29,7 @@
 }
 
 .alert {
-  background: var(--primary-color);
+  background: var(--quartenary-color);
   color: #fff;
   font-weight: bold;
   font-size: 0.7rem;

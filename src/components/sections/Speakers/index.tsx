@@ -51,7 +51,7 @@ entrega mais que conhecimento: entrega energia,
 conexão e visão estratégica para quem quer vender
 mais e se destacar no digital.`,
       ],
-      quote: "@theodoro",
+      // quote: "@theodoro",
       badge: "ESTRELA",
     },
     {
@@ -93,7 +93,7 @@ mais e se destacar no digital.`,
               slidesPerView: 2,
             },
           }}
-          autoplay
+          autoplay={{ delay: 10000 }}
           navigation
           pagination={{ clickable: true }}
           className={styles.speakersSwiper}
@@ -129,9 +129,11 @@ mais e se destacar no digital.`,
                       ))}
                     </div>
 
-                    <div className={styles.speakerQuote}>
-                      <blockquote>"{speaker.quote}"</blockquote>
-                    </div>
+                    {speaker.quote && (
+                      <div className={styles.speakerQuote}>
+                        <blockquote>"{speaker.quote}"</blockquote>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

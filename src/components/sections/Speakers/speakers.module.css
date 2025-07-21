@@ -2,7 +2,6 @@
 .section {
   position: relative;
   background: var(--secondary-background);
-  padding: 4rem 1rem;
   overflow: hidden;
 }
 
@@ -42,7 +41,7 @@
   background-size: cover;
   background-position: center;
   opacity: 0.15;
-  filter: blur(8px);
+  filter: blur(3px);
   z-index: 1;
 }
 
@@ -100,13 +99,13 @@
 .speakerName {
   font-family: var(--primary-font);
   font-size: 1.8rem;
-  margin: 0 0 0.5rem 0;
+  margin-bottom: 0.2rem;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .speakerTitle {
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin: 0;
   opacity: 0.9;
   font-weight: 300;
@@ -120,19 +119,19 @@
 }
 
 .speakerBio {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .speakerBio p {
   line-height: 1.6;
   margin-bottom: 1rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   opacity: 0.9;
   text-align: center;
 }
 
 .speakerQuote {
-  background: rgba(212, 175, 55, 0.1);
+  background: var(--quartenary-color);
   border-left: 3px solid var(--secondary-color);
   padding: 1rem;
   border-radius: 0 8px 8px 0;

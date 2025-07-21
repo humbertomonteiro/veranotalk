@@ -5,6 +5,7 @@ import Location from "../../components/sections/Location";
 import Tickets from "../../components/sections/Tickets";
 import Speakers from "../../components/sections/Speakers";
 import TopBar from "../../components/template/Topbar";
+import Footer from "../../components/template/Footer";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Tickets />
       <Speakers />
       <Location />
+      <Footer />
     </div>
   );
 }

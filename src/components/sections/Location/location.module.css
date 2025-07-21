@@ -60,8 +60,8 @@
 }
 
 .highlightLabel {
-  background: var(--secondary-color);
-  color: var(--primary-color);
+  background: var(--tertiary-color);
+  color: #fff;
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-weight: bold;
