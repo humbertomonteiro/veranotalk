@@ -28,7 +28,7 @@ export default function TopBar() {
         <MainButton
           data={{
             type: "link",
-            link: "tickets",
+            link: "#tickets",
             text: "GARANTA SEU LUGAR",
             color: "gold",
             small: true,
