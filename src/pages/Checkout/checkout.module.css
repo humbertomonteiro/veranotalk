@@ -1,0 +1,215 @@
+.main {
+  background: var(--secondary-background);
+  color: #eeeeee;
+}
+
+.section {
+  padding: 2rem 0;
+}
+
+.container {
+  width: 1200px;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.container h1 {
+  font-size: 3rem;
+  font-family: var(--primary-font);
+  margin: 2rem 0;
+}
+
+.content {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.textContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  color: #fff;
+}
+
+.visualContent {
+  flex: 0 0 400px;
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* .header {
+  margin-bottom: 1rem;
+} */
+
+.header h3 {
+  font-family: var(--primary-font);
+  font-size: 2rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+.divider {
+  width: 80px;
+  height: 3px;
+  background: var(--secondary-color);
+  margin: 1rem 0;
+}
+
+.ticketSelectionType {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.ticketSelection {
+  width: 100%;
+  background: var(--quartenary-color);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.ticketType {
+  margin-bottom: 1.5rem;
+}
+
+.ticketType:last-child {
+  margin-bottom: 0;
+}
+
+.ticketType span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.7rem;
+}
+
+.selectContainer {
+  position: relative;
+}
+
+.selectContainer select {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: #eeeeee;
+  appearance: none;
+  cursor: pointer;
+}
+
+.selectContainer input {
+  background: rgba(255, 255, 255, 0.1);
+  color: #eeeeee;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.participantsSection {
+  background: var(--quartenary-color);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.participantsSection h4 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--secondary-color);
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.quantityButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  color: #000;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantityButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--border-color);
+}
+
+.quantityInput {
+  width: 60px;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Remove as setas do input number */
+.quantityInput::-webkit-outer-spin-button,
+.quantityInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantityInput[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.ticketType span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .visualContent {
+    width: 100%;
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .header h3 {
+    font-size: 1.8rem;
+  }
+}

@@ -1,0 +1,30 @@
+.paymentInfo {
+  background: var(--quartenary-color);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.paymentInfo h5 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.paymentLogo {
+  margin: 1rem auto;
+  max-width: 2500px;
+}
+
+.paymentLogo img {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+.securityInfo {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-bottom: 0;
+}

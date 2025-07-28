@@ -8,9 +8,10 @@ interface DataButton {
   type: "link" | "button";
   link?: string;
   text: string;
-  method?: () => void;
+  onClick?: (e?: any) => any;
   color: "white" | "black" | "gold";
   small?: boolean;
+  disabled?: boolean;
 }
 
 export default function MainButton({ data, ...args }: ButtonProps) {
@@ -28,11 +29,11 @@ export default function MainButton({ data, ...args }: ButtonProps) {
         </a>
       ) : (
         <button
-          onClick={data.method}
           className={styles.button}
-          {...args}
           data-color={data.color}
           data-button-small={data.small}
+          {...args}
+          onClick={data.onClick}
         >
           {data.text}
         </button>

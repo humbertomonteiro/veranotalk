@@ -1,0 +1,376 @@
+.section {
+  position: relative;
+  background: var(--secondary-background);
+  padding: 2rem 1rem;
+  min-height: 100vh;
+}
+
+.container {
+  width: 1200px;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background: var(--quartenary-color);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  color: #fff;
+  text-align: center;
+}
+
+.header h3 {
+  font-family: var(--primary-font);
+  font-size: 1.8rem;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.divider {
+  width: 80px;
+  height: 3px;
+  background: var(--secondary-color);
+  margin: 0 auto 2rem auto;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: block;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  margin-left: 0.2rem;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+
+.buttonWrapper {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.buttonWrapper button {
+  width: 100%;
+}
+
+.helpText {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 1rem;
+}
+
+/* Layout da área logada */
+.content {
+  display: flex;
+  gap: 2rem;
+}
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.mainContent {
+  flex-grow: 1;
+}
+
+.profileCard {
+  background: var(--quartenary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.userName {
+  font-size: 1.2rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.userEmail {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.navButton,
+.cancelButton {
+  padding: 1rem;
+  border: none;
+  background: var(--quartenary-color);
+  color: #fff;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.navButton:hover,
+.cancelButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.navButton.active {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.logoutButton {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  background: rgba(201, 1, 1, 0.849);
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  background: rgb(209, 0, 0);
+}
+
+.cancelButton {
+  display: none;
+}
+
+/* Estilos do conteúdo principal */
+.card {
+  background: var(--quartenary-color);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  color: #fff;
+}
+
+.ticketsContainer {
+  display: flex;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.ticketCard {
+  flex: 1;
+  display: flex;
+  /* justify-content: space-around; */
+  /* align-items: center; */
+  gap: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.ticketInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticketInfo h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+.ticketInfo p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.statusActive {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.qrCodeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.qrCodePlaceholder {
+  width: 200px;
+  height: 200px;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.downloadButton {
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.downloadButton:hover {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.eventInfoSection {
+  margin-top: 3rem;
+}
+
+.sectionTitle {
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.infoList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.infoList li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.infoList li:last-child {
+  border-bottom: none;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    z-index: 5;
+  }
+
+  .sidebar {
+    background-color: var(--primary-color);
+    width: 80%;
+    height: 100vh;
+    padding: 2rem 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 1px solid var(--border-color);
+    z-index: 10;
+  }
+
+  .profileCard {
+    flex-direction: row;
+  }
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  [data-show-aside-mobile="true"] {
+    display: block;
+  }
+
+  [data-show-aside-mobile="false"] {
+    display: none;
+  }
+
+  .burguer {
+    display: block;
+    position: fixed;
+    top: 2rem;
+    left: 0rem;
+    z-index: 10;
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    height: 50px;
+    width: 50px;
+    border-radius: 0 1rem 1rem 0;
+  }
+
+  .ticketsContainer {
+    flex-direction: column;
+  }
+
+  .cancelButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .ticketCard {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .qrCodeContainer {
+    margin-top: 1rem;
+  }
+}

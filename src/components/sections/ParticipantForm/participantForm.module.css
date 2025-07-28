@@ -1,0 +1,66 @@
+.participantForm {
+  margin-top: 1.5rem;
+}
+
+.participantForm h5 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.formGroup [type="radio"] {
+  width: fit-content;
+}
+
+.ticketTypeRadio {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+.ticketTypeRadio label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.disabledHint {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.addButton {
+  width: 100%;
+  padding: 1rem;
+  background: var(--secondary-color);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.addButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

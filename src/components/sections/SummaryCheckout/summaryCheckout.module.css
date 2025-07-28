@@ -1,0 +1,158 @@
+.section {
+  position: relative;
+  /* background: var(--secondary-background); */
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.container {
+  width: 1200px;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 800px;
+  /* background: var(--quartenary-color); */
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  color: #fff;
+}
+
+.header h3 {
+  font-family: var(--primary-font);
+  font-size: 1.8rem;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.divider {
+  width: 80px;
+  height: 3px;
+  background: var(--secondary-color);
+  margin-bottom: 2rem;
+}
+
+.highlightCard {
+  background: var(--quartenary-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.highlightItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.highlightItem:last-child {
+  margin-bottom: 0;
+}
+
+.highlightLabel {
+  background: var(--tertiary-color);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-right: 1rem;
+  min-width: 120px;
+  text-align: center;
+}
+
+.highlightValue {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.participantsSection {
+  margin: 2rem 0;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.participantsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.participantItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.participantItem:last-child {
+  border-bottom: none;
+}
+
+.participantName {
+  font-weight: 500;
+}
+
+.ticketType {
+  background: var(--tertiary-color);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.ticketsSummary {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.9rem;
+}
+
+.ticketCount {
+  display: flex;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .header h3 {
+    font-size: 1.5rem;
+  }
+
+  .highlightItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .highlightLabel {
+    margin-right: 0;
+  }
+
+  .ticketsSummary {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

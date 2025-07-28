@@ -1,0 +1,107 @@
+.successPage {
+  max-width: 1200px;
+  margin: 2rem auto;
+  font-family: Arial, sans-serif;
+}
+
+.successHeader {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 0 1.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.thankYouMessage {
+  font-size: 1rem;
+  color: #e0e0e0;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+
+.thankYouMessage a {
+  color: var(--secondary-color);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.thankYouMessage a:hover {
+  color: #fff;
+}
+
+.successNav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.navButton {
+  padding: 10px 20px;
+  margin: 0 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-bottom: 3px solid transparent;
+  color: #cecece;
+  font-size: 0.9rem;
+}
+
+.navButton.active {
+  border-bottom: 3px solid var(--border-color);
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+/* .tabContent {
+  margin-top: -1rem;
+} */
+
+.paymentDetails,
+.eventInfo,
+.speakersSection {
+  margin-bottom: 20px;
+}
+
+.totalAmount {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #27ae60;
+}
+
+.participantsList,
+.speakersList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.participantsList li,
+.speakersList li {
+  padding: 5px 0;
+}
+
+.participantAreaButton {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.participantAreaButton:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.additionalInfo {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #7f8c8d;
+}
