@@ -5,6 +5,8 @@ import MainButton from "../../components/shared/MainButton";
 import { type Participant } from "../../types";
 import { ToastContainer, toast } from "react-toastify";
 
+import { RiMenu2Fill } from "react-icons/ri";
+
 const AreaParticipante = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [documento, setDocumento] = useState<string>("");
@@ -191,9 +193,9 @@ const AreaParticipante = () => {
           {/* Menu lateral */}
           <div
             className={styles.burguer}
-            onClick={() => setShowAsideMobile(true)}
+            onClick={() => setShowAsideMobile(!showAsideMobile)}
           >
-            togle
+            <RiMenu2Fill />
           </div>
           <aside
             className={styles.sidebar}

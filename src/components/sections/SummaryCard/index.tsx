@@ -2,6 +2,8 @@ import type { Participant } from "../../../pages/Checkout";
 import styles from "./summarryCard.module.css";
 import MainButton from "../../shared/MainButton";
 import type { FormEvent } from "react";
+import { useCheckout } from "../../../hooks/useCheckout";
+import { Checkout } from "../../../domain/entities";
 
 interface SummaryCardProps {
   totalTickets: number;
@@ -24,6 +26,7 @@ interface ResponseOutput {
   checkoutId: string;
   paymentUrl: string;
   status: CheckoutStatus;
+  dataCheckout: Checkout;
 }
 
 export default function SummaryCard({
@@ -33,6 +36,8 @@ export default function SummaryCard({
   halfTickets,
   participants,
 }: SummaryCardProps) {
+  const { setCheckout } = useCheckout();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (participants.length !== totalTickets) {
@@ -50,14 +55,15 @@ export default function SummaryCard({
       checkout: {
         totalAmount,
         metadata: {
-          eventId: "event-1018",
+          eventId: "verano-talk-2025",
         },
       },
     };
 
     try {
       const response = await fetch(
-        "https://5f03ed0b95ad.ngrok-free.app/checkout",
+        "https://veranotalk-backend.onrender.com/checkout",
+        // "http://localhost:3000/checkout",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -71,7 +77,8 @@ export default function SummaryCard({
 
       const data: ResponseOutput = await response.json();
 
-      alert("Redirecionando para o Mercado Pago...");
+      // alert("Redirecionando para o Mercado Pago...");
+      setCheckout(data.dataCheckout);
       window.location.href = data.paymentUrl;
     } catch (error) {
       console.error("Erro no checkout:", error);

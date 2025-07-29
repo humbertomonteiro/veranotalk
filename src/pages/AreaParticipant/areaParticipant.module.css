@@ -338,16 +338,21 @@
   }
 
   .burguer {
-    display: block;
     position: fixed;
     top: 2rem;
-    left: 0rem;
+    right: 0rem;
     z-index: 10;
     background-color: var(--secondary-color);
-    padding: 1rem;
     height: 50px;
     width: 50px;
-    border-radius: 0 1rem 1rem 0;
+    border-radius: 1rem 0 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .burguer svg {
+    font-size: 1.5rem;
   }
 
   .ticketsContainer {

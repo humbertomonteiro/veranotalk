@@ -1,7 +1,8 @@
 import styles from "./summaryCheckout.module.css";
 import Title from "../../shared/Title";
+import { Checkout } from "../../../domain/entities";
 
-export default function SummaryCheckout({ paymentData }: any) {
+export default function SummaryCheckout(checkout: Checkout) {
   return (
     <section className={styles.section}>
       <Title>Resumo da Compra</Title>
@@ -16,34 +17,32 @@ export default function SummaryCheckout({ paymentData }: any) {
             <div className={styles.highlightCard}>
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>EVENTO</span>
-                <span className={styles.highlightValue}>
-                  {paymentData.eventInfo.name}
-                </span>
+                <span className={styles.highlightValue}>Verano Talk</span>
               </div>
 
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>TOTAL</span>
                 <span className={styles.highlightValue}>
-                  R$ {paymentData.paymentInfo.total.toFixed(2)}
+                  R$ {checkout.totalAmount}
                 </span>
               </div>
 
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>TRANSACTION ID</span>
                 <span className={styles.highlightValue}>
-                  {paymentData.paymentInfo.transactionId}
+                  {checkout.mercadoPagoId}
                 </span>
               </div>
             </div>
 
-            <div className={styles.participantsSection}>
+            {/* <div className={styles.participantsSection}>
               <h4 className={styles.sectionTitle}>PARTICIPANTES</h4>
               <ul className={styles.participantsList}>
-                {paymentData.participants.map(
+                {checkout.metadata?.participantIds?.map(
                   (participant: any, index: number) => (
                     <li key={index} className={styles.participantItem}>
                       <span className={styles.participantName}>
-                        {participant.name}
+                        {participant}
                       </span>
                       <span className={styles.ticketType}>
                         {participant.ticketType === "inteira"
@@ -54,9 +53,9 @@ export default function SummaryCheckout({ paymentData }: any) {
                   )
                 )}
               </ul>
-            </div>
+            </div> */}
 
-            <div className={styles.ticketsSummary}>
+            {/* <div className={styles.ticketsSummary}>
               <div className={styles.ticketCount}>
                 <span>Ingressos Inteira:</span>
                 <span>{paymentData.paymentInfo.fullPriceTickets}</span>
@@ -65,7 +64,7 @@ export default function SummaryCheckout({ paymentData }: any) {
                 <span>Ingressos Meia:</span>
                 <span>{paymentData.paymentInfo.halfPriceTickets}</span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
