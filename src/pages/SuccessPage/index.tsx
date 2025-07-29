@@ -36,6 +36,7 @@ const SuccessPage = () => {
         const data: Checkout = await response.json();
         setCheckout(data);
         setIsLoading(false);
+        console.log(data);
       } catch (err) {
         setError("Falha ao carregar os dados do checkout");
         setIsLoading(false);
