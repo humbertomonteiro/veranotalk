@@ -2,50 +2,127 @@ import { useState } from "react";
 import styles from "./areaParticipant.module.css";
 import Title from "../../components/shared/Title";
 import MainButton from "../../components/shared/MainButton";
-import { type Participant } from "../../types";
+import { type ParticipantDTO } from "../../domain/entities";
 import { ToastContainer, toast } from "react-toastify";
-
 import { RiMenu2Fill } from "react-icons/ri";
 
 const AreaParticipante = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [documento, setDocumento] = useState<string>("");
-  const [participanteData, setParticipanteData] = useState<Participant | null>(
-    null
-  );
+  const [participanteData, setParticipanteData] =
+    useState<ParticipantDTO | null>(null);
+  const [checkoutData, setCheckoutData] = useState<any | null>(null);
   const [activeTab, setActiveTab] = useState<string>("ingressos");
   const [showAsideMobile, setShowAsideMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleAuthentication = () => {
-    // Simulação de autenticação - na prática você faria uma chamada à API
-    if (documento) {
-      setParticipanteData({
-        name: "João Silva",
-        email: "joao@exemplo.com",
-        phone: "(11) 99999-9999",
-        tickets: { type: "Inteira", batch: "1º Lote", qrCode: "qr123456" },
-        certificateAvailable: false,
-      });
-      setIsAuthenticated(true);
-    } else {
-      toast.error(
-        "Documento do participante fazio! Preencha o documento do participante corretamente."
+  const handleAuthentication = async () => {
+    if (!documento) {
+      toast.error("Por favor, preencha o CPF");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://veranotalk-backend.onrender.com/participant/${documento}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
       );
+
+      if (!response.ok) {
+        throw new Error("Erro ao buscar participante");
+      }
+
+      const data = await response.json();
+      setParticipanteData({
+        id: data.participant.id,
+        name: data.participant.name,
+        email: data.participant.email,
+        phone: data.participant.phone,
+        document: data.participant.document,
+        ticketType: data.participant.ticketType,
+        checkedIn: data.participant.chekcedIn,
+      });
+      setCheckoutData(data.checkout);
+      setIsAuthenticated(true);
+    } catch (error) {
+      toast.error("Erro ao autenticar. Verifique o CPF e tente novamente.");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setParticipanteData(null);
+    setCheckoutData(null);
     setDocumento("");
   };
 
-  const downloadQRCode = (qrCodeValue: string) => {
-    // Implementação real viria aqui
-    console.log("Download QR Code:", qrCodeValue);
+  const downloadQRCode = async (qrCode: string) => {
+    try {
+      const response = await fetch(
+        `https://veranotalk-backend.onrender.com/participant/validate-qr`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            participantId: participanteData?.id,
+            qrCode,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro ao validar QR code");
+      }
+
+      const data = await response.json();
+      if (data.isValid) {
+        toast.success("QR Code válido! Download iniciado.");
+        // Implementar download real (ex.: gerar imagem ou PDF)
+        console.log("Download QR Code:", qrCode);
+      } else {
+        toast.error("QR Code inválido.");
+      }
+    } catch (error) {
+      toast.error("Erro ao validar QR Code.");
+      console.error(error);
+    }
   };
 
-  if (!isAuthenticated || !participanteData) {
+  const downloadCertificate = async () => {
+    try {
+      const response = await fetch(
+        `https://veranotalk-backend.onrender.com/participant/${participanteData?.id}/certificate`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro ao buscar certificado");
+      }
+
+      const data = await response.json();
+      if (data.available) {
+        toast.success("Certificado disponível! Download iniciado.");
+        window.location.href = data.url;
+      } else {
+        toast.info("Certificado ainda não disponível.");
+      }
+    } catch (error) {
+      toast.error("Erro ao buscar certificado.");
+      console.error(error);
+    }
+  };
+
+  if (!isAuthenticated || !participanteData || !checkoutData) {
     return (
       <section className={styles.section}>
         <Title>Acesso do Participante</Title>
@@ -75,8 +152,9 @@ const AreaParticipante = () => {
                   data={{
                     type: "button",
                     color: "gold",
-                    text: "CESSAR ÁREA",
+                    text: isLoading ? "CARREGANDO..." : "ACESSAR ÁREA",
                     onClick: handleAuthentication,
+                    disabled: isLoading,
                   }}
                 />
               </div>
@@ -100,20 +178,23 @@ const AreaParticipante = () => {
               <div className={styles.ticketCard}>
                 <div className={styles.qrCodeContainer}>
                   <div className={styles.qrCodePlaceholder}>
-                    QR Code: {participanteData.tickets.qrCode}
+                    QR Code: {checkoutData.metadata?.qrCode || "N/A"}
                   </div>
                 </div>
 
                 <div className={styles.ticketInfo}>
-                  <h4>Ingresso {participanteData.tickets.type}</h4>
-                  <p>Lote: {participanteData.tickets.batch}</p>
+                  <h4>Ingresso {participanteData.ticketType}</h4>
+                  {/* <p>Lote: {checkoutData.metadata?.batch || "1º Lote"}</p>
                   <p>
-                    Status: <span className={styles.statusActive}>Ativo</span>
-                  </p>
+                    Status:{" "}
+                    <span className={styles.statusActive}>
+                      {participanteData.status || "Ativo"}
+                    </span>
+                  </p> */}
                   <button
                     className={styles.downloadButton}
                     onClick={() =>
-                      downloadQRCode(participanteData.tickets.qrCode)
+                      downloadQRCode(checkoutData.metadata?.qrCode || "")
                     }
                   >
                     Baixar QR Code
@@ -138,17 +219,18 @@ const AreaParticipante = () => {
       case "certificado":
         return (
           <div className={styles.certificateContainer}>
-            {participanteData.certificateAvailable ? (
+            {checkoutData.status === "approved" ? (
               <>
-                <p>Seu certificado está disponível para download.</p>
-                <button className={styles.downloadButton}>
+                <p>Verificando disponibilidade do certificado...</p>
+                <button
+                  className={styles.downloadButton}
+                  onClick={downloadCertificate}
+                >
                   Baixar Certificado
                 </button>
               </>
             ) : (
-              <p>
-                Seu certificado estará disponível após a conclusão do evento.
-              </p>
+              <p>Certificado disponível apenas para pagamentos aprovados.</p>
             )}
           </div>
         );
@@ -156,29 +238,12 @@ const AreaParticipante = () => {
       case "evento":
         return (
           <div className={styles.eventInfoTab}>
-            <p>Informações detalhadas sobre o evento.</p>
-            {/* Aqui você pode reutilizar componentes da landing page */}
+            <p>
+              Informações detalhadas sobre o evento:{" "}
+              {checkoutData.metadata?.eventId}
+            </p>
           </div>
         );
-
-      //   case "dados":
-      //     return (
-      //       <div className={styles.dataForm}>
-      //         <div className={styles.formGroup}>
-      //           <label>Nome Completo</label>
-      //           <input type="text" value={participanteData.name} readOnly />
-      //         </div>
-      //         <div className={styles.formGroup}>
-      //           <label>E-mail</label>
-      //           <input type="email" value={participanteData.email} readOnly />
-      //         </div>
-      //         <div className={styles.formGroup}>
-      //           <label>Celular</label>
-      //           <input type="tel" value={participanteData.phone} readOnly />
-      //         </div>
-      //         <button className={styles.editButton}>Editar Dados</button>
-      //       </div>
-      //     );
 
       default:
         return null;
@@ -187,10 +252,8 @@ const AreaParticipante = () => {
 
   return (
     <section className={styles.section}>
-      {/* <Title>Área do Participante</Title> */}
       <div className={styles.container}>
         <div className={styles.content}>
-          {/* Menu lateral */}
           <div
             className={styles.burguer}
             onClick={() => setShowAsideMobile(!showAsideMobile)}
@@ -245,17 +308,6 @@ const AreaParticipante = () => {
               >
                 Informações do Evento
               </button>
-              {/* <button
-                className={`${styles.navButton} ${
-                  activeTab === "dados" ? styles.active : ""
-                }`}
-                onClick={() => {
-                  setActiveTab("dados");
-                  setShowAsideMobile(false);
-                }}
-              >
-                Dados Pessoais
-              </button> */}
             </nav>
 
             <button className={styles.logoutButton} onClick={handleLogout}>
@@ -269,7 +321,6 @@ const AreaParticipante = () => {
             </button>
           </aside>
 
-          {/* Conteúdo principal */}
           <main className={styles.mainContent}>
             <div className={styles.card}>
               <div className={styles.header}>

@@ -1,5 +1,9 @@
 import { Checkout, type CheckoutProps, type CheckoutStatus } from "./Checkout";
-import { Participant, type ParticipantProps } from "./Participant";
+import {
+  Participant,
+  type ParticipantProps,
+  type ParticipantDTO,
+} from "./Participant";
 
 export {
   Checkout,
@@ -7,4 +11,5 @@ export {
   type CheckoutStatus,
   Participant,
   type ParticipantProps,
+  type ParticipantDTO,
 };

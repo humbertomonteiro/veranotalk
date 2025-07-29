@@ -3,7 +3,7 @@ import Title from "../../shared/Title";
 import { Checkout } from "../../../domain/entities";
 
 interface SummaryCheckoutProps {
-  checkout: Checkout | undefined;
+  checkout: { props: Checkout | undefined };
 }
 
 export default function SummaryCheckout({ checkout }: SummaryCheckoutProps) {
@@ -27,14 +27,14 @@ export default function SummaryCheckout({ checkout }: SummaryCheckoutProps) {
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>TOTAL</span>
                 <span className={styles.highlightValue}>
-                  R$ {checkout?.totalAmount}
+                  R$ {checkout?.props?.totalAmount.toFixed(2)}
                 </span>
               </div>
 
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>TRANSACTION ID</span>
                 <span className={styles.highlightValue}>
-                  {checkout?.mercadoPagoId}
+                  {checkout?.props?.mercadoPagoId}
                 </span>
               </div>
             </div>

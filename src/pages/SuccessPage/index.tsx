@@ -77,7 +77,7 @@ const SuccessPage = () => {
         </p>
       </header>
 
-      <SummaryCheckout checkout={checkout} />
+      <SummaryCheckout checkout={{ props: checkout }} />
       <AreaParticipant />
 
       <div className={styles.additionalInfo}>
