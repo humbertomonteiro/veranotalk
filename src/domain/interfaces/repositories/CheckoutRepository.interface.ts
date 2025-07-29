@@ -1,4 +1,4 @@
-import { Checkout, CheckoutProps } from "../../entities";
+import { Checkout, type CheckoutProps } from "../../entities";
 
 export interface CheckoutRepository {
   save(checkout: Checkout): Promise<string>;

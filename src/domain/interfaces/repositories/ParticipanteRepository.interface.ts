@@ -1,4 +1,4 @@
-import { Participant, ParticipantProps } from "../../entities";
+import { Participant, type ParticipantProps } from "../../entities";
 
 export interface ParticipantRepository {
   save(participant: Participant): Promise<string>;

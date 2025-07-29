@@ -21,7 +21,7 @@ const SuccessPage = () => {
         </p>
       </header>
 
-      <SummaryCheckout paymentData={checkout} />
+      <SummaryCheckout checkout={checkout} />
       <AreaParticipant />
 
       <div className={styles.additionalInfo}>

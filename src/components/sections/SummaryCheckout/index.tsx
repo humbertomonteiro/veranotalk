@@ -2,7 +2,11 @@ import styles from "./summaryCheckout.module.css";
 import Title from "../../shared/Title";
 import { Checkout } from "../../../domain/entities";
 
-export default function SummaryCheckout(checkout: Checkout) {
+interface SummaryCheckoutProps {
+  checkout: Checkout | undefined;
+}
+
+export default function SummaryCheckout({ checkout }: SummaryCheckoutProps) {
   return (
     <section className={styles.section}>
       <Title>Resumo da Compra</Title>
@@ -23,14 +27,14 @@ export default function SummaryCheckout(checkout: Checkout) {
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>TOTAL</span>
                 <span className={styles.highlightValue}>
-                  R$ {checkout.totalAmount}
+                  R$ {checkout?.totalAmount}
                 </span>
               </div>
 
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>TRANSACTION ID</span>
                 <span className={styles.highlightValue}>
-                  {checkout.mercadoPagoId}
+                  {checkout?.mercadoPagoId}
                 </span>
               </div>
             </div>
