@@ -13,7 +13,7 @@ const SuccessPage = () => {
 
   useEffect(() => {
     const fetchCheckout = async () => {
-      const checkoutId = localStorage.getItem("checkoutId");
+      const checkoutId = localStorage.getItem("checkoutId-verano-talk");
       if (!checkoutId) {
         setError("ID do checkout não encontrado");
         setIsLoading(false);
