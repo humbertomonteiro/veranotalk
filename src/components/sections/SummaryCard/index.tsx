@@ -79,6 +79,7 @@ export default function SummaryCard({
 
       // alert("Redirecionando para o Mercado Pago...");
       setCheckout(data.dataCheckout);
+      localStorage.setItem("checkoutId-verano-talk", data.checkoutId);
       window.location.href = data.paymentUrl;
     } catch (error) {
       console.error("Erro no checkout:", error);

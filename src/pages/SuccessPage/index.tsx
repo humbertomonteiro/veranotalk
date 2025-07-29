@@ -3,9 +3,64 @@ import AreaParticipant from "../../components/sections/AreaParticipant";
 import SummaryCheckout from "../../components/sections/SummaryCheckout";
 import styles from "./succesPage.module.css";
 import { useCheckout } from "../../hooks/useCheckout";
+import { useEffect, useState } from "react";
+import { Checkout } from "../../domain/entities";
 
 const SuccessPage = () => {
-  const { checkout } = useCheckout();
+  const { checkout, setCheckout } = useCheckout();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCheckout = async () => {
+      const checkoutId = localStorage.getItem("checkoutId");
+      if (!checkoutId) {
+        setError("ID do checkout não encontrado");
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `https://veranotalk-backend.onrender.com/checkout/${checkoutId}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Erro ao buscar checkout");
+        }
+
+        const data: Checkout = await response.json();
+        setCheckout(data);
+        setIsLoading(false);
+      } catch (err) {
+        setError("Falha ao carregar os dados do checkout");
+        setIsLoading(false);
+        console.error(err);
+      }
+    };
+
+    if (!checkout) {
+      fetchCheckout();
+    } else {
+      setIsLoading(false);
+    }
+  }, [checkout, setCheckout]);
+
+  if (isLoading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (error || !checkout) {
+    return (
+      <div className={styles.notFounded}>
+        Erro: {error || "Checkout não encontrado"}
+      </div>
+    );
+  }
 
   return (
     <div className={styles.successPage}>
