@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import styles from "./areaParticipant.module.css";
 import Title from "../../components/shared/Title";
 import MainButton from "../../components/shared/MainButton";
 import { type ParticipantDTO } from "../../domain/entities";
 import { ToastContainer, toast } from "react-toastify";
 import { RiMenu2Fill } from "react-icons/ri";
+import { QRCodeCanvas } from "qrcode.react";
+import debounce from "lodash.debounce";
 
 const AreaParticipante = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -16,45 +18,60 @@ const AreaParticipante = () => {
   const [showAsideMobile, setShowAsideMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleAuthentication = async () => {
-    if (!documento) {
-      toast.error("Por favor, preencha o CPF");
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `https://veranotalk-backend.onrender.com/participant/${documento}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Erro ao buscar participante");
+  const handleAuthentication = useCallback(
+    debounce(async () => {
+      if (!documento) {
+        toast.error("Por favor, preencha o CPF");
+        setIsLoading(false);
+        return;
       }
 
-      const data = await response.json();
-      setParticipanteData({
-        id: data.participant.id,
-        name: data.participant.name,
-        email: data.participant.email,
-        phone: data.participant.phone,
-        document: data.participant.document,
-        ticketType: data.participant.ticketType,
-        checkedIn: data.participant.chekcedIn,
-      });
-      setCheckoutData(data.checkout);
-      setIsAuthenticated(true);
-    } catch (error) {
-      toast.error("Erro ao autenticar. Verifique o CPF e tente novamente.");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      setIsLoading(true);
+
+      try {
+        const normalizedDocument = documento.replace(/\D/g, "");
+        console.log(
+          `Enviando requisição para documento: ${normalizedDocument}`
+        );
+        const response = await fetch(
+          `https://veranotalk-backend.onrender.com/participant/${normalizedDocument}`,
+          // `http://localhost:3000/participant/${normalizedDocument}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Erro HTTP: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+        console.log("Resposta do backend:", data);
+        setParticipanteData({
+          id: data.participant.id,
+          name: data.participant.name,
+          email: data.participant.email,
+          phone: data.participant.phone,
+          document: data.participant.document,
+          ticketType: data.participant.ticketType,
+          checkedIn: data.participant.checkedIn,
+          qrCode: data.participant.qrCode,
+          // eventId: data.participant.eventId,
+        });
+        setCheckoutData(data.checkout);
+        setIsAuthenticated(true);
+      } catch (error) {
+        toast.error("Erro ao autenticar. Verifique o CPF e tente novamente.");
+        console.error("Erro no handleAuthentication:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 500),
+    [documento]
+  );
 
   const handleLogout = () => {
     setIsAuthenticated(false);
@@ -63,35 +80,45 @@ const AreaParticipante = () => {
     setDocumento("");
   };
 
-  const downloadQRCode = async (qrCode: string) => {
+  // const downloadQRCode = async (qrCode: string) => {
+  const downloadQRCode = async () => {
     try {
-      const response = await fetch(
-        `https://veranotalk-backend.onrender.com/participant/validate-qr`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            participantId: participanteData?.id,
-            qrCode,
-          }),
-        }
-      );
+      // const response = await fetch(
+      //   `https://veranotalk-backend.onrender.com/participant/validate-qr`,
+      //   // `http://localhost:3000/participant/validate-qr`,
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({
+      //       participantId: participanteData?.id,
+      //       qrCode,
+      //     }),
+      //   }
+      // );
 
-      if (!response.ok) {
-        throw new Error("Erro ao validar QR code");
-      }
+      // if (!response.ok) {
+      //   throw new Error(`Erro HTTP: ${response.status} ${response.statusText}`);
+      // }
 
-      const data = await response.json();
-      if (data.isValid) {
-        toast.success("QR Code válido! Download iniciado.");
-        // Implementar download real (ex.: gerar imagem ou PDF)
-        console.log("Download QR Code:", qrCode);
-      } else {
-        toast.error("QR Code inválido.");
+      // const data = await response.json();
+      // if (data.isValid) {
+      // toast.success("QR Code válido! Download iniciado.");
+      const canvas = document.getElementById(
+        "qrCodeCanvas"
+      ) as HTMLCanvasElement;
+      if (canvas) {
+        const qrImage = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = qrImage;
+        link.download = `qrcode-${participanteData?.id}.png`;
+        link.click();
       }
+      // } else {
+      //   toast.error("QR Code inválido.");
+      // }
     } catch (error) {
       toast.error("Erro ao validar QR Code.");
-      console.error(error);
+      console.error("Erro no downloadQRCode:", error);
     }
   };
 
@@ -106,7 +133,7 @@ const AreaParticipante = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Erro ao buscar certificado");
+        throw new Error(`Erro HTTP: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
@@ -118,11 +145,11 @@ const AreaParticipante = () => {
       }
     } catch (error) {
       toast.error("Erro ao buscar certificado.");
-      console.error(error);
+      console.error("Erro no downloadCertificate:", error);
     }
   };
 
-  if (!isAuthenticated || !participanteData || !checkoutData) {
+  if (!isAuthenticated || !participanteData) {
     return (
       <section className={styles.section}>
         <Title>Acesso do Participante</Title>
@@ -177,24 +204,34 @@ const AreaParticipante = () => {
             <div className={styles.ticketsContainer}>
               <div className={styles.ticketCard}>
                 <div className={styles.qrCodeContainer}>
-                  <div className={styles.qrCodePlaceholder}>
-                    QR Code: {checkoutData.metadata?.qrCode || "N/A"}
-                  </div>
+                  {participanteData.qrCode &&
+                  participanteData.qrCode !== "••••-••••" ? (
+                    <QRCodeCanvas
+                      id="qrCodeCanvas"
+                      value={participanteData.qrCode}
+                      size={128}
+                    />
+                  ) : (
+                    <div className={styles.qrCodePlaceholder}>
+                      QR Code: Não disponível
+                    </div>
+                  )}
                 </div>
 
                 <div className={styles.ticketInfo}>
                   <h4>Ingresso {participanteData.ticketType}</h4>
-                  {/* <p>Lote: {checkoutData.metadata?.batch || "1º Lote"}</p>
                   <p>
                     Status:{" "}
-                    <span className={styles.statusActive}>
-                      {participanteData.status || "Ativo"}
-                    </span>
-                  </p> */}
+                    {participanteData.checkedIn
+                      ? "Check-in realizado"
+                      : "Ativo"}
+                  </p>
                   <button
                     className={styles.downloadButton}
-                    onClick={() =>
-                      downloadQRCode(checkoutData.metadata?.qrCode || "")
+                    onClick={() => downloadQRCode()}
+                    disabled={
+                      !participanteData.qrCode ||
+                      participanteData.qrCode === "••••-••••"
                     }
                   >
                     Baixar QR Code
@@ -219,7 +256,7 @@ const AreaParticipante = () => {
       case "certificado":
         return (
           <div className={styles.certificateContainer}>
-            {checkoutData.status === "approved" ? (
+            {checkoutData && checkoutData.status === "approved" ? (
               <>
                 <p>Verificando disponibilidade do certificado...</p>
                 <button
@@ -238,10 +275,7 @@ const AreaParticipante = () => {
       case "evento":
         return (
           <div className={styles.eventInfoTab}>
-            <p>
-              Informações detalhadas sobre o evento:{" "}
-              {checkoutData.metadata?.eventId}
-            </p>
+            <p>Informações detalhadas sobre o evento: Verano Talk 2025</p>
           </div>
         );
 
