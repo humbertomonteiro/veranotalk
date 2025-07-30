@@ -62,8 +62,8 @@ export default function SummaryCard({
 
     try {
       const response = await fetch(
-        // "https://veranotalk-backend.onrender.com/checkout",
-        "http://localhost:3000/checkout",
+        "https://veranotalk-backend.onrender.com/checkout",
+        // "http://localhost:3000/checkout",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
