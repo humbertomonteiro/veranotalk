@@ -27,7 +27,7 @@ export default function SummaryCheckout({ checkout }: SummaryCheckoutProps) {
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>TOTAL</span>
                 <span className={styles.highlightValue}>
-                  R$ {checkout?.totalAmount.toFixed(2)}
+                  R$ {checkout?.totalAmount}
                 </span>
               </div>
 
