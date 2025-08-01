@@ -4,6 +4,9 @@ import MainButton from "../../shared/MainButton";
 import type { FormEvent } from "react";
 import { useCheckout } from "../../../hooks/useCheckout";
 import { Checkout } from "../../../domain/entities";
+import { config } from "../../../config";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface SummaryCardProps {
   totalTickets: number;
@@ -37,6 +40,7 @@ export default function SummaryCard({
   participants,
 }: SummaryCardProps) {
   const { setCheckout } = useCheckout();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -53,7 +57,8 @@ export default function SummaryCard({
         ticketType: p.ticketType === "all" ? "all" : "half",
       })),
       checkout: {
-        totalAmount,
+        fullTickets,
+        halfTickets,
         metadata: {
           eventId: "verano-talk-2025",
         },
@@ -61,15 +66,12 @@ export default function SummaryCard({
     };
 
     try {
-      const response = await fetch(
-        "https://veranotalk-backend.onrender.com/checkout",
-        // "http://localhost:3000/checkout",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(checkoutData),
-        }
-      );
+      setLoading(true);
+      const response = await fetch(`${config.baseUrl}/checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(checkoutData),
+      });
 
       if (!response.ok) {
         throw new Error("Erro ao processar checkout");
@@ -80,10 +82,12 @@ export default function SummaryCard({
       // alert("Redirecionando para o Mercado Pago...");
       setCheckout(data.dataCheckout);
       localStorage.setItem("checkoutId-verano-talk", data.checkoutId);
+      setLoading(false);
       window.location.href = data.paymentUrl;
     } catch (error) {
       console.error("Erro no checkout:", error);
-      alert("Ocorreu um erro ao processar seu pagamento");
+      setLoading(false);
+      toast.error("Ocorreu um erro ao processar seu pagamento");
     }
   };
 
@@ -101,7 +105,7 @@ export default function SummaryCard({
           {halfTickets > 0 && (
             <div className={styles.summaryItem}>
               <span>Ingressos Meia</span>
-              <span>{halfTickets} x R$ 249,90</span>
+              <span>{halfTickets} x R$ 249,50</span>
             </div>
           )}
 
@@ -120,6 +124,7 @@ export default function SummaryCard({
                 text: "IR PARA O PAGAMENTO",
                 color: "gold",
                 onClick: handleSubmit,
+                disabled: loading,
               }}
             />
           ) : (

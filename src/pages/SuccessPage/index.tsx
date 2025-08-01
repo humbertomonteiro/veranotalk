@@ -5,6 +5,7 @@ import styles from "./succesPage.module.css";
 import { useCheckout } from "../../hooks/useCheckout";
 import { useEffect, useState } from "react";
 import { Checkout } from "../../domain/entities";
+import { config } from "../../config";
 
 const SuccessPage = () => {
   const { checkout, setCheckout } = useCheckout();
@@ -22,7 +23,7 @@ const SuccessPage = () => {
 
       try {
         const response = await fetch(
-          `https://veranotalk-backend.onrender.com/checkout/${checkoutId}`,
+          `${config.baseUrl}/checkout/${checkoutId}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },

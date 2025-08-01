@@ -15,7 +15,7 @@ export interface Participant {
 }
 
 export default function Checkout() {
-  const [fullTickets, setFullTickets] = useState(0);
+  const [fullTickets, setFullTickets] = useState(1);
   const [halfTickets, setHalfTickets] = useState(0);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [currentParticipant, setCurrentParticipant] = useState<Participant>({
@@ -27,7 +27,7 @@ export default function Checkout() {
   });
 
   const totalTickets = fullTickets + halfTickets;
-  const totalAmount = fullTickets * 499 + halfTickets * 249.9;
+  const totalAmount = fullTickets * 499 + halfTickets * 249.5;
 
   const handleTicketChange = (type: "full" | "half", value: number) => {
     const newValue = Math.max(0, Math.min(50, value));
@@ -171,7 +171,7 @@ export default function Checkout() {
                   </div>
                   <div className={styles.ticketType}>
                     <label>
-                      <span>Ingressos Meia (R$ 249,90)</span>
+                      <span>Ingressos Meia (R$ 249,50)</span>
                       <div className={styles.quantityControls}>
                         <button
                           onClick={() => handleDecrement("half")}

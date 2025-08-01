@@ -54,30 +54,30 @@ mais e se destacar no digital.`,
       // quote: "@theodoro",
       badge: "ESTRELA",
     },
-    {
-      id: 3,
-      name: "Mariana Silva",
-      image: danieleXavier, // Usando a mesma imagem para demonstração
-      title: "Consultora de Varejo e Moda",
-      bio: [
-        "Mariana revolucionou o varejo físico com suas estratégias de experiência do cliente. Com passagem por grandes redes nacionais, traz um olhar único para o varejo moderno.",
-        "Autora do best-seller 'Varejo que Encanta', é considerada uma das 30 profissionais mais influentes do varejo brasileiro.",
-      ],
-      quote: "O cliente não compra produtos, compra experiências e soluções.",
-      badge: "ESTRELA",
-    },
-    {
-      id: 4,
-      name: "Ricardo Almeida",
-      image: danieleXavier, // Usando a mesma imagem para demonstração
-      title: "Especialista em Vendas e Negociação",
-      bio: [
-        "Ricardo já treinou mais de 5.000 profissionais de vendas em todo o país. Sua metodologia 'Venda Consultiva' é aplicada nas maiores empresas do setor de serviços.",
-        "Campeão nacional de vendas por 3 anos consecutivos, compartilha técnicas comprovadas para fechar mais negócios.",
-      ],
-      quote: "Vender é sobre criar valor, não sobre pressionar o cliente.",
-      badge: "TOP",
-    },
+    // {
+    //   id: 3,
+    //   name: "Mariana Silva",
+    //   image: danieleXavier, // Usando a mesma imagem para demonstração
+    //   title: "Consultora de Varejo e Moda",
+    //   bio: [
+    //     "Mariana revolucionou o varejo físico com suas estratégias de experiência do cliente. Com passagem por grandes redes nacionais, traz um olhar único para o varejo moderno.",
+    //     "Autora do best-seller 'Varejo que Encanta', é considerada uma das 30 profissionais mais influentes do varejo brasileiro.",
+    //   ],
+    //   quote: "O cliente não compra produtos, compra experiências e soluções.",
+    //   badge: "ESTRELA",
+    // },
+    // {
+    //   id: 4,
+    //   name: "Ricardo Almeida",
+    //   image: danieleXavier, // Usando a mesma imagem para demonstração
+    //   title: "Especialista em Vendas e Negociação",
+    //   bio: [
+    //     "Ricardo já treinou mais de 5.000 profissionais de vendas em todo o país. Sua metodologia 'Venda Consultiva' é aplicada nas maiores empresas do setor de serviços.",
+    //     "Campeão nacional de vendas por 3 anos consecutivos, compartilha técnicas comprovadas para fechar mais negócios.",
+    //   ],
+    //   quote: "Vender é sobre criar valor, não sobre pressionar o cliente.",
+    //   badge: "TOP",
+    // },
   ];
 
   return (

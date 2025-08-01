@@ -35,6 +35,7 @@
   font-size: 0.7rem;
   padding: 0.3rem 0.6rem;
   border-radius: 20px;
+  border: 1px solid var(--border-color);
   text-transform: uppercase;
   letter-spacing: 1px;
   animation: pulse 2s infinite;

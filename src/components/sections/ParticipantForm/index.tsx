@@ -73,7 +73,7 @@ export default function ParticipantForm({
               onChange={() => handleParticipantChange("ticketType", "all")}
               disabled={participants.length >= fullTickets}
             />
-            Inteira (R$ 100,00)
+            Inteira
             {participants.length >= fullTickets && (
               <span className={styles.disabledHint}> - Limite atingido</span>
             )}
@@ -88,7 +88,7 @@ export default function ParticipantForm({
                 halfTickets
               }
             />
-            Meia (R$ 50,00)
+            Meia
             {participants.filter((p) => p.ticketType === "half").length >=
               halfTickets && (
               <span className={styles.disabledHint}> - Limite atingido</span>

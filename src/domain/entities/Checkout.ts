@@ -14,12 +14,14 @@ export type Payer = {
 
 export interface CheckoutProps {
   id?: string;
-  totalAmount: number;
+  totalAmount?: number | null;
   status: CheckoutStatus;
-  // orderId?: string;
   paymentMethod?: string | null;
-  payer?: Payer;
+  payer?: Payer | null;
   mercadoPagoId?: string | null;
+  mercadoPagoPreferenceId?: string | null;
+  fullTickets: number;
+  halfTickets: number;
   createdAt?: Date;
   updatedAt?: Date;
   metadata?: {
@@ -52,8 +54,8 @@ export class Checkout {
   private validate(): void {
     const errors: string[] = [];
 
-    if (this.totalAmount <= 0) {
-      errors.push("Valor total deve ser maior que zero");
+    if (this.fullTickets <= 0 && this.halfTickets <= 0) {
+      throw new CheckoutError("Tickets empty");
     }
 
     if (errors.length > 0) {
@@ -66,8 +68,8 @@ export class Checkout {
     return this.props.id;
   }
 
-  get totalAmount(): number {
-    return this.props.totalAmount;
+  get totalAmount(): number | null {
+    return this.props.totalAmount || null;
   }
 
   get status(): CheckoutStatus {
@@ -86,8 +88,20 @@ export class Checkout {
     return this.props.mercadoPagoId ?? null;
   }
 
+  get mercadoPagoPreferenceId(): string | null {
+    return this.props.mercadoPagoPreferenceId ?? null;
+  }
+
   get payer(): Payer | null {
     return this.props.payer ?? null;
+  }
+
+  get fullTickets(): number {
+    return this.props.fullTickets;
+  }
+
+  get halfTickets(): number {
+    return this.props.halfTickets;
   }
 
   get createdAt(): Date {
@@ -110,6 +124,14 @@ export class Checkout {
     this.props.updatedAt = new Date();
   }
 
+  setMercadoPagoPreferenceId(mercadoPagoPreferenceId: string): void {
+    console.log(
+      `Definindo mercadoPagoPreferenceId: ${mercadoPagoPreferenceId} para checkout com ID: ${this.id}`
+    );
+    this.props.mercadoPagoPreferenceId = mercadoPagoPreferenceId;
+    this.props.updatedAt = new Date();
+  }
+
   setPaymentMethod(paymentMethod: string): void {
     this.props.paymentMethod = paymentMethod;
     this.props.updatedAt = new Date();
@@ -117,6 +139,11 @@ export class Checkout {
 
   setPayer(payer: Payer) {
     this.props.payer = payer;
+    this.props.updatedAt = new Date();
+  }
+
+  setTotalAmount(value: number) {
+    this.props.totalAmount = value;
     this.props.updatedAt = new Date();
   }
 
@@ -177,28 +204,22 @@ export class Checkout {
   }
 
   // Serialização segura
-  public toDTO(): CheckoutDTO {
-    const metadata: CheckoutDTO["metadata"] = {
-      retryCount: this.metadata.retryCount,
-      participantIds: this.metadata.participantIds,
-      eventId: this.metadata.eventId,
-    };
-    // Só incluir metadata.error se não for undefined
-    if (this.metadata.error) {
-      metadata.error = "Erro no processamento";
-    }
-
+  public toDTO(): CheckoutProps {
     return {
       id: this.id,
       status: this.status,
       totalAmount: this.totalAmount,
-      // orderId: this.orderId || "",
-      paymentMethod: this.paymentMethod || "",
-      payer: this.payer || { name: "", document: "" },
+      paymentMethod: this.paymentMethod,
+      payer: this.payer,
       mercadoPagoId: this.mercadoPagoId,
+      mercadoPagoPreferenceId: this.mercadoPagoPreferenceId,
+      fullTickets: this.fullTickets,
+      halfTickets: this.halfTickets,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      metadata,
+      metadata: this.metadata.error
+        ? { ...this.metadata, error: "Erro no processamento" }
+        : this.metadata,
     };
   }
 }
@@ -218,6 +239,9 @@ export type CheckoutDTO = {
   paymentMethod: string;
   payer: Payer;
   mercadoPagoId?: string | null;
+  mercadoPagoPreferenceId?: string | null;
+  fullTickets?: number;
+  halfTickets?: number;
   createdAt: Date;
   updatedAt: Date;
   metadata?: {

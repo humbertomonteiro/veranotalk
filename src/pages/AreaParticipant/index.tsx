@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { RiMenu2Fill } from "react-icons/ri";
 import { QRCodeCanvas } from "qrcode.react";
 import debounce from "lodash.debounce";
+import { config } from "../../config";
 
 const AreaParticipante = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -34,8 +35,7 @@ const AreaParticipante = () => {
           `Enviando requisição para documento: ${normalizedDocument}`
         );
         const response = await fetch(
-          `https://veranotalk-backend.onrender.com/participant/${normalizedDocument}`,
-          // `http://localhost:3000/participant/${normalizedDocument}`,
+          `${config.baseUrl}/participant/${normalizedDocument}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -125,7 +125,7 @@ const AreaParticipante = () => {
   const downloadCertificate = async () => {
     try {
       const response = await fetch(
-        `https://veranotalk-backend.onrender.com/participant/${participanteData?.id}/certificate`,
+        `${config.baseUrl}/participant/${participanteData?.id}/certificate`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -219,7 +219,10 @@ const AreaParticipante = () => {
                 </div>
 
                 <div className={styles.ticketInfo}>
-                  <h4>Ingresso {participanteData.ticketType}</h4>
+                  <h4>
+                    Ingresso{" "}
+                    {participanteData.ticketType === "all" ? "Inteiro" : "Meia"}
+                  </h4>
                   <p>
                     Status:{" "}
                     {participanteData.checkedIn

@@ -314,7 +314,8 @@
 
   .sidebar {
     background-color: var(--primary-color);
-    width: 80%;
+    width: 350px;
+    max-width: 87%;
     height: 100vh;
     padding: 2rem 1rem;
     position: fixed;
@@ -331,6 +332,15 @@
   .avatar {
     width: 50px;
     height: 50px;
+    font-size: 1.2rem;
+  }
+
+  .userName {
+    font-size: 1rem;
+  }
+
+  .userEmail {
+    font-size: 0.8rem;
   }
 
   [data-show-aside-mobile="true"] {
@@ -347,12 +357,19 @@
     right: 0rem;
     z-index: 10;
     background-color: var(--secondary-color);
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     border-radius: 1rem 0 0 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: 0.3s all;
+  }
+
+  .burguer:hover {
+    background-color: var(--primary-color);
+    color: #fff;
   }
 
   .burguer svg {
