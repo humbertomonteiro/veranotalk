@@ -20,7 +20,7 @@ export default function ParticipantForm({
   handleAddParticipant,
 }: ParticipantFormProps) {
   return (
-    <div className={styles.participantForm}>
+    <div className={styles.participantForm} id="formParticipant">
       <h5>Adicionar Participante {participants.length + 1}</h5>
 
       <div className={styles.formGroup}>

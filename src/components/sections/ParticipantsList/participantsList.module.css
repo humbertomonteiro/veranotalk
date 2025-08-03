@@ -12,6 +12,7 @@
   padding: 0.8rem;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 6px;
+  border: 1px solid var(--border-color);
 }
 
 .participantInfo {
@@ -29,9 +30,15 @@
 }
 
 .removeButton {
-  background: none;
-  border: none;
-  color: #ff6b6b;
+  background: #ff4343;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: #fff;
+  padding: 0.5rem 1.5rem;
   cursor: pointer;
   font-size: 0.8rem;
+}
+
+.removeButton:hover {
+  background-color: #ff3838;
 }

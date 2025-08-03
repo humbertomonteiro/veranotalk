@@ -190,12 +190,14 @@
 
 /* Estilos do conteúdo principal */
 .card {
-  background: var(--quartenary-color);
+  /* background: var(--quartenary-color); */
   backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 2rem;
-  border: 1px solid var(--border-color);
+  /* border-radius: 12px; */
+  /* padding: 2rem; */
+  /* border: 1px solid var(--border-color); */
   color: #fff;
+  width: 800px;
+  max-width: 100%;
 }
 
 .ticketsContainer {
@@ -210,7 +212,7 @@
   /* justify-content: space-around; */
   /* align-items: center; */
   gap: 2rem;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--quartenary-color);
   border-radius: 12px;
   padding: 1.5rem;
   border: 1px solid var(--border-color);
@@ -263,12 +265,12 @@
 }
 
 .downloadButton {
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   margin-top: 0.5rem;
   background: var(--secondary-color);
   color: var(--primary-color);
   border: none;
-  border-radius: 20px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 0.8rem;
   transition: all 0.2s;
@@ -303,6 +305,13 @@
 
 .infoList li:last-child {
   border-bottom: none;
+}
+
+.eventInfoTab {
+  border-radius: 1rem;
+  overflow: hidden;
+  width: 800px;
+  max-width: 100%;
 }
 
 /* Responsividade */

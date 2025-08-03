@@ -33,10 +33,10 @@ interface ResponseOutput {
 }
 
 export default function SummaryCard({
-  totalAmount,
   totalTickets,
   fullTickets,
   halfTickets,
+  totalAmount,
   participants,
 }: SummaryCardProps) {
   const { setCheckout } = useCheckout();
@@ -45,11 +45,13 @@ export default function SummaryCard({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (participants.length !== totalTickets) {
-      alert(
+      toast.error(
         `Por favor, adicione informações para todos os ${totalTickets} participantes`
       );
       return;
     }
+
+    if (loading) return; // Evita múltiplos cliques enquanto está carregando
 
     const checkoutData = {
       participants: participants.map((p) => ({
@@ -67,6 +69,8 @@ export default function SummaryCard({
 
     try {
       setLoading(true);
+      toast.info("Processando seu pagamento...", { autoClose: false });
+
       const response = await fetch(`${config.baseUrl}/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -79,15 +83,19 @@ export default function SummaryCard({
 
       const data: ResponseOutput = await response.json();
 
-      // alert("Redirecionando para o Mercado Pago...");
       setCheckout(data.dataCheckout);
       localStorage.setItem("checkoutId-verano-talk", data.checkoutId);
-      setLoading(false);
+      toast.dismiss(); // Fecha o toast de "Processando..."
+      toast.success("Redirecionando para o Mercado Pago...");
       window.location.href = data.paymentUrl;
     } catch (error) {
       console.error("Erro no checkout:", error);
+      toast.dismiss();
+      toast.error(
+        "Ocorreu um erro ao processar seu pagamento. Tente novamente."
+      );
+    } finally {
       setLoading(false);
-      toast.error("Ocorreu um erro ao processar seu pagamento");
     }
   };
 
@@ -117,20 +125,26 @@ export default function SummaryCard({
           </div>
 
           {participants.length === totalTickets ? (
-            // <div onClick={handleSubmit}>
             <MainButton
               data={{
                 type: "button",
-                text: "IR PARA O PAGAMENTO",
+                text: loading ? "Processando..." : "IR PARA O PAGAMENTO",
                 color: "gold",
                 onClick: handleSubmit,
                 disabled: loading,
               }}
             />
           ) : (
-            // </div>
             <p className={styles.completeInfoMessage}>
               Complete as informações de todos os participantes para finalizar
+              <MainButton
+                data={{
+                  type: "link",
+                  text: "Adicione os participantes",
+                  color: "black",
+                  link: "#formParticipant",
+                }}
+              />
             </p>
           )}
         </>

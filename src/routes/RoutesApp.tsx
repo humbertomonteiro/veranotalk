@@ -11,6 +11,7 @@ export default function RoutesApp() {
       <Route path="/checkout/:id" element={<Checkout />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/area-participant" element={<AreaParticipante />} />
+      <Route path="*" element={<Home />} />
     </Routes>
   );
 }

@@ -8,6 +8,10 @@ import { RiMenu2Fill } from "react-icons/ri";
 import { QRCodeCanvas } from "qrcode.react";
 import debounce from "lodash.debounce";
 import { config } from "../../config";
+import Location from "../../components/sections/Location";
+import About from "../../components/sections/About";
+import Speakers from "../../components/sections/Speakers";
+import jsPDF from "jspdf";
 
 const AreaParticipante = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -59,7 +63,6 @@ const AreaParticipante = () => {
           ticketType: data.participant.ticketType,
           checkedIn: data.participant.checkedIn,
           qrCode: data.participant.qrCode,
-          // eventId: data.participant.eventId,
         });
         setCheckoutData(data.checkout);
         setIsAuthenticated(true);
@@ -80,72 +83,97 @@ const AreaParticipante = () => {
     setDocumento("");
   };
 
-  // const downloadQRCode = async (qrCode: string) => {
   const downloadQRCode = async () => {
     try {
-      // const response = await fetch(
-      //   `https://veranotalk-backend.onrender.com/participant/validate-qr`,
-      //   // `http://localhost:3000/participant/validate-qr`,
-      //   {
-      //     method: "POST",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify({
-      //       participantId: participanteData?.id,
-      //       qrCode,
-      //     }),
-      //   }
-      // );
-
-      // if (!response.ok) {
-      //   throw new Error(`Erro HTTP: ${response.status} ${response.statusText}`);
-      // }
-
-      // const data = await response.json();
-      // if (data.isValid) {
-      // toast.success("QR Code válido! Download iniciado.");
       const canvas = document.getElementById(
         "qrCodeCanvas"
       ) as HTMLCanvasElement;
-      if (canvas) {
-        const qrImage = canvas.toDataURL("image/png");
-        const link = document.createElement("a");
-        link.href = qrImage;
-        link.download = `qrcode-${participanteData?.id}.png`;
-        link.click();
+      if (
+        !canvas ||
+        !participanteData?.qrCode ||
+        participanteData.qrCode === "••••-••••"
+      ) {
+        toast.error("QR Code não disponível para download.");
+        return;
       }
-      // } else {
-      //   toast.error("QR Code inválido.");
-      // }
-    } catch (error) {
-      toast.error("Erro ao validar QR Code.");
-      console.error("Erro no downloadQRCode:", error);
-    }
-  };
 
-  const downloadCertificate = async () => {
-    try {
-      const response = await fetch(
-        `${config.baseUrl}/participant/${participanteData?.id}/certificate`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
+      const qrImage = canvas.toDataURL("image/png");
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      // Cores do tema
+      const primaryColor = "#000000"; // Preto
+      const secondaryColor = "#ddd3c3"; // Bege
+
+      // Configurações gerais
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(primaryColor);
+
+      // Cabeçalho (topo da página)
+      doc.setFontSize(16);
+      doc.text("VERANO TALK 2025", 105, 20, { align: "center" });
+      doc.setFontSize(10);
+      doc.text("16 DE OUTUBRO | SÃO LUÍS - MA", 105, 26, { align: "center" });
+
+      // Linha divisória do cabeçalho
+      doc.setDrawColor(primaryColor);
+      doc.setLineWidth(0.2);
+      doc.line(30, 30, 180, 30);
+
+      // Posicionamento central do conteúdo (calculado para centralizar verticalmente)
+      const startY = 70; // Posição Y onde começa o conteúdo principal
+
+      // QR Code (lado esquerdo)
+      doc.addImage(qrImage, "PNG", 35, startY, 50, 50);
+
+      // Informações (lado direito)
+      doc.setFontSize(12);
+      doc.text("INGRESSO VERANO TALK - 2025", 110, startY + 5);
+
+      doc.setFontSize(10);
+      doc.text(`NOME: ${participanteData.name}`, 110, startY + 10);
+      doc.text(
+        `DOCUMENTO: ${participanteData.document.replace(
+          /(\d{3})(\d{3})(\d{3})(\d{2})/,
+          "$1.$2.$3-$4"
+        )}`,
+        110,
+        startY + 15
+      );
+      doc.text(
+        `TIPO: ${participanteData.ticketType === "all" ? "Inteiro" : "Meia"}`,
+        110,
+        startY + 20
+      );
+      doc.text(
+        `STATUS: ${
+          participanteData.checkedIn ? "Check-in realizado" : "Ativo"
+        }`,
+        110,
+        startY + 25
       );
 
-      if (!response.ok) {
-        throw new Error(`Erro HTTP: ${response.status} ${response.statusText}`);
-      }
+      // Linha divisória do rodapé
+      doc.line(30, 250, 180, 250);
 
-      const data = await response.json();
-      if (data.available) {
-        toast.success("Certificado disponível! Download iniciado.");
-        window.location.href = data.url;
-      } else {
-        toast.info("Certificado ainda não disponível.");
-      }
+      // Rodapé (fundo da página)
+      doc.setFontSize(8);
+      doc.text("© 2025 VeranoTalk - Todos os direitos reservados", 105, 260, {
+        align: "center",
+      });
+      doc.text("suporte@veranotalk.com.br | www.veranotalk.com.br", 105, 265, {
+        align: "center",
+      });
+
+      // Baixar PDF
+      doc.save(`ingresso-verano-talk-2025-${participanteData.id}.pdf`);
+      toast.success("Ingresso baixado com sucesso!");
     } catch (error) {
-      toast.error("Erro ao buscar certificado.");
-      console.error("Erro no downloadCertificate:", error);
+      toast.error("Erro ao baixar o ingresso.");
+      console.error("Erro no downloadQRCode:", error);
     }
   };
 
@@ -201,6 +229,10 @@ const AreaParticipante = () => {
       case "ingressos":
         return (
           <>
+            <div className={styles.header}>
+              <h3>{activeTab.toUpperCase()}</h3>
+              <div className={styles.divider}></div>
+            </div>
             <div className={styles.ticketsContainer}>
               <div className={styles.ticketCard}>
                 <div className={styles.qrCodeContainer}>
@@ -229,16 +261,17 @@ const AreaParticipante = () => {
                       ? "Check-in realizado"
                       : "Ativo"}
                   </p>
-                  <button
-                    className={styles.downloadButton}
-                    onClick={() => downloadQRCode()}
-                    disabled={
-                      !participanteData.qrCode ||
-                      participanteData.qrCode === "••••-••••"
-                    }
-                  >
-                    Baixar QR Code
-                  </button>
+                  <MainButton
+                    data={{
+                      type: "button",
+                      color: "gold",
+                      text: "BAIXAR INGRESSO",
+                      onClick: downloadQRCode,
+                      disabled:
+                        !participanteData.qrCode ||
+                        participanteData.qrCode === "••••-••••",
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -259,16 +292,12 @@ const AreaParticipante = () => {
       case "certificado":
         return (
           <div className={styles.certificateContainer}>
+            <div className={styles.header}>
+              <h3>{activeTab.toUpperCase()}</h3>
+              <div className={styles.divider}></div>
+            </div>
             {checkoutData && checkoutData.status === "approved" ? (
-              <>
-                <p>Verificando disponibilidade do certificado...</p>
-                <button
-                  className={styles.downloadButton}
-                  onClick={downloadCertificate}
-                >
-                  Baixar Certificado
-                </button>
-              </>
+              <p>Certificado disponível após o evento.</p>
             ) : (
               <p>Certificado disponível apenas para pagamentos aprovados.</p>
             )}
@@ -278,7 +307,9 @@ const AreaParticipante = () => {
       case "evento":
         return (
           <div className={styles.eventInfoTab}>
-            <p>Informações detalhadas sobre o evento: Verano Talk 2025</p>
+            <About />
+            <Speakers />
+            <Location />
           </div>
         );
 
@@ -321,7 +352,7 @@ const AreaParticipante = () => {
                   setShowAsideMobile(false);
                 }}
               >
-                Meus Ingressos
+                Ingresso
               </button>
               <button
                 className={`${styles.navButton} ${
@@ -359,14 +390,7 @@ const AreaParticipante = () => {
           </aside>
 
           <main className={styles.mainContent}>
-            <div className={styles.card}>
-              <div className={styles.header}>
-                <h3>{activeTab.toUpperCase()}</h3>
-                <div className={styles.divider}></div>
-              </div>
-
-              {renderTabContent()}
-            </div>
+            <div className={styles.card}>{renderTabContent()}</div>
           </main>
         </div>
       </div>
