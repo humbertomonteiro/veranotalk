@@ -106,7 +106,7 @@ const AreaParticipante = () => {
 
       // Cores do tema
       const primaryColor = "#000000"; // Preto
-      const secondaryColor = "#ddd3c3"; // Bege
+      // const secondaryColor = "#ddd3c3"; // Bege
 
       // Configurações gerais
       doc.setFont("helvetica", "normal");

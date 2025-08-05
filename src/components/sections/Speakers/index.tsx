@@ -2,8 +2,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Title from "../../shared/Title";
 import styles from "./speakers.module.css";
-import danieleXavier from "../../../assets/speakers/daniele-xavier.jpg";
-import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpg";
+import danieleXavier from "../../../assets/speakers/daniele-xavier.jpeg";
+import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
+import joyAlano from "../../../assets/speakers/joy-alano.jpeg";
+import andressaLeao from "../../../assets/speakers/andressa-leao.jpeg";
 
 // Importe os estilos do Swiper
 import "swiper/css";
@@ -15,6 +17,52 @@ export default function Speakers() {
   const speakers = [
     {
       id: 1,
+      name: "Felipe Theodoro",
+      image: felipeTheodoro,
+      title: "Criador e Influenciador",
+      bio: [
+        `Fenômeno das redes sociais, Felipe Theodoro
+          conquistou o Brasil com carisma, autenticidade e muito
+        bom humor e hoje, são mais de 5 milhões de seguidores
+        acompanhando seus conteúdos."
+        `,
+        `Com base em suas vivências no varejo, Theo
+        compartilha técnicas de vendas, motivação e liderança
+        com uma abordagem leve, criativa e altamente
+        conectada com o consumidor atual. No Verano Talk, ele
+        entrega mais que conhecimento: entrega energia,
+        conexão e visão estratégica para quem quer vender
+        mais e se destacar no digital.`,
+      ],
+      // quote: "@theodoro",
+      badge: "ESTRELA",
+    },
+
+    {
+      id: 2,
+      name: "Joy Elano",
+      image: joyAlano,
+      title: "Palestrante, estilista e mentora de lojistas",
+      bio: [
+        `Criadora do Provador Fashion, Joy Alano é referência
+        nacional quando o assunto é moda, posicionamento
+        digital e estratégias de vendas.`,
+        `Com mais de 20 anos de experiência no mercado, ela
+        já impactou milhares de empreendedoras e ajudou
+        marcas de todo o país a se destacarem no digital.`,
+        `
+        Sua palestra no Verano Talk promete ser um encontro
+        direto com o que realmente funciona: método
+        validado, visão de futuro e estratégias que
+        transformam negócios de moda em marcas
+        relevantes e lucrativas.`,
+      ],
+      // quote:
+      //   "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
+      badge: "PALESTRANTE",
+    },
+    {
+      id: 3,
       name: "Daniele Xavier",
       image: danieleXavier,
       title: "Comunicadora, Psicóloga, Estrategista em Comportamento Humano",
@@ -33,51 +81,29 @@ export default function Speakers() {
       badge: "ESTRATEGISTA",
     },
     {
-      id: 2,
-      name: "Felipe Theodoro",
-      image: felipeTheodoro,
-      title: "Criador e Influenciador",
+      id: 4,
+      name: "Andressa Leão",
+      image: andressaLeao,
+      title: "Empresaria e Mentora",
       bio: [
-        `Fenômeno das redes sociais, Felipe Theodoro
-conquistou o Brasil com carisma, autenticidade e muito
-bom humor e hoje, são mais de 5 milhões de seguidores
-acompanhando seus conteúdos."
-`,
-        `Com base em suas vivências no varejo, Theo
-compartilha técnicas de vendas, motivação e liderança
-com uma abordagem leve, criativa e altamente
-conectada com o consumidor atual. No Verano Talk, ele
-entrega mais que conhecimento: entrega energia,
-conexão e visão estratégica para quem quer vender
-mais e se destacar no digital.`,
+        `Proprietária da Andressa Leão Store, com mais de
+        100 mil seguidoras no Instagram, Andressa construiu
+        uma identidade sólida no varejo de moda por meio de
+        curadoria cuidadosa e posicionamento autêntico.`,
+        `Com anos de experiência em gestão de loja física, ecommerce
+        e lives de vendas, ela combina expertise
+        comercial com conexão genuína ao público. No
+        Verano Talk, vai compartilhar como integrar estilo,
+        presença digital e estratégias de
+        vendas para transformar um negócio
+        de moda em uma marca relevante
+        e lucrativa.
+        `,
       ],
-      // quote: "@theodoro",
-      badge: "ESTRELA",
+      // quote:
+      //   "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
+      badge: "MENTORA",
     },
-    // {
-    //   id: 3,
-    //   name: "Mariana Silva",
-    //   image: danieleXavier, // Usando a mesma imagem para demonstração
-    //   title: "Consultora de Varejo e Moda",
-    //   bio: [
-    //     "Mariana revolucionou o varejo físico com suas estratégias de experiência do cliente. Com passagem por grandes redes nacionais, traz um olhar único para o varejo moderno.",
-    //     "Autora do best-seller 'Varejo que Encanta', é considerada uma das 30 profissionais mais influentes do varejo brasileiro.",
-    //   ],
-    //   quote: "O cliente não compra produtos, compra experiências e soluções.",
-    //   badge: "ESTRELA",
-    // },
-    // {
-    //   id: 4,
-    //   name: "Ricardo Almeida",
-    //   image: danieleXavier, // Usando a mesma imagem para demonstração
-    //   title: "Especialista em Vendas e Negociação",
-    //   bio: [
-    //     "Ricardo já treinou mais de 5.000 profissionais de vendas em todo o país. Sua metodologia 'Venda Consultiva' é aplicada nas maiores empresas do setor de serviços.",
-    //     "Campeão nacional de vendas por 3 anos consecutivos, compartilha técnicas comprovadas para fechar mais negócios.",
-    //   ],
-    //   quote: "Vender é sobre criar valor, não sobre pressionar o cliente.",
-    //   badge: "TOP",
-    // },
   ];
 
   return (

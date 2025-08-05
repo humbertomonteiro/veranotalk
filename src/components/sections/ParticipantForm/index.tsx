@@ -15,8 +15,8 @@ export default function ParticipantForm({
   participants,
   currentParticipant,
   handleParticipantChange,
-  fullTickets,
-  halfTickets,
+  // fullTickets,
+  // halfTickets,
   handleAddParticipant,
 }: ParticipantFormProps) {
   return (
@@ -63,7 +63,7 @@ export default function ParticipantForm({
         />
       </div>
 
-      <div className={styles.formGroup}>
+      {/* <div className={styles.formGroup}>
         <label>Tipo de Ingresso</label>
         <div className={styles.ticketTypeRadio}>
           <label>
@@ -95,7 +95,7 @@ export default function ParticipantForm({
             )}
           </label>
         </div>
-      </div>
+      </div> */}
 
       <button
         type="button"

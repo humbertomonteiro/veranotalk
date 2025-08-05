@@ -71,6 +71,7 @@
   display: flex;
   gap: 1.5rem;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .ticketSelection {
@@ -183,10 +184,10 @@
   -webkit-appearance: none;
   margin: 0;
 }
-
+/* 
 .quantityInput[type="number"] {
   -moz-appearance: textfield;
-}
+} */
 
 .ticketType span {
   display: block;

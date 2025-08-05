@@ -15,8 +15,8 @@ export default function Tickets() {
             <span className={styles.lote}>PRIMEIRO LOTE</span>
             <div className={styles.price}>
               <span className={styles.installment}>10x de R$</span>
-              <span className={styles.value}>49</span>
-              <span className={styles.cents}>,90</span>
+              <span className={styles.value}>60</span>
+              <span className={styles.cents}>,20</span>
             </div>
             <span className={styles.fullPrice}>ou R$ 499,00 à vista</span>
           </div>
@@ -43,8 +43,8 @@ export default function Tickets() {
             <span className={styles.lote}>SEGUNDO LOTE</span>
             <div className={styles.price}>
               <span className={styles.installment}>10x de R$</span>
-              <span className={styles.value}>59</span>
-              <span className={styles.cents}>,90</span>
+              <span className={styles.value}>79</span>
+              <span className={styles.cents}>,20</span>
             </div>
             <span className={styles.fullPrice}>ou R$ 599,00 à vista</span>
           </div>
@@ -70,7 +70,7 @@ export default function Tickets() {
             <span className={styles.lote}>TERCEIRO LOTE</span>
             <div className={styles.price}>
               <span className={styles.installment}>10x de R$</span>
-              <span className={styles.value}>79</span>
+              <span className={styles.value}>89</span>
               <span className={styles.cents}>,90</span>
             </div>
             <span className={styles.fullPrice}>ou R$ 799,00 à vista</span>
