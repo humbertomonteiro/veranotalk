@@ -5,6 +5,23 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title a {
+  font-family: var(--primary-font);
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  text-align: center;
+}
+
 .container {
   width: 1200px;
   max-width: 95%;
@@ -25,6 +42,17 @@
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.7rem;
   margin: 0;
+}
+
+.policy {
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+  text-decoration: underline;
+  transition: 0.3s all;
+}
+
+.policy:hover {
+  color: #fff;
 }
 
 .humdev {
@@ -49,5 +77,9 @@
 
   .credits {
     font-size: 0.75rem;
+  }
+
+  .title a {
+    font-size: 2.2rem;
   }
 }

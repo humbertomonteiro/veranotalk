@@ -1,0 +1,149 @@
+.section {
+  position: relative;
+  background: var(--secondary-background);
+  padding: 0rem 1rem;
+  overflow: hidden;
+}
+
+.container {
+  width: 1200px;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h3 {
+  font-family: var(--primary-font);
+  font-size: 2rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.divider {
+  width: 80px;
+  height: 3px;
+  background: var(--secondary-color);
+  margin: 1rem auto;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.questionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 1000px;
+  max-width: 100%;
+  align-self: center;
+}
+
+.questionItem {
+  background: var(--quartenary-color);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.questionItem.active {
+  border-color: var(--secondary-color);
+}
+
+.questionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.questionHeader h4 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.arrowIcon {
+  transition: transform 0.3s ease;
+  color: var(--secondary-color);
+}
+
+.questionItem.active .arrowIcon {
+  transform: rotate(180deg);
+}
+
+.response {
+  padding: 0 1.5rem 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  animation: fadeIn 0.3s ease;
+}
+
+.response a {
+  color: rgba(255, 255, 255, 0.9);
+  transition: 0.3s all;
+}
+
+.response a:hover {
+  color: #cecece;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .header h3 {
+    font-size: 1.8rem;
+  }
+
+  .questionHeader {
+    padding: 1.2rem;
+  }
+
+  .questionHeader h4 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h3 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .questionHeader {
+    padding: 1rem;
+  }
+}

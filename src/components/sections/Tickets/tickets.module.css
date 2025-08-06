@@ -3,6 +3,21 @@
   background: var(--secondary-background);
 }
 
+.section h3 {
+  font-size: 1.5rem;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  padding: 0 1rem;
+}
+
+.section h3 strong {
+  /* color: var(--high-color); */
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -125,5 +140,9 @@
   .ticket {
     width: 100%;
     max-width: 350px;
+  }
+
+  .section h3 {
+    font-size: 1.3rem;
   }
 }

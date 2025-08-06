@@ -18,25 +18,29 @@ export default function MainButton({ data, ...args }: ButtonProps) {
   return (
     <>
       {data.type === "link" ? (
-        <a
-          href={data.link}
-          className={styles.button}
-          {...args}
-          data-color={data.color}
-          data-button-small={data.small}
-        >
-          {data.text}
-        </a>
+        <div className={styles.container}>
+          <a
+            href={data.link}
+            className={styles.button}
+            {...args}
+            data-color={data.color}
+            data-button-small={data.small}
+          >
+            {data.text}
+          </a>
+        </div>
       ) : (
-        <button
-          className={styles.button}
-          data-color={data.color}
-          data-button-small={data.small}
-          {...args}
-          onClick={data.onClick}
-        >
-          {data.text}
-        </button>
+        <div className={styles.container}>
+          <button
+            className={styles.button}
+            data-color={data.color}
+            data-button-small={data.small}
+            {...args}
+            onClick={data.onClick}
+          >
+            {data.text}
+          </button>
+        </div>
       )}
     </>
   );

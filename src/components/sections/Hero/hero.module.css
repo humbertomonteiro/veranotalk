@@ -97,6 +97,7 @@
 }
 
 .mainMessage span {
+  /* color: var(--high-color); */
   color: var(--secondary-color);
   position: relative;
 }
@@ -104,10 +105,11 @@
 .mainMessage span::after {
   content: "";
   position: absolute;
-  bottom: 5px;
+  bottom: 1px;
   left: 0;
   width: 100%;
   height: 3px;
+  /* background: var(--high-color); */
   background: var(--secondary-color);
 }
 
@@ -184,6 +186,16 @@
   .highlightBox {
     justify-content: center;
     align-items: center;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+  }
+
+  .highlightBox span {
+    background-color: var(--quartenary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
   }
 
   .divider {
@@ -201,17 +213,26 @@
 
 @media (max-width: 500px) {
   .title h1 {
-    font-size: 2.2rem;
+    font-size: 2.8rem;
+    text-align: center;
   }
 
   .mainMessage {
     font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .title .tagline {
+    text-align: center;
+  }
+
+  .title .tagline::before {
+    display: none;
   }
 
   .highlightBox {
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem;
+    gap: 1rem;
   }
 
   .divider {

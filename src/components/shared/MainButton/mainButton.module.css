@@ -1,5 +1,10 @@
 /* Estilos base (compartilhados entre ambos) */
+.container {
+  animation: pulse 2s infinite;
+}
+
 .button {
+  width: 100%;
   appearance: none;
   border-radius: 2rem;
   border: 0.3px solid var(--border-color);
@@ -107,4 +112,16 @@
 
 [data-color="gold"]:after {
   background-color: #d4af37;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

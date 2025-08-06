@@ -195,4 +195,8 @@
   .highlightLabel {
     margin-right: 0;
   }
+
+  .header h3 {
+    font-size: 1.3rem;
+  }
 }

@@ -5,3 +5,9 @@
   margin: 2rem 0 1rem 0;
   color: #fff;
 }
+
+@media (max-width: 500px) {
+  .container h2 {
+    font-size: 2rem;
+  }
+}

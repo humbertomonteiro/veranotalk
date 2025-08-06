@@ -1,0 +1,42 @@
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.title h1 {
+  font-family: var(--primary-font);
+  font-size: 4rem;
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--secondary-color);
+}
+
+.content {
+  width: 900px;
+  max-width: 90%;
+  margin: 0 auto;
+  color: #cecece;
+  margin-bottom: 2rem;
+}
+
+.content h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.content p {
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 500px) {
+  .title h1 {
+    font-size: 2.8rem;
+  }
+}

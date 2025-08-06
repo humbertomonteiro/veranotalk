@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Checkout from "../pages/Checkout";
 import SuccessPage from "../pages/SuccessPage";
 import AreaParticipante from "../pages/AreaParticipant";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 export default function RoutesApp() {
   return (
@@ -11,6 +12,7 @@ export default function RoutesApp() {
       <Route path="/checkout/:id" element={<Checkout />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/area-participant" element={<AreaParticipante />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="*" element={<Home />} />
     </Routes>
   );
