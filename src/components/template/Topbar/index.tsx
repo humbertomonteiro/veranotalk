@@ -3,7 +3,7 @@ import styles from "./topBar.module.css";
 
 export default function TopBar() {
   return (
-    <div className={styles.topBar}>
+    <div className={styles.topBar} data-aos="fade-down">
       <div className={styles.content}>
         <div className={styles.message}>
           <span className={styles.alert}>ÚLTIMAS VAGAS!</span>

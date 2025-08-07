@@ -7,10 +7,10 @@ export default function Tickets() {
   return (
     <section id="tickets" className={styles.section}>
       <Title>Ingresso</Title>
-      <h3>
+      <h3 data-aos="zoom-in">
         Garanta seu PASSAPORTE agora com o <strong>menor valor</strong>
       </h3>
-      <div className={styles.container}>
+      <div className={styles.container} data-aos="zoom-in">
         {/* Ticket 1 - Primeiro Lote */}
         <div className={`${styles.ticket} ${styles.highlight}`}>
           <div className={styles.ribbon}>MENOR PREÇO</div>

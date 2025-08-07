@@ -126,7 +126,7 @@ export default function Speakers() {
         >
           {speakers.map((speaker) => (
             <SwiperSlide key={speaker.id} className={styles.speakerSlide}>
-              <div className={styles.speakerCard}>
+              <div className={styles.speakerCard} data-aos="zoom-in">
                 <div
                   className={styles.speakerBackground}
                   style={{ backgroundImage: `url(${speaker.image})` }}

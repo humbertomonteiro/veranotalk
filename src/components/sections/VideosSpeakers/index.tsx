@@ -45,13 +45,13 @@ export default function VideosSpeakers() {
     <section className={styles.section}>
       <div className={styles.backgroundCurve}></div>
       <Title>Mais sobre nossos palestrantes</Title>
-      <p className={styles.subtitle}>
+      <p className={styles.subtitle} data-aos="zoom-in">
         Veja uma palhinha dos palestranstes já confirmados.
       </p>
 
       <div className={styles.videosContainer}>
         {videos.map((video, index) => (
-          <div key={index} className={styles.videoCard}>
+          <div key={index} className={styles.videoCard} data-aos="zoom-in">
             <div className={styles.videoWrapper}>
               <div className={styles.instagramEmbedContainer}>
                 <blockquote

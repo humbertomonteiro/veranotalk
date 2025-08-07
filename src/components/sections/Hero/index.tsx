@@ -38,7 +38,7 @@ export default function Hero() {
   return (
     <section className={styles.container}>
       <div className={styles.text}>
-        <div className={styles.title}>
+        <div className={styles.title} data-aos="zoom-in">
           <h1>VERANO TALK</h1>
           <p className={styles.tagline}>
             Um evento onde Negócios. Posicionamento, vendas e moda se encontram
@@ -46,7 +46,11 @@ export default function Hero() {
           </p>
         </div>
 
-        <div className={styles.callToAction}>
+        <div
+          className={styles.callToAction}
+          data-aos="zoom-in"
+          data-aos-delay="200"
+        >
           <div className={styles.highlightBox}>
             <span>SÃO LUIS - MARANHÃO</span>
             <div className={styles.divider}></div>
@@ -69,17 +73,29 @@ export default function Hero() {
 
       <div className={styles.images}>
         <img
+          data-aos="zoom-in"
+          data-aos-delay="400"
           src={woman2}
           alt="Modelo empreendedora"
           className={styles.mainImage}
         />
         <div className={styles.secondaryImages}>
-          <img src={woman3} alt="Participantes do evento" />
-          <img src={woman1} alt="Palestrante no evento" />
+          <img
+            src={woman3}
+            alt="Participantes do evento"
+            data-aos="zoom-in"
+            data-aos-delay="600"
+          />
+          <img
+            src={woman1}
+            alt="Palestrante no evento"
+            data-aos="zoom-in"
+            data-aos-delay="700"
+          />
         </div>
       </div>
 
-      <div className={styles.mobile}>
+      <div className={styles.mobile} data-aos="zoom-in">
         <SubText />
       </div>
     </section>

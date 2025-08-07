@@ -8,7 +8,7 @@ export default function Location() {
       <Title>Localização</Title>
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.textContent}>
+          <div className={styles.textContent} data-aos="zoom-in">
             <div className={styles.header}>
               <h3>O PALCO DO VERANO TALK 2025</h3>
               <div className={styles.divider}></div>
@@ -65,7 +65,11 @@ export default function Location() {
             />
           </div>
 
-          <div className={styles.visualContent}>
+          <div
+            className={styles.visualContent}
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
             <div className={styles.imageWrapper}>
               <img
                 src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/8518894.jpg?k=de0518435df2f627c46a1c74c6d1775bb1700db00ef3ee96caa9e6ad017abdcf&o="

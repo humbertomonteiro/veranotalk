@@ -9,7 +9,7 @@ export default function About() {
   return (
     <section id="about" className={styles.section}>
       <Title>Sobre</Title>
-      <div className={styles.container}>
+      <div className={styles.container} data-aos="zoom-in">
         <div className={styles.backgroundOverlay}></div>
 
         <div className={styles.content}>
