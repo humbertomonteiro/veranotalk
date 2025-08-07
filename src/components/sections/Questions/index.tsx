@@ -13,7 +13,7 @@ const questions = [
   {
     id: 2,
     question: "Qual o formato do evento?",
-    response: `O Verano Talk é um evento presencial com palestras inspiradoras, cases de sucesso e networking de alta qualidade. Teremos 6 horas de conteúdo transformador.`,
+    response: `O Verano Talk é um evento presencial com palestras inspiradoras, cases de sucesso e networking de alta qualidade. Teremos um dia de muito conhecimento.`,
     link: "",
   },
   {

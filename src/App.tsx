@@ -7,6 +7,7 @@ function App() {
     <BrowserRouter>
       <CheckoutProvider>
         <RoutesApp />
+        <div className="area"></div>
       </CheckoutProvider>
     </BrowserRouter>
   );

@@ -2,6 +2,10 @@
 import MainButton from "../../shared/MainButton";
 import styles from "./hero.module.css";
 
+import woman1 from "../../../assets/shared/woman-1.jpg";
+import woman2 from "../../../assets/shared/woman-2.jpg";
+import woman3 from "../../../assets/shared/woman-3.jpg";
+
 function SubText() {
   return (
     <div className={styles.subText}>
@@ -37,7 +41,7 @@ export default function Hero() {
         <div className={styles.title}>
           <h1>VERANO TALK</h1>
           <p className={styles.tagline}>
-            Um evento onde moda, vendas, posicionamento e inovação se encontram
+            Um evento onde Negócios. Posicionamento, vendas e moda se encontram
             para transformar a forma como empreendemos.
           </p>
         </div>
@@ -46,39 +50,32 @@ export default function Hero() {
           <div className={styles.highlightBox}>
             <span>SÃO LUIS - MARANHÃO</span>
             <div className={styles.divider}></div>
-            <span>16/10/2025 - Das 09 as 21 horas </span>
+            <span>16/10/2025 - Das 09 as 20 horas </span>
           </div>
 
+          <MainButton
+            data={{
+              type: "link",
+              link: "#tickets",
+              text: "GARANTA SEU INGRESSO",
+              color: "gold", // Usando o botão dourado que criamos anteriormente
+            }}
+          />
           <div className={styles.desktop}>
             <SubText />
           </div>
         </div>
-
-        <MainButton
-          data={{
-            type: "link",
-            link: "#tickets",
-            text: "GARANTA SEU INGRESSO",
-            color: "gold", // Usando o botão dourado que criamos anteriormente
-          }}
-        />
       </div>
 
       <div className={styles.images}>
         <img
-          src="https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg"
+          src={woman2}
           alt="Modelo empreendedora"
           className={styles.mainImage}
         />
         <div className={styles.secondaryImages}>
-          <img
-            src="https://images.pexels.com/photos/4352249/pexels-photo-4352249.jpeg"
-            alt="Participantes do evento"
-          />
-          <img
-            src="https://images.pexels.com/photos/32935727/pexels-photo-32935727.jpeg"
-            alt="Palestrante no evento"
-          />
+          <img src={woman3} alt="Participantes do evento" />
+          <img src={woman1} alt="Palestrante no evento" />
         </div>
       </div>
 

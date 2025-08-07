@@ -9,6 +9,7 @@ import TopBar from "../../components/template/Topbar";
 import Footer from "../../components/template/Footer";
 import Questions from "../../components/sections/Questions";
 import Highlights from "../../components/sections/Highlights";
+import VideosSpeakers from "../../components/sections/VideosSpeakers";
 
 export default function Home() {
   return (
@@ -23,6 +24,8 @@ export default function Home() {
       <Tickets />
       <div className={styles.space}></div>
       <Speakers />
+      <div className={styles.space}></div>
+      <VideosSpeakers />
       <div className={styles.space}></div>
       <Location />
       <div className={styles.space}></div>

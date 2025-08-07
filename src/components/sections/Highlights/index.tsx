@@ -1,6 +1,6 @@
 import styles from "./highlights.module.css";
 import Title from "../../shared/Title";
-import { FaUsers, FaUserTie, FaHandshake, FaStar } from "react-icons/fa";
+import { FaUsers, FaChartLine, FaHandshake, FaStar } from "react-icons/fa";
 // import {
 //   MdHealthAndSafety,
 //   MdOutlineConnectWithoutContact,
@@ -14,14 +14,14 @@ export default function Highlights() {
       icon: <FaUsers className={styles.icon} />,
       title: "Diversidade Profissional",
       description:
-        "Presença de profissionais das áreas de saúde, beleza, moda e comunicação. Para ampliar sua visão de negócio com olhares complementares.",
+        "Presença de profissionais renomados de  diversas áreas, para ampliar sua visão de negócio.",
     },
     {
       id: 2,
-      icon: <FaUserTie className={styles.icon} />,
-      title: "Influenciadoras Digitais",
+      icon: <FaChartLine className={styles.icon} />,
+      title: "Estratégias de Vendas",
       description:
-        "Participações de influenciadoras digitais e criadoras de conteúdo. Mostrando na prática como gerar visibilidade e autoridade de marca.",
+        "Técnicas comprovadas para aumentar suas conversões e dominar o mercado de moda com abordagens inovadoras.",
     },
     {
       id: 3,

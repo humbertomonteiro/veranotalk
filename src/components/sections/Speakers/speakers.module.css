@@ -1,7 +1,7 @@
 /* speakers.module.css */
 .section {
   position: relative;
-  background: var(--secondary-background);
+  /* background: var(--secondary-background); */
   overflow: hidden;
 }
 

@@ -178,6 +178,10 @@
     font-size: 2.5rem;
   }
 
+  .subText {
+    text-align: center;
+  }
+
   .images {
     width: 100%;
     grid-template-columns: 1fr 1fr;

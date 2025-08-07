@@ -29,7 +29,7 @@ export default function Location() {
 
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>HORÁRIO</span>
-                <span className={styles.highlightValue}>14h às 21h</span>
+                <span className={styles.highlightValue}>09h às 20h</span>
               </div>
             </div>
 

@@ -46,7 +46,7 @@ export default function About() {
                 <div className={styles.imageBorder}></div>
               </div>
               <div className={styles.founderInfo}>
-                <h4 className={styles.founderName}>Laira Duarte</h4>
+                <h4 className={styles.founderName}>Laiara Duarte</h4>
                 <p className={styles.founderBio}>
                   Profissional da saúde e visionária, fez uma transição de
                   carreira para o empreendedorismo no ramo da moda.
@@ -68,7 +68,7 @@ export default function About() {
               Duas mulheres, um propósito:{" "}
               <strong>transformar o ecossistema empreendedor</strong> do
               Maranhão. Com backgrounds complementares em educação, saúde, moda
-              e varejo, Ana Paula e Laira Duarte uniram suas expertises para
+              e varejo, Ana Paula e Laiara Duarte uniram suas expertises para
               criar um evento que vai muito além do convencional.
             </p>
 

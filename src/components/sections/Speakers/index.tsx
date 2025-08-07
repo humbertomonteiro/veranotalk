@@ -59,7 +59,7 @@ export default function Speakers() {
       ],
       // quote:
       //   "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
-      badge: "PALESTRANTE",
+      badge: "VAREJO",
     },
     {
       id: 3,
@@ -78,7 +78,7 @@ export default function Speakers() {
       ],
       quote:
         "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
-      badge: "ESTRATEGISTA",
+      badge: "LIDERANÇA",
     },
     {
       id: 4,
@@ -102,7 +102,7 @@ export default function Speakers() {
       ],
       // quote:
       //   "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
-      badge: "MENTORA",
+      badge: "POSICIONAMENTO",
     },
   ];
 
