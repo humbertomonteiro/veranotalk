@@ -6,7 +6,7 @@ export default function Footer() {
     scrollTo(0, 0);
   };
   return (
-    <footer className={styles.footer} data-aos="fade-up">
+    <footer className={styles.footer} data-aos="zoom-in">
       <div className={styles.title}>
         <Link onClick={toTop} to={"/"}>
           VERANO TALK

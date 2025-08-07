@@ -17,7 +17,7 @@ export default function Tickets() {
           <div className={styles.ticketHeader}>
             <span className={styles.lote}>PRIMEIRO LOTE</span>
             <div className={styles.price}>
-              <span className={styles.installment}>10x de R$</span>
+              <span className={styles.installment}>12x de R$</span>
               <span className={styles.value}>50</span>
               <span className={styles.cents}>,78</span>
             </div>
