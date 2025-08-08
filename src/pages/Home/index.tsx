@@ -1,4 +1,4 @@
-import styles from "./home.module.css";
+// import styles from "./home.module.css";
 import About from "../../components/sections/About";
 import Hero from "../../components/sections/Hero";
 import Location from "../../components/sections/Location";
