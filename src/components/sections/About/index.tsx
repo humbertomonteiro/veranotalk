@@ -9,12 +9,12 @@ export default function About() {
   return (
     <section id="about" className={styles.section}>
       <Title>Sobre</Title>
-      <div className={styles.container} data-aos="zoom-in">
+      <div className={styles.container}>
         <div className={styles.backgroundOverlay}></div>
 
         <div className={styles.content}>
           <div className={styles.founders}>
-            <div className={styles.founderCard}>
+            <div className={styles.founderCard} data-aos="zoom-in">
               <div className={styles.imageContainer}>
                 <img
                   src={anaPaula}
@@ -36,7 +36,7 @@ export default function About() {
               </div>
             </div>
 
-            <div className={styles.founderCard}>
+            <div className={styles.founderCard} data-aos="zoom-in">
               <div className={styles.imageContainer}>
                 <img
                   src={lairaDuarte}
@@ -58,25 +58,27 @@ export default function About() {
             </div>
           </div>
 
-          <div className={styles.aboutText}>
+          <div className={styles.aboutText} data-aos="zoom-in">
             <div className={styles.sectionHeader}>
-              <h3 className={styles.title}>AS VISIONÁRIAS DO VERANO TALK</h3>
+              <h3 className={styles.title}>
+                AS MENTES POR TRÁS DO VERANO TALK?
+              </h3>
               <div className={styles.divider}></div>
             </div>
 
             <p className={styles.description}>
-              Duas mulheres, um propósito:{" "}
-              <strong>fomentar o empreendedorismo local</strong>. Com
-              backgrounds complementares em educação, saúde, moda e varejo, Ana
-              Paula e Laiara Duarte uniram suas expertises para criar um evento
-              que vai muito além do convencional.
+              Duas mulheres, um propósito: fomentar o empreendedorismo local.
+              Com trajetórias que se encontram entre educação, saúde, moda e
+              varejo, Ana Paula e Laiara Duarte unem experiências e visões para
+              criar um evento que rompe padrões e abre portas para novas
+              oportunidades.
             </p>
 
             <p className={styles.description}>
-              O Verano Talk nasce da{" "}
-              <strong>vontade de elevar o diálogo</strong> sobre
-              empreendedorismo, trazendo conteúdo relevante, conexões valiosas e
-              uma experiência imersiva que inspira ação e mudança.
+              O Verano Talk nasce da vontade de transformar conversas em
+              conexões poderosas, elevando o diálogo sobre negócios, tendências
+              e inovação. Um encontro que vai além do conteúdo: uma experiência
+              imersiva que inspira ação, movimento e mudança real.
             </p>
 
             <div className={styles.ctaContainer}>

@@ -4,15 +4,19 @@
   /* padding: 5rem; */
   /* background: var(--secondary-background); */
   overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
-  width: 1200px;
-  max-width: 95%;
+  /* width: 1200px; */
+  /* max-width: 95%; */
   margin: 0 auto;
   position: relative;
   z-index: 2;
   padding: 2rem 1.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 .backgroundOverlay {
@@ -23,15 +27,27 @@
   height: 100%;
   background: url("https://images.pexels.com/photos/1884583/pexels-photo-1884583.jpeg")
     center/cover no-repeat;
-  opacity: 0.15;
+  opacity: 0.2;
   z-index: -1;
-  border-radius: 1rem;
+  border-top: 1px solid var(--secondary-color);
+  border-bottom: 1px solid var(--secondary-color);
+
+  /* Efeito parallax */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .content {
   display: flex;
   gap: 3rem;
   align-items: center;
+  width: 1200px;
+  max-width: 95%;
+  position: relative;
+  z-index: 3;
+  margin: 0 auto;
 }
 
 .founders {

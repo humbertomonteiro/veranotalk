@@ -14,14 +14,14 @@ export default function Highlights() {
       icon: <FaUsers className={styles.icon} />,
       title: "Diversidade Profissional",
       description:
-        "Presença de profissionais renomados de  diversas áreas, para ampliar sua visão de negócio.",
+        "Conecte-se com profissionais de destaque em diferentes áreas e descubra novas perspectivas para impulsionar sua atuação no mercado.",
     },
     {
       id: 2,
       icon: <FaChartLine className={styles.icon} />,
       title: "Estratégias de Vendas",
       description:
-        "Técnicas comprovadas para aumentar suas conversões e dominar o mercado com abordagens de quem já conhece o mercado.",
+        "Aprenda métodos validados para aumentar suas conversões e conquistar espaço, aplicando estratégias utilizadas por especialistas que dominam o mercado.",
     },
     {
       id: 3,
@@ -45,7 +45,7 @@ export default function Highlights() {
       <div className={styles.container}>
         <div className={styles.header} data-aos="zoom-in">
           <p className={styles.subtitle}>
-            Descubra o que torna o Verano Talk uma experiência única
+            Entenda por que o Verano Talk é mais do que um evento
           </p>
         </div>
 

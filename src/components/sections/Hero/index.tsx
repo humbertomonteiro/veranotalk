@@ -2,25 +2,24 @@
 import MainButton from "../../shared/MainButton";
 import styles from "./hero.module.css";
 
-import woman1 from "../../../assets/shared/woman-1.jpg";
-import woman2 from "../../../assets/shared/woman-2.jpg";
-import woman3 from "../../../assets/shared/woman-3.jpg";
+import woman1 from "../../../assets/speakers/andressa-leao.jpeg";
+import woman2 from "../../../assets/speakers/daniele-xavier.jpeg";
+import woman3 from "../../../assets/speakers/joy-alano.jpeg";
 
 function SubText() {
   return (
     <div className={styles.subText}>
       <h2 className={styles.mainMessage}>
-        CONEXÕES QUE <span>ELEVAM</span> SEU NEGÓCIO
+        CONECTE-SE AO QUE <span>ELEVA</span> O SEU NEGÓCIO
       </h2>
       <p className={styles.subMessage}>
-        O mercado mudou, e os negócios que se destacam entenderam isso.
+        O encontro que vai redefinir como você vê marcas, negócios e pessoas.
       </p>
       <p className={styles.subMessage}>
-        Empreender vai além de vender, é sobre construir uma identidade e gerar
-        presença onde as decisões de compra acontecem: na mente e no coração do
-        consumidor.
+        Um dia, um palco e mentes brilhantes reunidas para potencializar o seu
+        jeito de pensar, criar e se posicionar.
       </p>
-      <p className={styles.subMessage}>
+      {/* <p className={styles.subMessage}>
         Mais do que nunca, posicionamento, inovação e atitude caminham lado a
         lado com estratégia. E visibilidade, hoje, é um ativo valioso demais
         para ser negligenciado.
@@ -29,7 +28,7 @@ function SubText() {
         O Verano Talk nasce do olhar atento às transformações do mercado e da
         certeza de que os negócios que ousam se comunicar com autenticidade,
         crescem com consistência.
-      </p>
+      </p> */}
     </div>
   );
 }
@@ -72,26 +71,38 @@ export default function Hero() {
       </div>
 
       <div className={styles.images}>
-        <img
-          data-aos="zoom-in"
-          data-aos-delay="400"
-          src={woman2}
-          alt="Modelo empreendedora"
-          className={styles.mainImage}
-        />
-        <div className={styles.secondaryImages}>
+        <div className={styles.img} data-aos="zoom-in">
           <img
-            src={woman3}
-            alt="Participantes do evento"
-            data-aos="zoom-in"
-            data-aos-delay="600"
+            src={woman2}
+            alt="Modelo empreendedora"
+            className={styles.mainImage}
           />
-          <img
-            src={woman1}
-            alt="Palestrante no evento"
-            data-aos="zoom-in"
-            data-aos-delay="700"
-          />
+          <div className={styles.imgOverlay}>
+            <div className={styles.imgContent}>
+              <h3>Daniele Xavier</h3>
+              <p>#Liderança</p>
+            </div>
+          </div>
+        </div>
+        <div className={styles.secondaryImages} data-aos="zoom-in">
+          <div className={styles.img}>
+            <img src={woman3} alt="Participantes do evento" />
+            <div className={styles.imgOverlay}>
+              <div className={styles.imgContent}>
+                <h3>Joy Alano</h3>
+                <p>#Varejo</p>
+              </div>
+            </div>
+          </div>
+          <div className={styles.img}>
+            <img src={woman1} alt="Palestrante no evento" />
+            <div className={styles.imgOverlay}>
+              <div className={styles.imgContent}>
+                <h3>Joy Alano</h3>
+                <p>#Posicionamento</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
