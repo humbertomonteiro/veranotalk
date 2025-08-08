@@ -35,7 +35,7 @@ export default function Speakers() {
         mais e se destacar no digital.`,
       ],
       // quote: "@theodoro",
-      badge: "ESTRELA",
+      badge: "METAS",
     },
 
     {

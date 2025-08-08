@@ -21,7 +21,7 @@ export default function Highlights() {
       icon: <FaChartLine className={styles.icon} />,
       title: "Estratégias de Vendas",
       description:
-        "Técnicas comprovadas para aumentar suas conversões e dominar o mercado de moda com abordagens inovadoras.",
+        "Técnicas comprovadas para aumentar suas conversões e dominar o mercado com abordagens de quem já conhece o mercado.",
     },
     {
       id: 3,

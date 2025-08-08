@@ -66,10 +66,10 @@ export default function About() {
 
             <p className={styles.description}>
               Duas mulheres, um propósito:{" "}
-              <strong>transformar o ecossistema empreendedor</strong> do
-              Maranhão. Com backgrounds complementares em educação, saúde, moda
-              e varejo, Ana Paula e Laiara Duarte uniram suas expertises para
-              criar um evento que vai muito além do convencional.
+              <strong>fomentar o empreendedorismo local</strong>. Com
+              backgrounds complementares em educação, saúde, moda e varejo, Ana
+              Paula e Laiara Duarte uniram suas expertises para criar um evento
+              que vai muito além do convencional.
             </p>
 
             <p className={styles.description}>
