@@ -2,7 +2,7 @@
 .section {
   position: relative;
   /* background: var(--secondary-background); */
-  padding: 1rem;
+  padding: 2rem 0rem 4rem 0rem;
   overflow: hidden;
 }
 

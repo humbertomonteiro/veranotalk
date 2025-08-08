@@ -1,6 +1,6 @@
 import styles from "./highlights.module.css";
 import Title from "../../shared/Title";
-import { FaUsers, FaChartLine, FaHandshake, FaStar } from "react-icons/fa";
+import { FaLightbulb, FaChartLine, FaHandshake, FaStar } from "react-icons/fa";
 // import {
 //   MdHealthAndSafety,
 //   MdOutlineConnectWithoutContact,
@@ -11,10 +11,10 @@ export default function Highlights() {
   const benefits = [
     {
       id: 1,
-      icon: <FaUsers className={styles.icon} />,
-      title: "Diversidade Profissional",
+      icon: <FaLightbulb className={styles.icon} />, // react-icons/fa
+      title: "Insights Transformadores",
       description:
-        "Conecte-se com profissionais de destaque em diferentes áreas e descubra novas perspectivas para impulsionar sua atuação no mercado.",
+        "Descubra ideias inovadoras que estão revolucionando o mercado e como aplicá-las no seu negócio.",
     },
     {
       id: 2,
@@ -41,14 +41,14 @@ export default function Highlights() {
 
   return (
     <section id="highlights" className={styles.section}>
+      <div className={styles.backgroundOverlay}></div>
       <Title>O Que Você Vai Viver</Title>
+      <div className={styles.header} data-aos="zoom-in">
+        <p className={styles.subtitle}>
+          Entenda por que o Verano Talk é mais do que um evento
+        </p>
+      </div>
       <div className={styles.container}>
-        <div className={styles.header} data-aos="zoom-in">
-          <p className={styles.subtitle}>
-            Entenda por que o Verano Talk é mais do que um evento
-          </p>
-        </div>
-
         <div className={styles.benefitsGrid}>
           {benefits.map((benefit) => (
             <div

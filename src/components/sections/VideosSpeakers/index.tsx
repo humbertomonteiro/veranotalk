@@ -43,7 +43,7 @@ export default function VideosSpeakers() {
 
   return (
     <section className={styles.section}>
-      <div className={styles.backgroundCurve}></div>
+      <div className={styles.backgroundOverlay}></div>
       <Title>Mais sobre nossos palestrantes</Title>
       <p className={styles.subtitle} data-aos="zoom-in">
         Veja uma palhinha dos palestranstes já confirmados.

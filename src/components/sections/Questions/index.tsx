@@ -58,6 +58,8 @@ export default function Questions() {
   return (
     <section id="faq" className={styles.section}>
       <Title>FAQ - DÚVIDAS FREQUENTES</Title>
+      <div className={styles.backgroundOverlay}></div>
+
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.header} data-aos="zoom-in">
@@ -67,7 +69,6 @@ export default function Questions() {
               Separamos as principais dúvidas sobre o evento
             </p>
           </div>
-          data-aos="zoom-in"
           <div className={styles.questionsContainer} data-aos="zoom-in">
             {questions.map((item) => (
               <div

@@ -8,10 +8,9 @@ import lairaDuarte from "../../../assets/partners/laira-duarte.jpeg";
 export default function About() {
   return (
     <section id="about" className={styles.section}>
+      <div className={styles.backgroundOverlay}></div>
       <Title>Sobre</Title>
       <div className={styles.container}>
-        <div className={styles.backgroundOverlay}></div>
-
         <div className={styles.content}>
           <div className={styles.founders}>
             <div className={styles.founderCard} data-aos="zoom-in">
@@ -61,7 +60,7 @@ export default function About() {
           <div className={styles.aboutText} data-aos="zoom-in">
             <div className={styles.sectionHeader}>
               <h3 className={styles.title}>
-                AS MENTES POR TRÁS DO VERANO TALK?
+                AS MENTES POR TRÁS DO VERANO TALK
               </h3>
               <div className={styles.divider}></div>
             </div>

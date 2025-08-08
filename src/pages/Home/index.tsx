@@ -18,19 +18,12 @@ export default function Home() {
       <Hero />
       {/* <Matters /> */}
       <Highlights />
-      <div className={styles.space}></div>
       <About />
-      <div className={styles.space}></div>
       <Tickets />
-      <div className={styles.space}></div>
       <Speakers />
-      <div className={styles.space}></div>
       <VideosSpeakers />
-      <div className={styles.space}></div>
       <Location />
-      <div className={styles.space}></div>
       <Questions />
-      <div className={styles.space}></div>
       <Footer />
     </div>
   );

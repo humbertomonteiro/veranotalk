@@ -6,7 +6,6 @@
   max-width: 95%;
   margin: 0 auto;
   height: calc(100vh - 68px);
-  min-height: 800px;
   overflow: hidden;
   padding: 1rem;
   gap: 3rem;
@@ -204,6 +203,7 @@
 
   .subText {
     text-align: center;
+    padding-bottom: 2rem;
   }
 
   .images {

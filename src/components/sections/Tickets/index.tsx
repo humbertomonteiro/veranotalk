@@ -7,6 +7,7 @@ export default function Tickets() {
   return (
     <section id="tickets" className={styles.section}>
       <Title>Ingresso</Title>
+      <div className={styles.backgroundOverlay}></div>
       <h3 data-aos="zoom-in">
         Garanta seu PASSAPORTE agora com o <strong>menor valor</strong>
       </h3>

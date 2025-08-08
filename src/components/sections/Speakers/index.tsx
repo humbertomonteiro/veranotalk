@@ -109,6 +109,7 @@ export default function Speakers() {
   return (
     <section id="speakers" className={styles.section}>
       <Title>Palestrantes</Title>
+      <div className={styles.backgroundOverlay}></div>
       <div className={styles.container}>
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
