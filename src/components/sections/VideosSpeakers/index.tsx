@@ -28,6 +28,10 @@ export default function VideosSpeakers() {
 
   const videos = [
     {
+      url: "https://www.instagram.com/reel/DJ422_MSTGq/",
+      instagramUser: "theodoro",
+    },
+    {
       url: "https://www.instagram.com/reel/DL0oMNJpI7z/",
       instagramUser: "joyalano_",
     },

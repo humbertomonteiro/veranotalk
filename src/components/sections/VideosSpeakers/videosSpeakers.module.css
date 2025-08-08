@@ -47,7 +47,7 @@
 .videoCard {
   position: relative;
   width: 100%;
-  max-width: 350px;
+  max-width: 23%;
   height: 400px;
   border-radius: 24px;
   overflow: hidden;

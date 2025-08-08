@@ -84,7 +84,11 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className={styles.secondaryGrid}>
+        <div
+          className={styles.secondaryGrid}
+          data-aos="zoom-in"
+          data-aos-dalay="200"
+        >
           {/* <div className={styles.secondaryImages} data-aos="zoom-in"> */}
           <div className={styles.img}>
             <img src={woman1} alt="Participantes do evento" />
