@@ -2,6 +2,7 @@
 import MainButton from "../../shared/MainButton";
 import styles from "./hero.module.css";
 
+import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
 import woman1 from "../../../assets/speakers/andressa-leao.jpeg";
 import woman2 from "../../../assets/speakers/daniele-xavier.jpeg";
 import woman3 from "../../../assets/speakers/joy-alano.jpeg";
@@ -71,20 +72,41 @@ export default function Hero() {
       </div>
 
       <div className={styles.images}>
-        <div className={styles.img} data-aos="zoom-in">
-          <img
-            src={woman2}
-            alt="Modelo empreendedora"
-            className={styles.mainImage}
-          />
-          <div className={styles.imgOverlay}>
-            <div className={styles.imgContent}>
-              <h3>Daniele Xavier</h3>
-              <p>#Liderança</p>
+        <div className={styles.mainImage}>
+          <div className={styles.img} data-aos="zoom-in">
+            <img src={felipeTheodoro} alt="Modelo empreendedora" />
+            <div className={styles.imgOverlay}>
+              <div className={styles.imgContent}>
+                <h3>Felipe Theodoro</h3>
+                <p>#Metas</p>
+              </div>
             </div>
           </div>
         </div>
-        <div className={styles.secondaryImages} data-aos="zoom-in">
+
+        <div className={styles.secondaryGrid}>
+          {/* <div className={styles.secondaryImages} data-aos="zoom-in"> */}
+          <div className={styles.img}>
+            <img src={woman1} alt="Participantes do evento" />
+            <div className={styles.imgOverlay}>
+              <div className={styles.imgContent}>
+                <h3>Andressa Leão</h3>
+                <p>#Posicionamento</p>
+              </div>
+            </div>
+          </div>
+          <div className={styles.img}>
+            <img src={woman2} alt="Palestrante no evento" />
+            <div className={styles.imgOverlay}>
+              <div className={styles.imgContent}>
+                <h3>Daniele Xavier</h3>
+                <p>#Liderança</p>
+              </div>
+            </div>
+          </div>
+          {/* </div> */}
+
+          {/* <div className={styles.secondaryImages}> */}
           <div className={styles.img}>
             <img src={woman3} alt="Participantes do evento" />
             <div className={styles.imgOverlay}>
@@ -95,15 +117,19 @@ export default function Hero() {
             </div>
           </div>
           <div className={styles.img}>
-            <img src={woman1} alt="Palestrante no evento" />
+            <img
+              src="https://media.istockphoto.com/id/514326952/pt/foto/silhueta-de-mulher-jovem.jpg?s=612x612&w=0&k=20&c=nEI8F03poUXFFREfJEwKU6QXFXseI-NtRjhvpf64V6k="
+              alt="Palestrante no evento"
+            />
             <div className={styles.imgOverlay}>
               <div className={styles.imgContent}>
-                <h3>Joy Alano</h3>
-                <p>#Posicionamento</p>
+                <h3>EM BREVE</h3>
+                <p>#Surpresa</p>
               </div>
             </div>
           </div>
         </div>
+        {/* </div> */}
       </div>
 
       <div className={styles.mobile} data-aos="zoom-in">
