@@ -7,6 +7,10 @@ import woman1 from "../../../assets/speakers/andressa-leao.jpeg";
 import woman2 from "../../../assets/speakers/daniele-xavier.jpeg";
 import woman3 from "../../../assets/speakers/joy-alano.jpeg";
 
+interface HeroProps {
+  sponsor?: boolean;
+}
+
 function SubText() {
   return (
     <div className={styles.subText}>
@@ -20,21 +24,11 @@ function SubText() {
         Um dia, um palco e mentes brilhantes reunidas para potencializar o seu
         jeito de pensar, criar e se posicionar.
       </p>
-      {/* <p className={styles.subMessage}>
-        Mais do que nunca, posicionamento, inovação e atitude caminham lado a
-        lado com estratégia. E visibilidade, hoje, é um ativo valioso demais
-        para ser negligenciado.
-      </p>
-      <p className={styles.subMessage}>
-        O Verano Talk nasce do olhar atento às transformações do mercado e da
-        certeza de que os negócios que ousam se comunicar com autenticidade,
-        crescem com consistência.
-      </p> */}
     </div>
   );
 }
 
-export default function Hero() {
+export default function Hero({ sponsor }: HeroProps) {
   return (
     <section className={styles.container}>
       <div className={styles.text}>
@@ -60,9 +54,9 @@ export default function Hero() {
           <MainButton
             data={{
               type: "link",
-              link: "#tickets",
-              text: "GARANTA SEU INGRESSO",
-              color: "gold", // Usando o botão dourado que criamos anteriormente
+              link: sponsor ? "/apoiar-categorias" : "#tickets",
+              text: sponsor ? "SEJA UM APOIADOR" : "GARANTA SEU INGRESSO",
+              color: "gold",
             }}
           />
           <div className={styles.desktop}>

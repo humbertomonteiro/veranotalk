@@ -1,40 +1,51 @@
 import MainButton from "../../shared/MainButton";
 import styles from "./topBar.module.css";
 
-export default function TopBar() {
+interface TopBarProps {
+  sponsor?: boolean;
+}
+
+export default function TopBar({ sponsor }: TopBarProps) {
   return (
     <div className={styles.topBar} data-aos="fade-down">
-      <div className={styles.content}>
-        <div className={styles.message}>
-          <span className={styles.alert}>ÚLTIMAS VAGAS!</span>
-          <p className={styles.text}>
-            Garanta seu ingresso com <strong>desconto exclusivo</strong> -
-            Valores sobem em breve!
-          </p>
+      {sponsor ? (
+        <div className={styles.content}>
+          <div className={styles.message}>
+            <span className={styles.alert}>Seja um apoiador!</span>
+            {/* <p className={styles.text}>Seja um apoiador!</p> */}
+          </div>
+
+          <MainButton
+            data={{
+              type: "link",
+              link: "/apoiar-categorias",
+              text: "Quero Apoiar",
+              color: "gold",
+              small: true,
+            }}
+          />
         </div>
+      ) : (
+        <div className={styles.content}>
+          <div className={styles.message}>
+            <span className={styles.alert}>ÚLTIMAS VAGAS!</span>
+            <p className={styles.text}>
+              Garanta seu ingresso com <strong>desconto exclusivo</strong> -
+              Valores sobem em breve!
+            </p>
+          </div>
 
-        {/* <div className={styles.timer}>
-          <span className={styles.timeUnit}>
-            <strong>03</strong>dias
-          </span>
-          <span className={styles.timeUnit}>
-            <strong>12</strong>horas
-          </span>
-          <span className={styles.timeUnit}>
-            <strong>45</strong>min
-          </span>
-        </div> */}
-
-        <MainButton
-          data={{
-            type: "link",
-            link: "#tickets",
-            text: "GARANTA SEU LUGAR",
-            color: "gold",
-            small: true,
-          }}
-        />
-      </div>
+          <MainButton
+            data={{
+              type: "link",
+              link: "#tickets",
+              text: "GARANTA SEU LUGAR",
+              color: "gold",
+              small: true,
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

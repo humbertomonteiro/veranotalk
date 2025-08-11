@@ -2,6 +2,7 @@ import styles from "./mainButton.module.css";
 
 interface ButtonProps {
   data: DataButton;
+  target?: string;
 }
 
 interface DataButton {
@@ -14,7 +15,7 @@ interface DataButton {
   disabled?: boolean;
 }
 
-export default function MainButton({ data, ...args }: ButtonProps) {
+export default function MainButton({ data, target, ...args }: ButtonProps) {
   return (
     <>
       {data.type === "link" ? (
@@ -25,6 +26,7 @@ export default function MainButton({ data, ...args }: ButtonProps) {
             {...args}
             data-color={data.color}
             data-button-small={data.small}
+            target={target}
           >
             {data.text}
           </a>

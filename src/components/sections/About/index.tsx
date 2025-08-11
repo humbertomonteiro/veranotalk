@@ -5,7 +5,11 @@ import styles from "./about.module.css";
 import anaPaula from "../../../assets/partners/ana-paula.jpeg";
 import lairaDuarte from "../../../assets/partners/laira-duarte.jpeg";
 
-export default function About() {
+interface AboutProps {
+  sponsor?: boolean;
+}
+
+export default function About({ sponsor }: AboutProps) {
   return (
     <section id="about" className={styles.section}>
       <div className={styles.backgroundOverlay}></div>
@@ -84,8 +88,8 @@ export default function About() {
               <MainButton
                 data={{
                   type: "link",
-                  link: "#tickets",
-                  text: "QUERO FAZER PARTE",
+                  link: sponsor ? "/apoiar-categorias" : "#tickets",
+                  text: sponsor ? "QUERO FAZER PARTE" : "QUERO FAZER PARTE",
                   color: "gold",
                 }}
               />

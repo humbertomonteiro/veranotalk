@@ -2,7 +2,11 @@ import styles from "./location.module.css";
 import MainButton from "../../shared/MainButton";
 import Title from "../../shared/Title";
 
-export default function Location() {
+interface LocationProps {
+  sponsor?: boolean;
+}
+
+export default function Location({ sponsor }: LocationProps) {
   return (
     <section id="location" className={styles.section}>
       <Title>Localização</Title>
@@ -58,8 +62,8 @@ export default function Location() {
             <MainButton
               data={{
                 type: "link",
-                link: "#tickets",
-                text: "GARANTA SEU LUGAR",
+                link: sponsor ? "/apoiar-categorias" : "#tickets",
+                text: sponsor ? "QUERO APOIAR" : "GARANTA SEU LUGAR",
                 color: "gold",
               }}
             />

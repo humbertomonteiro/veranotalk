@@ -3,6 +3,27 @@ import Title from "../../shared/Title";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+const questionsSponsors = [
+  {
+    id: 1,
+    question: `Por que  patrocinar o Verano Talk é um investimento estratégico para a sua marca?`,
+    response: `Associar sua empresa em um evento focado em empreendedorismo feminino e crescimento profissional, eleva o prestígio e a imagem da sua empresa. Demonstrando seu compromisso com inovação e percepção positiva da marca,  associando -as a valores importantes e atuais. Além da possibilidade de estabelecer novas parcerias comerciais.`,
+    link: "",
+  },
+  {
+    id: 2,
+    question: `Qual o público Alvo?`,
+    response: `Feminino, empresárias de vários segmentos.`,
+    link: "",
+  },
+  {
+    id: 3,
+    question: `Qual a expectativa de público ?`,
+    response: `Mil pessoas.`,
+    link: "",
+  },
+];
+
 const questions = [
   {
     id: 1,
@@ -48,12 +69,18 @@ const questions = [
   // Adicione mais perguntas conforme necessário
 ];
 
-export default function Questions() {
+interface QuestionsProps {
+  sponsor?: boolean;
+}
+
+export default function Questions({ sponsor }: QuestionsProps) {
   const [activeId, setActiveId] = useState<number | null>(null);
 
   const toggleQuestion = (id: number) => {
     setActiveId(activeId === id ? null : id);
   };
+
+  const questionsCurrent = sponsor ? questionsSponsors : questions;
 
   return (
     <section id="faq" className={styles.section}>
@@ -70,7 +97,7 @@ export default function Questions() {
             </p>
           </div>
           <div className={styles.questionsContainer} data-aos="zoom-in">
-            {questions.map((item) => (
+            {questionsCurrent.map((item) => (
               <div
                 key={item.id}
                 className={`${styles.questionItem} ${
