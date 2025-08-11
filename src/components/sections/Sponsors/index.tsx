@@ -107,7 +107,7 @@ export default function Sponsors() {
                   <MainButton
                     data={{
                       type: "link",
-                      link: `https://wa.me/55984735273?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
+                      link: `https://wa.me/5598984735273?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
                       text: "QUERO PATROCINAR",
                       color: sponsor.highlight ? "gold" : "white",
                     }}
@@ -145,7 +145,7 @@ export default function Sponsors() {
                   <MainButton
                     data={{
                       type: "link",
-                      link: `https://wa.me/55984735273?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
+                      link: `https://wa.me/5598984735273?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
                       text: "QUERO PATROCINAR",
                       color: sponsor.highlight ? "gold" : "white",
                     }}
