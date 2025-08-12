@@ -35,7 +35,7 @@ export default function Hero({ sponsor }: HeroProps) {
         <div className={styles.title} data-aos="zoom-in">
           <h1>VERANO TALK</h1>
           <p className={styles.tagline}>
-            Um evento onde Negócios. Posicionamento, vendas e moda se encontram
+            Um evento onde Negócios. Posicionamento, vendas e metas se encontram
             para transformar a forma como empreendemos.
           </p>
         </div>
