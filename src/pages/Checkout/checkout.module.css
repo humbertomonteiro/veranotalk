@@ -69,7 +69,7 @@
 
 .ticketSelectionType {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   width: 100%;
   margin-bottom: 1rem;
 }
@@ -119,11 +119,17 @@
 
 .total {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
   justify-content: space-between;
-  font-size: 1.2rem;
-  font-weight: bold;
   padding-top: 1rem;
+  font-size: 0.8rem;
   border-top: 1px solid var(--border-color);
+}
+
+.totalAmount {
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .participantsSection {
@@ -196,6 +202,43 @@
   font-weight: 600;
 }
 
+.couponControls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.couponInput {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  width: 150px;
+}
+
+.couponButton {
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+
+.couponButton:hover {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.couponError {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+}
+
 /* Responsivo */
 @media (max-width: 1024px) {
   .content {
@@ -212,5 +255,15 @@
 @media (max-width: 768px) {
   .header h3 {
     font-size: 1.8rem;
+  }
+
+  .ticketSelectionType {
+    justify-content: space-between;
+  }
+
+  .couponControls {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 }

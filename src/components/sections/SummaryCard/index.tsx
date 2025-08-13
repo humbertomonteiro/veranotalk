@@ -13,6 +13,10 @@ interface SummaryCardProps {
   halfTickets: number;
   fullTickets: number;
   totalAmount: number;
+  originalAmount: number;
+  discount: number | null;
+  discountedAmount: number | null;
+  couponCode: string;
   participants: Participant[];
 }
 
@@ -37,6 +41,10 @@ export default function SummaryCard({
   fullTickets,
   halfTickets,
   totalAmount,
+  // originalAmount,
+  discount,
+  discountedAmount,
+  couponCode,
   participants,
 }: SummaryCardProps) {
   const { setCheckout } = useCheckout();
@@ -61,6 +69,7 @@ export default function SummaryCard({
       checkout: {
         fullTickets,
         halfTickets,
+        couponCode: couponCode || undefined, // Inclui couponCode, se presente
         metadata: {
           eventId: "verano-talk-2025",
         },
@@ -115,6 +124,15 @@ export default function SummaryCard({
               <span>Ingressos Meia</span>
               <span>{halfTickets} x R$ 249,50</span>
             </div>
+          )}
+
+          {couponCode && discount !== null && discountedAmount !== null && (
+            <>
+              <div className={styles.summaryItem}>
+                <span>Cupom ({couponCode})</span>
+                <span>- R$ {discount.toFixed(2)}</span>
+              </div>
+            </>
           )}
 
           <div className={styles.divider}></div>
