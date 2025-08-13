@@ -241,10 +241,10 @@ export default function Checkout() {
                         </div>
                       </>
                     ) : (
-                      <>
+                      <div className={styles.totalAmount}>
                         <span>Total:</span>
                         <span>R$ {totalAmount.toFixed(2)}</span>
-                      </>
+                      </div>
                     )}
                   </div>
                 )}

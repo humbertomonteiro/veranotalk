@@ -214,22 +214,23 @@
   border: 1px solid var(--border-color);
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  width: 150px;
+  max-width: 80%;
 }
 
 .couponButton {
-  padding: 8px 16px;
+  padding: 0.6rem 1.5rem;
   background-color: var(--primary-color);
   color: white;
-  border: none;
-  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
   cursor: pointer;
   transition: 0.3s all;
+  opacity: 0.8;
+  max-width: 80%;
 }
 
 .couponButton:hover {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
+  opacity: 1;
 }
 
 .couponError {
