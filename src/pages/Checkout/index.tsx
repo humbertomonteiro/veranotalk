@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styles from "./checkout.module.css";
 import ParticipantForm from "../../components/sections/ParticipantForm";
 import ParticipantsList from "../../components/sections/ParticipantsList";
@@ -16,6 +17,7 @@ export interface Participant {
 }
 
 export default function Checkout() {
+  const { id } = useParams<{ id: string }>(); // Captura o parâmetro 'id' da URL
   const [fullTickets, setFullTickets] = useState(1);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [currentParticipant, setCurrentParticipant] = useState<Participant>({
@@ -34,6 +36,14 @@ export default function Checkout() {
   const totalTickets = fullTickets;
   const totalAmount =
     discountedAmount !== null ? discountedAmount : fullTickets * 499;
+
+  // Aplica cupom automaticamente baseado no parâmetro da URL
+  useEffect(() => {
+    if (id && id !== "1") {
+      setCouponCode(id.toUpperCase()); // Converte para maiúsculas, ex.: 'joy' -> 'JOY'
+      handleApplyCoupon(id.toUpperCase());
+    }
+  }, [id]);
 
   const handleTicketChange = (type: "full", value: number) => {
     const newValue = Math.max(0, Math.min(50, value));
@@ -108,8 +118,8 @@ export default function Checkout() {
     setCouponError(null);
   };
 
-  const handleApplyCoupon = async () => {
-    if (!couponCode) {
+  const handleApplyCoupon = async (code: string = couponCode) => {
+    if (!code) {
       setCouponError("Por favor, insira um código de cupom");
       toast.error("Por favor, insira um código de cupom");
       return;
@@ -122,7 +132,7 @@ export default function Checkout() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          code: couponCode,
+          code,
           eventId: "verano-talk",
           totalAmount: originalAmount,
         }),
@@ -130,7 +140,6 @@ export default function Checkout() {
 
       if (!response.ok) {
         const errorData = await response.json();
-
         setCouponError(errorData.error || "Erro ao validar cupom");
         toast.error(errorData.error || "Erro ao validar cupom");
         setDiscountedAmount(null);
@@ -142,10 +151,14 @@ export default function Checkout() {
       setDiscountedAmount(data.discountedAmount);
       setDiscount(data.discount);
       setCouponError(null);
-      toast.success("Cupom adicionado");
+      if (id !== "1") {
+        console.log(`Cupom ${code} aplicado com sucesso`);
+      } else {
+        toast.success(`Cupom ${code} aplicado com sucesso`);
+      }
     } catch (error) {
-      toast.error("Erro ao conectar com o servidor");
       setCouponError("Erro ao conectar com o servidor");
+      toast.error("Erro ao conectar com o servidor");
       setDiscountedAmount(null);
       setDiscount(null);
     }
@@ -208,7 +221,7 @@ export default function Checkout() {
                           className={styles.couponInput}
                         />
                         <button
-                          onClick={handleApplyCoupon}
+                          onClick={() => handleApplyCoupon()}
                           className={styles.couponButton}
                         >
                           Aplicar
