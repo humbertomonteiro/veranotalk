@@ -5,6 +5,7 @@ import ParticipantsList from "../../components/sections/ParticipantsList";
 import PaymentInfo from "../../components/sections/PaymentInfo";
 import SummaryCard from "../../components/sections/SummaryCard";
 import { toast, ToastContainer } from "react-toastify";
+import { config } from "../../config";
 
 export interface Participant {
   name: string;
@@ -115,7 +116,7 @@ export default function Checkout() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/coupons/validate", {
+      const response = await fetch(`${config.baseUrl}/coupons/validate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
