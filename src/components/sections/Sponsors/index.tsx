@@ -1,6 +1,5 @@
 import MainButton from "../../shared/MainButton";
 import Title from "../../shared/Title";
-import Footer from "../../template/Footer";
 import styles from "./sponsors.module.css";
 import { FaCrown, FaMedal, FaAward, FaGem } from "react-icons/fa";
 
@@ -157,7 +156,6 @@ export default function Sponsors() {
           </div>
         </div>
       </section>
-      <Footer sponsor={true} />
     </>
   );
 }
