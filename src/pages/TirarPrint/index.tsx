@@ -5,6 +5,7 @@ import Location from "../../components/sections/Location";
 // import Questions from "../../components/sections/Questions";
 import Sponsors from "../../components/sections/Sponsors";
 import styles from "./tirarPrint.module.css";
+import FooterTitarPrint from "../../components/template/FooterTirarPrint";
 
 export default function TirarPrint() {
   return (
@@ -16,6 +17,7 @@ export default function TirarPrint() {
 
       <Location sponsor={true} />
       {/* <Questions sponsor={true} /> */}
+      <FooterTitarPrint />
     </div>
   );
 }

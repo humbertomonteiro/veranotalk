@@ -13,7 +13,7 @@ export default function Tickets() {
       </h3>
       <div className={styles.container}>
         {/* Ticket 1 - Pré-venda */}
-        <div className={`${styles.ticket} ${styles.highlight}`}>
+        {/* <div className={`${styles.ticket} ${styles.highlight}`}>
           <div className={styles.ribbon}>MENOR PREÇO</div>
           <div className={styles.ticketHeader}>
             <span className={styles.lote}>PRÉ-VENDA</span>
@@ -38,10 +38,10 @@ export default function Tickets() {
               color: "gold",
             }}
           />
-        </div>
+        </div> */}
 
         {/* Ticket 1 - Primeiro Lote */}
-        <div className={`${styles.ticket} `}>
+        <div className={`${styles.ticket} ${styles.highlight} `}>
           {/* <div className={styles.ribbon}>MENOR PREÇO</div> */}
           <div className={styles.ticketHeader}>
             <span className={styles.lote}>PRIMEIRO LOTE</span>
@@ -95,7 +95,7 @@ export default function Tickets() {
         </div>
 
         {/* Ticket 3 - Terceiro Lote */}
-        {/* <div className={styles.ticket}>
+        <div className={styles.ticket}>
           <div className={styles.ticketHeader}>
             <span className={styles.lote}>TERCEIRO LOTE</span>
             <div className={styles.price}>
@@ -118,7 +118,7 @@ export default function Tickets() {
               color: "white",
             }}
           />
-        </div> */}
+        </div>
       </div>
     </section>
   );

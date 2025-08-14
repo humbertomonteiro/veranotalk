@@ -1,0 +1,96 @@
+/* footer.module.css */
+.footer {
+  background: var(--secondary-background);
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title a {
+  font-family: var(--primary-font);
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  text-align: center;
+}
+
+.container {
+  width: 1200px;
+  max-width: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copyright {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.content {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+}
+
+.content a {
+  color: var(--secondary-color);
+}
+
+.credits {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  margin: 0;
+}
+
+.policy {
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+  text-decoration: underline;
+  transition: 0.3s all;
+}
+
+.policy:hover {
+  color: #fff;
+}
+
+.humdev {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* Efeito hover sutil */
+.humdev:hover {
+  color: var(--secondary-color);
+  transition: color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 1rem 0;
+  }
+
+  .copyright {
+    font-size: 0.8rem;
+  }
+
+  .credits {
+    font-size: 0.75rem;
+  }
+
+  .title a {
+    font-size: 2.2rem;
+  }
+}
