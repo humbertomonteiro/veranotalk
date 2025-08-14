@@ -8,13 +8,41 @@ export default function Tickets() {
     <section id="tickets" className={styles.section}>
       <Title>Ingresso</Title>
       <div className={styles.backgroundOverlay}></div>
-      <h3 data-aos="zoom-in">
+      <h3>
         Garanta seu PASSAPORTE agora com o <strong>menor valor</strong>
       </h3>
-      <div className={styles.container} data-aos="zoom-in">
-        {/* Ticket 1 - Primeiro Lote */}
+      <div className={styles.container}>
+        {/* Ticket 1 - Pré-venda */}
         <div className={`${styles.ticket} ${styles.highlight}`}>
           <div className={styles.ribbon}>MENOR PREÇO</div>
+          <div className={styles.ticketHeader}>
+            <span className={styles.lote}>PRÉ-VENDA</span>
+            <div className={styles.price}>
+              <span className={styles.installment}>10x de R$</span>
+              <span className={styles.value}>49</span>
+              <span className={styles.cents}>,90</span>
+            </div>
+            <span className={styles.fullPrice}>ou R$ 499,00 à vista</span>
+          </div>
+          <ul className={styles.benefits}>
+            <li>✓ Menor preço</li>
+            <li>✓ Acesso a todas as palestras</li>
+            <li>✓ Material exclusivo em PDF</li>
+            <li>✓ Certificado digital</li>
+          </ul>
+          <MainButton
+            data={{
+              type: "link",
+              link: "/checkout/1",
+              text: "COMPRAR AGORA",
+              color: "gold",
+            }}
+          />
+        </div>
+
+        {/* Ticket 1 - Primeiro Lote */}
+        <div className={`${styles.ticket} `}>
+          {/* <div className={styles.ribbon}>MENOR PREÇO</div> */}
           <div className={styles.ticketHeader}>
             <span className={styles.lote}>PRIMEIRO LOTE</span>
             <div className={styles.price}>
@@ -28,9 +56,7 @@ export default function Tickets() {
             <li>✓ Menor preço</li>
             <li>✓ Acesso a todas as palestras</li>
             <li>✓ Material exclusivo em PDF</li>
-            {/* <li>✓ Coffee break premium</li> */}
             <li>✓ Certificado digital</li>
-            {/* <li>✓ Brinde especial</li> */}
           </ul>
           <MainButton
             data={{
@@ -56,7 +82,6 @@ export default function Tickets() {
           <ul className={styles.benefits}>
             <li>✓ Acesso a todas as palestras</li>
             <li>✓ Material exclusivo em PDF</li>
-            {/* <li>✓ Coffee break premium</li> */}
             <li>✓ Certificado digital</li>
           </ul>
           <MainButton
@@ -70,7 +95,7 @@ export default function Tickets() {
         </div>
 
         {/* Ticket 3 - Terceiro Lote */}
-        <div className={styles.ticket}>
+        {/* <div className={styles.ticket}>
           <div className={styles.ticketHeader}>
             <span className={styles.lote}>TERCEIRO LOTE</span>
             <div className={styles.price}>
@@ -84,7 +109,6 @@ export default function Tickets() {
             <li>✓ Acesso a todas as palestras</li>
             <li>✓ Material exclusivo em PDF</li>
             <li>✓ Certificado digital</li>
-            {/* <li>✓ Coffee break premium</li> */}
           </ul>
           <MainButton
             data={{
@@ -94,7 +118,7 @@ export default function Tickets() {
               color: "white",
             }}
           />
-        </div>
+        </div> */}
       </div>
     </section>
   );

@@ -17,7 +17,7 @@ export default function About({ sponsor }: AboutProps) {
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.founders}>
-            <div className={styles.founderCard} data-aos="zoom-in">
+            <div className={styles.founderCard}>
               <div className={styles.imageContainer}>
                 <img
                   src={anaPaula}
@@ -39,7 +39,7 @@ export default function About({ sponsor }: AboutProps) {
               </div>
             </div>
 
-            <div className={styles.founderCard} data-aos="zoom-in">
+            <div className={styles.founderCard}>
               <div className={styles.imageContainer}>
                 <img
                   src={lairaDuarte}
@@ -61,7 +61,7 @@ export default function About({ sponsor }: AboutProps) {
             </div>
           </div>
 
-          <div className={styles.aboutText} data-aos="zoom-in">
+          <div className={styles.aboutText}>
             <div className={styles.sectionHeader}>
               <h3 className={styles.title}>
                 AS MENTES POR TRÁS DO VERANO TALK

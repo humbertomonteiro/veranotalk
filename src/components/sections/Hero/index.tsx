@@ -32,7 +32,7 @@ export default function Hero({ sponsor }: HeroProps) {
   return (
     <section className={styles.container}>
       <div className={styles.text}>
-        <div className={styles.title} data-aos="zoom-in">
+        <div className={styles.title}>
           <h1>VERANO TALK</h1>
           <p className={styles.tagline}>
             Um evento onde Negócios. Posicionamento, vendas e metas se encontram
@@ -40,11 +40,7 @@ export default function Hero({ sponsor }: HeroProps) {
           </p>
         </div>
 
-        <div
-          className={styles.callToAction}
-          data-aos="zoom-in"
-          data-aos-delay="200"
-        >
+        <div className={styles.callToAction} data-aos-delay="200">
           <div className={styles.highlightBox}>
             <span>SÃO LUIS - MARANHÃO</span>
             <div className={styles.divider}></div>
@@ -67,7 +63,7 @@ export default function Hero({ sponsor }: HeroProps) {
 
       <div className={styles.images}>
         <div className={styles.mainImage}>
-          <div className={styles.img} data-aos="zoom-in">
+          <div className={styles.img}>
             <img src={felipeTheodoro} alt="Modelo empreendedora" />
             <div className={styles.imgOverlay}>
               <div className={styles.imgContent}>
@@ -78,12 +74,8 @@ export default function Hero({ sponsor }: HeroProps) {
           </div>
         </div>
 
-        <div
-          className={styles.secondaryGrid}
-          data-aos="zoom-in"
-          data-aos-dalay="200"
-        >
-          {/* <div className={styles.secondaryImages} data-aos="zoom-in"> */}
+        <div className={styles.secondaryGrid} data-aos-dalay="200">
+          {/* <div className={styles.secondaryImages} > */}
           <div className={styles.img}>
             <img src={woman1} alt="Participantes do evento" />
             <div className={styles.imgOverlay}>
@@ -130,7 +122,7 @@ export default function Hero({ sponsor }: HeroProps) {
         {/* </div> */}
       </div>
 
-      <div className={styles.mobile} data-aos="zoom-in">
+      <div className={styles.mobile}>
         <SubText />
       </div>
     </section>

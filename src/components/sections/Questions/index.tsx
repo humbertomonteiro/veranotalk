@@ -89,14 +89,14 @@ export default function Questions({ sponsor }: QuestionsProps) {
 
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.header} data-aos="zoom-in">
+          <div className={styles.header}>
             {/* <h3>DÚVIDAS FREQUENTES</h3> */}
             {/* <div className={styles.divider}></div> */}
             <p className={styles.subtitle}>
               Separamos as principais dúvidas sobre o evento
             </p>
           </div>
-          <div className={styles.questionsContainer} data-aos="zoom-in">
+          <div className={styles.questionsContainer}>
             {questionsCurrent.map((item) => (
               <div
                 key={item.id}

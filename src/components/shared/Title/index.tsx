@@ -6,7 +6,7 @@ interface TitleProps {
 
 export default function Title({ children }: TitleProps) {
   return (
-    <div className={styles.container} data-aos="zoom-in">
+    <div className={styles.container}>
       <h2>{children}</h2>
     </div>
   );

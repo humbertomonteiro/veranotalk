@@ -76,7 +76,7 @@ export default function Sponsors() {
         <Title>Patrocínios</Title>
         <div className={styles.backgroundOverlay}></div>
         <div className={styles.container}>
-          <p className={styles.subtitle} data-aos="zoom-in">
+          <p className={styles.subtitle}>
             Faça parte da transformação do empreendedorismo maranhense
           </p>
           {/* Primeira linha - Diamante e Ouro */}
@@ -87,7 +87,6 @@ export default function Sponsors() {
                 className={`${styles.sponsorCard} ${
                   sponsor.highlight ? styles.highlight : ""
                 }`}
-                data-aos="zoom-in"
               >
                 {sponsor.highlight && (
                   <div className={styles.ribbon}>EXCLUSIVIDADE</div>
@@ -125,11 +124,7 @@ export default function Sponsors() {
           {/* Segunda linha - Prata e Bronze */}
           <div className={styles.sponsorRow}>
             {sponsorships.slice(2, 4).map((sponsor) => (
-              <div
-                key={sponsor.id}
-                className={styles.sponsorCard}
-                data-aos="zoom-in"
-              >
+              <div key={sponsor.id} className={styles.sponsorCard}>
                 <div className={styles.cardHeader}>
                   <div className={styles.iconContainer}>{sponsor.icon}</div>
                   <h3>{sponsor.title}</h3>

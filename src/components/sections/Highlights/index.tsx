@@ -43,7 +43,7 @@ export default function Highlights() {
     <section id="highlights" className={styles.section}>
       <div className={styles.backgroundOverlay}></div>
       <Title>O Que Você Vai Viver</Title>
-      <div className={styles.header} data-aos="zoom-in">
+      <div className={styles.header}>
         <p className={styles.subtitle}>
           Entenda por que o Verano Talk é mais do que um evento
         </p>
@@ -51,11 +51,7 @@ export default function Highlights() {
       <div className={styles.container}>
         <div className={styles.benefitsGrid}>
           {benefits.map((benefit) => (
-            <div
-              key={benefit.id}
-              className={styles.benefitCard}
-              data-aos="zoom-in"
-            >
+            <div key={benefit.id} className={styles.benefitCard}>
               <div className={styles.iconContainer}>{benefit.icon}</div>
               <h4>{benefit.title}</h4>
               <p>{benefit.description}</p>
