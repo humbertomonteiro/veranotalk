@@ -1,10 +1,14 @@
 import Sponsors from "../../components/sections/Sponsors";
 import Footer from "../../components/template/Footer";
 
-export default function BoxesSponsors() {
+interface BoxesSponsorsProps {
+  type?: "national" | "location";
+}
+
+export default function BoxesSponsors({ type }: BoxesSponsorsProps) {
   return (
     <div>
-      <Sponsors />
+      <Sponsors type={type ? type : "location"} />
       <Footer sponsor={true} />
     </div>
   );

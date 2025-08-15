@@ -13,7 +13,11 @@ export default function RoutesApp() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/apoiar" element={<Sponsor />} />
-      <Route path="/apoiar-categorias" element={<BoxesSponsors />} />
+      <Route path="/apoiar-local" element={<BoxesSponsors />} />
+      <Route
+        path="/apoiar-nacional"
+        element={<BoxesSponsors type="national" />}
+      />
       <Route path="/checkout/:id" element={<Checkout />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/area-participant" element={<AreaParticipante />} />

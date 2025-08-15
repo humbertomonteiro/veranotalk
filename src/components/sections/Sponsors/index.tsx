@@ -3,13 +3,18 @@ import Title from "../../shared/Title";
 import styles from "./sponsors.module.css";
 import { FaCrown, FaMedal, FaAward, FaGem } from "react-icons/fa";
 
-export default function Sponsors() {
+interface SponsorsProps {
+  type?: "national" | "location";
+}
+
+export default function Sponsors({ type }: SponsorsProps) {
   const sponsorships = [
     {
       id: 1,
       title: "Patrocinador Master",
       category: "Diamante",
       price: "R$ 25.000",
+      priceNational: "R$ 60.000",
       icon: <FaGem className={styles.icon} />,
       benefits: [
         "Exclusividade como patrocinador master (máx. 1 cota).",
@@ -29,6 +34,7 @@ export default function Sponsors() {
       title: "Patrocinador Oficial",
       category: "Ouro",
       price: "R$ 15.000",
+      priceNational: "R$ 40.000",
       icon: <FaCrown className={styles.icon} />,
       benefits: [
         "Logomarca em destaque em todos os materiais de divulgação (digital e físico).",
@@ -45,6 +51,7 @@ export default function Sponsors() {
       title: "Patrocinador de Apoio",
       category: "Prata",
       price: "R$ 8.000",
+      priceNational: "R$ 20.000",
       icon: <FaMedal className={styles.icon} />,
       benefits: [
         "Logomarca nos materiais digitais e físicos do evento.",
@@ -59,6 +66,7 @@ export default function Sponsors() {
       title: "Amigo do Evento",
       category: "Bronze",
       price: "R$ 4.000",
+      priceNational: "R$ 10.000",
       icon: <FaAward className={styles.icon} />,
       benefits: [
         "Logomarca no site e nas redes sociais do evento.",
@@ -94,7 +102,11 @@ export default function Sponsors() {
                   <div className={styles.iconContainer}>{sponsor.icon}</div>
                   <h3>{sponsor.title}</h3>
                   <span className={styles.category}>{sponsor.category}</span>
-                  <div className={styles.price}>{sponsor.price}</div>
+                  <div className={styles.price}>
+                    {type === "location"
+                      ? sponsor.price
+                      : sponsor.priceNational}
+                  </div>
                 </div>
                 <ul className={styles.benefits}>
                   {sponsor.benefits.map((benefit, index) => (
@@ -105,7 +117,11 @@ export default function Sponsors() {
                   <MainButton
                     data={{
                       type: "link",
-                      link: `https://wa.me/5598984735273?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
+                      link: `https://wa.me/5598984735273?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${
+                        sponsor.category
+                      }%20${
+                        type === "national" ? "Nacional" : "."
+                      }%20Poderia%20me%20ajudar?`,
                       text: "QUERO PATROCINAR",
                       color: sponsor.highlight ? "gold" : "white",
                     }}
@@ -128,7 +144,11 @@ export default function Sponsors() {
                   <div className={styles.iconContainer}>{sponsor.icon}</div>
                   <h3>{sponsor.title}</h3>
                   <span className={styles.category}>{sponsor.category}</span>
-                  <div className={styles.price}>{sponsor.price}</div>
+                  <div className={styles.price}>
+                    {type === "location"
+                      ? sponsor.price
+                      : sponsor.priceNational}
+                  </div>
                 </div>
                 <ul className={styles.benefits}>
                   {sponsor.benefits.map((benefit, index) => (
