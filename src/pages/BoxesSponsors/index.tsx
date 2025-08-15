@@ -1,4 +1,5 @@
 import Sponsors from "../../components/sections/Sponsors";
+import WhatsAppButton from "../../components/shared/WhatsAppButton";
 import FooterTitarPrint from "../../components/template/FooterTirarPrint";
 
 interface BoxesSponsorsProps {
@@ -10,6 +11,7 @@ export default function BoxesSponsors({ type }: BoxesSponsorsProps) {
     <div>
       <Sponsors type={type ? type : "location"} />
       <FooterTitarPrint sponsor={true} />
+      <WhatsAppButton />
     </div>
   );
 }

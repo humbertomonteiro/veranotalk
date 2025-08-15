@@ -2,11 +2,12 @@ import About from "../../components/sections/About";
 import Location from "../../components/sections/Location";
 import Speakers from "../../components/sections/Speakers";
 // import TopBar from "../../components/template/Topbar";
-import Footer from "../../components/template/Footer";
+import FooterTitarPrint from "../../components/template/FooterTirarPrint";
 import Questions from "../../components/sections/Questions";
 import Highlights from "../../components/sections/Highlights";
 import VideosSpeakers from "../../components/sections/VideosSpeakers";
 import Hero from "../../components/sections/Hero";
+import WhatsAppButton from "../../components/shared/WhatsAppButton";
 
 export default function Sponsor() {
   return (
@@ -19,7 +20,8 @@ export default function Sponsor() {
       <VideosSpeakers />
       <Location sponsor={true} />
       <Questions sponsor={true} />
-      <Footer sponsor={true} />
+      <FooterTitarPrint sponsor={true} />
+      <WhatsAppButton />
     </div>
   );
 }
