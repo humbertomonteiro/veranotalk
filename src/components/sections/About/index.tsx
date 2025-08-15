@@ -85,14 +85,16 @@ export default function About({ sponsor }: AboutProps) {
             </p>
 
             <div className={styles.ctaContainer}>
-              <MainButton
-                data={{
-                  type: "link",
-                  link: sponsor ? "/apoiar-categorias" : "#tickets",
-                  text: sponsor ? "QUERO FAZER PARTE" : "QUERO FAZER PARTE",
-                  color: "gold",
-                }}
-              />
+              {!sponsor && (
+                <MainButton
+                  data={{
+                    type: "link",
+                    link: "#tickets",
+                    text: "QUERO FAZER PARTE",
+                    color: "gold",
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>

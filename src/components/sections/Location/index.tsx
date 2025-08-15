@@ -59,14 +59,16 @@ export default function Location({ sponsor }: LocationProps) {
               Av. Avicênia, 1 - Calhau, São Luís - MA, 65071-370
             </address>
 
-            <MainButton
-              data={{
-                type: "link",
-                link: sponsor ? "/apoiar-categorias" : "#tickets",
-                text: sponsor ? "QUERO APOIAR" : "GARANTA SEU LUGAR",
-                color: "gold",
-              }}
-            />
+            {!sponsor && (
+              <MainButton
+                data={{
+                  type: "link",
+                  link: "#tickets",
+                  text: "GARANTA SEU LUGAR",
+                  color: "gold",
+                }}
+              />
+            )}
           </div>
 
           <div className={styles.visualContent} data-aos-delay="200">

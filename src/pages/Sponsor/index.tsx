@@ -1,7 +1,7 @@
 import About from "../../components/sections/About";
 import Location from "../../components/sections/Location";
 import Speakers from "../../components/sections/Speakers";
-import TopBar from "../../components/template/Topbar";
+// import TopBar from "../../components/template/Topbar";
 import Footer from "../../components/template/Footer";
 import Questions from "../../components/sections/Questions";
 import Highlights from "../../components/sections/Highlights";
@@ -11,7 +11,7 @@ import Hero from "../../components/sections/Hero";
 export default function Sponsor() {
   return (
     <div>
-      <TopBar sponsor={true} />
+      {/* <TopBar sponsor={true} /> */}
       <Hero sponsor={true} />
       <Highlights />
       <About sponsor={true} />

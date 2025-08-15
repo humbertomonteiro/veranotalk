@@ -47,14 +47,16 @@ export default function Hero({ sponsor }: HeroProps) {
             <span>16/10/2025 - Das 09 as 20 horas </span>
           </div>
 
-          <MainButton
-            data={{
-              type: "link",
-              link: sponsor ? "/apoiar-categorias" : "#tickets",
-              text: sponsor ? "SEJA UM APOIADOR" : "GARANTA SEU INGRESSO",
-              color: "gold",
-            }}
-          />
+          {!sponsor && (
+            <MainButton
+              data={{
+                type: "link",
+                link: sponsor ? "/apoiar-categorias" : "#tickets",
+                text: sponsor ? "SEJA UM APOIADOR" : "GARANTA SEU INGRESSO",
+                color: "gold",
+              }}
+            />
+          )}
           <div className={styles.desktop}>
             <SubText />
           </div>
