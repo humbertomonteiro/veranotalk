@@ -51,21 +51,41 @@
 /* Responsivo */
 @media (max-width: 768px) {
   .container {
-    bottom: 20px;
+    bottom: 60px;
     right: 20px;
   }
 
-  .whatsappButton {
-    width: 50px;
-    height: 50px;
-  }
-
+  /* .whatsappButton {
+    width: 70px;
+    height: 70px;
+  } */
+  /* 
   .icon {
     font-size: 25px;
-  }
+  } */
 
   .tooltip {
     font-size: 12px;
     padding: 6px 12px;
   }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.whatsappButton {
+  animation: pulse 2s infinite;
+}
+
+.whatsappButton:hover {
+  animation: none;
 }
