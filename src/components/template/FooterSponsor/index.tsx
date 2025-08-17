@@ -5,7 +5,7 @@ interface FooterProps {
   sponsor?: boolean;
 }
 
-export default function FooterTitarPrint({ sponsor }: FooterProps) {
+export default function FooterSponsor({ sponsor }: FooterProps) {
   const toTop = () => {
     scrollTo(0, 0);
   };

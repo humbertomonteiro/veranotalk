@@ -40,8 +40,8 @@ export default function Checkout() {
   // Aplica cupom automaticamente baseado no parâmetro da URL
   useEffect(() => {
     if (id && id !== "1") {
-      setCouponCode(id.toUpperCase()); // Converte para maiúsculas, ex.: 'joy' -> 'JOY'
-      handleApplyCoupon(id.toUpperCase());
+      setCouponCode(id.toLowerCase());
+      handleApplyCoupon(id.toLowerCase());
     }
   }, [id]);
 

@@ -5,7 +5,6 @@ import SuccessPage from "../pages/SuccessPage";
 import AreaParticipante from "../pages/AreaParticipant";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import Sponsor from "../pages/Sponsor";
-import TirarPrint from "../pages/TirarPrint";
 import BoxesSponsors from "../pages/BoxesSponsors";
 
 export default function RoutesApp() {
@@ -23,7 +22,6 @@ export default function RoutesApp() {
       <Route path="/area-participant" element={<AreaParticipante />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="*" element={<Home />} />
-      <Route path="/tirar-print" element={<TirarPrint />} />
     </Routes>
   );
 }
