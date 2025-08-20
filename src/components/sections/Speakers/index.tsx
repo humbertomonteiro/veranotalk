@@ -40,7 +40,7 @@ export default function Speakers() {
 
     {
       id: 2,
-      name: "Joy Elano",
+      name: "Joy Alano",
       image: joyAlano,
       title: "Palestrante, estilista e mentora de lojistas",
       bio: [
