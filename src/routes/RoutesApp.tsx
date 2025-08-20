@@ -6,6 +6,7 @@ import AreaParticipante from "../pages/AreaParticipant";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import Sponsor from "../pages/Sponsor";
 import BoxesSponsors from "../pages/BoxesSponsors";
+import ImageFly from "../pages/ImageFly";
 
 export default function RoutesApp() {
   return (
@@ -21,6 +22,7 @@ export default function RoutesApp() {
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/area-participant" element={<AreaParticipante />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/fly" element={<ImageFly />} />
       <Route path="*" element={<Home />} />
     </Routes>
   );
