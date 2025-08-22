@@ -240,7 +240,7 @@
 
   .images {
     width: 100%;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .highlightBox {
@@ -301,7 +301,7 @@
   }
 
   .images {
-    grid-template-columns: 130px auto;
+    grid-template-columns: 130px auto auto;
   }
 
   .imgContent {
