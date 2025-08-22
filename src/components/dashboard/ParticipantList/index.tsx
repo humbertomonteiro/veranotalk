@@ -151,7 +151,7 @@ function ParticipantList() {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    console.log("Mudando para página:", value);
+    console.log(event);
     setPage(value);
   };
 
