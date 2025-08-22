@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { TextField, Button, Typography, Container, Box } from "@mui/material";
-import styles from "./Login.module.css";
+import styles from "./login.module.css";
 
 function Login() {
   const [email, setEmail] = useState("");
