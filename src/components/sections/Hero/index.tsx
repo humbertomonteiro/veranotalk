@@ -6,6 +6,7 @@ import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
 import woman1 from "../../../assets/speakers/andressa-leao.jpeg";
 import woman2 from "../../../assets/speakers/daniele-xavier.jpeg";
 import woman3 from "../../../assets/speakers/joy-alano.jpeg";
+import logoVk from "../../../assets/logo/logo-vk.png";
 
 interface HeroProps {
   sponsor?: boolean;
@@ -99,29 +100,27 @@ export default function Hero({ sponsor }: HeroProps) {
           {/* </div> */}
 
           {/* <div className={styles.secondaryImages}> */}
-          <div className={styles.img}>
-            <img src={woman3} alt="Participantes do evento" />
+
+          {/* <div className={styles.img}>
+            <img src={logoVk} alt="Logo do evento" />
             <div className={styles.imgOverlay}>
               <div className={styles.imgContent}>
-                <h3>Joy Alano</h3>
-                <p>#Varejo</p>
+                <h3>Verano Talk</h3>
+                <p>#Empreendedorismo</p>
               </div>
             </div>
-          </div>
-          <div className={styles.img}>
-            <img
-              src="https://media.istockphoto.com/id/514326952/pt/foto/silhueta-de-mulher-jovem.jpg?s=612x612&w=0&k=20&c=nEI8F03poUXFFREfJEwKU6QXFXseI-NtRjhvpf64V6k="
-              alt="Palestrante no evento"
-            />
-            <div className={styles.imgOverlay}>
-              <div className={styles.imgContent}>
-                <h3>EM BREVE</h3>
-                <p>#Surpresa</p>
-              </div>
+          </div> */}
+        </div>
+        {/* </div> */}
+        <div className={styles.img}>
+          <img src={woman3} alt="Participantes do evento" />
+          <div className={styles.imgOverlay}>
+            <div className={styles.imgContent}>
+              <h3>Joy Alano</h3>
+              <p>#Varejo</p>
             </div>
           </div>
         </div>
-        {/* </div> */}
       </div>
 
       <div className={styles.mobile}>

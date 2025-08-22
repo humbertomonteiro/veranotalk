@@ -1,0 +1,42 @@
+.container {
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+
+.card {
+  /* background-color: var(--primary-color) !important; */
+  color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px;
+}
+
+.card .MuiTypography-h6 {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.7;
+  color: var(--primary-color);
+}
+
+.card .MuiTypography-h4 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0.5rem 0;
+  }
+
+  .card {
+    margin-bottom: 0.5rem;
+  }
+
+  .card .MuiTypography-h6 {
+    font-size: 0.9rem;
+  }
+
+  .card .MuiTypography-h4 {
+    font-size: 1.5rem;
+  }
+}

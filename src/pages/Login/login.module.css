@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.formBox {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.error {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.button {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .formBox {
+    padding: 1.5rem;
+  }
+
+  .button {
+    padding: 0.6rem;
+  }
+}
