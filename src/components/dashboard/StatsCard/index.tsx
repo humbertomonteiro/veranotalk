@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Grid } from "@mui/material";
 import { DashboardService } from "../../../services/dashboard";
 import Loading from "../../shared/Loading";
-import styles from "./StatsCard.module.css";
+import styles from "./statsCard.module.css";
 
 function StatsCard() {
   const [stats, setStats] = useState({
