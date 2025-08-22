@@ -11,6 +11,7 @@ import Login from "../pages/Login";
 
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/Dashboard";
+import WebArchive from "../pages/WebArchive";
 
 export default function RoutesApp() {
   return (
@@ -19,6 +20,7 @@ export default function RoutesApp() {
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
       <Route path="/apoiar" element={<Sponsor />} />
+      <Route path="/webarchive" element={<WebArchive />} />
       <Route path="/apoiar-local" element={<BoxesSponsors />} />
       <Route
         path="/apoiar-nacional"
