@@ -156,6 +156,7 @@ function ManualCheckout() {
       const dashboardService = new DashboardService();
       const result = await dashboardService.createManualCheckout(checkoutData);
 
+      console.log(result);
       showSnackbar(
         `Checkout criado com sucesso! ${totalTickets} ingresso(s) - R$ ${totalAmount.toFixed(
           2
