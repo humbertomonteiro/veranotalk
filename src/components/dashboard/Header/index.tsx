@@ -7,105 +7,115 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
   IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
+  Menu,
+  MenuItem,
+  Box,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  Menu as MenuIcon,
+  AccountCircle,
+  ExitToApp,
+  Settings,
+} from "@mui/icons-material";
 import styles from "./header.module.css";
 
-function Header() {
+interface HeaderProps {
+  onMenuToggle: () => void;
+}
+
+function Header({ onMenuToggle }: HeaderProps) {
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUserEmail(user ? user.email : null);
+      setUserName(user ? user.displayName || user.email : null);
     });
     return () => unsubscribe();
   }, []);
 
   const handleLogout = async () => {
     try {
-      const auth = new FirebaseAuth();
-      await auth.logout();
+      const authService = new FirebaseAuth();
+      await authService.logout();
       console.log("Logout bem-sucedido");
       navigate("/login");
     } catch (err) {
       console.error("Erro ao fazer logout:", err);
     }
+    handleCloseMenu();
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const drawerContent = (
-    <List className={styles.drawerList}>
-      <ListItem component="li" onClick={() => navigate("/dashboard")}>
-        <ListItemText primary="Usuários" />
-      </ListItem>
-      <ListItem component="li" onClick={() => navigate("/dashboard")}>
-        <ListItemText primary="Estatísticas" />
-      </ListItem>
-      <ListItem component="li" onClick={handleLogout}>
-        <ListItemText primary="Sair" />
-      </ListItem>
-    </List>
-  );
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar
-      position="static"
+      position="fixed"
       className={styles.appBar}
       sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
         backgroundColor: "var(--primary-color)",
         color: "var(--secondary-color)",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+        padding: "0",
       }}
     >
       <Toolbar>
-        <Typography variant="h6" component="div" className={styles.title}>
-          Verano Talk Admin
-          <Typography variant="body2" className={styles.email}>
-            {userEmail || "N/A"}
-          </Typography>
-        </Typography>
-        <Button
-          color="inherit"
-          onClick={handleLogout}
-          className={styles.logoutButton}
-          sx={{ display: { xs: "none", sm: "block" } }}
-        >
-          Sair
-        </Button>
         <IconButton
           color="inherit"
-          edge="end"
-          onClick={handleDrawerToggle}
-          sx={{ display: { xs: "block", sm: "none" } }}
+          edge="start"
+          onClick={onMenuToggle}
+          className={styles.menuButton}
         >
           <MenuIcon />
         </IconButton>
+
+        <Typography variant="h6" component="div" className={styles.title}>
+          Verano Talk Admin
+        </Typography>
+
+        <Box sx={{ flexGrow: 1 }} />
+
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="body2" className={styles.userInfo}>
+            {userName || userEmail}
+          </Typography>
+          <IconButton
+            color="inherit"
+            onClick={handleProfileMenuOpen}
+            size="large"
+          >
+            <AccountCircle />
+          </IconButton>
+        </Box>
+
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleCloseMenu}
+          keepMounted
+        >
+          <MenuItem onClick={handleCloseMenu}>
+            <AccountCircle sx={{ mr: 1 }} /> Perfil
+          </MenuItem>
+          <MenuItem onClick={handleCloseMenu}>
+            <Settings sx={{ mr: 1 }} /> Configurações
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>
+            <ExitToApp sx={{ mr: 1 }} /> Sair
+          </MenuItem>
+        </Menu>
       </Toolbar>
-      <Drawer
-        anchor="right"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        sx={{
-          display: { xs: "block", sm: "none" },
-          "& .MuiDrawer-paper": {
-            backgroundColor: "var(--secondary-color)",
-            color: "var(--primary-color)",
-          },
-        }}
-      >
-        {drawerContent}
-      </Drawer>
     </AppBar>
   );
 }

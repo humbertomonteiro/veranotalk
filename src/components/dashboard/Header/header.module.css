@@ -1,4 +1,4 @@
-.appBar {
+/* .appBar {
   background-color: var(--primary-color);
   color: var(--secondary-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -60,5 +60,27 @@
 
   .drawerList {
     width: 200px;
+  }
+} */
+.appBar {
+  z-index: 1300;
+}
+
+.menuButton {
+  margin-right: 16px;
+}
+
+.title {
+  flex-grow: 1;
+  font-weight: 600;
+}
+
+.userInfo {
+  margin-right: 12px;
+}
+
+@media (max-width: 600px) {
+  .userInfo {
+    display: none;
   }
 }

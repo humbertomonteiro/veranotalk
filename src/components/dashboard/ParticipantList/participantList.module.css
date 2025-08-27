@@ -1,56 +1,73 @@
-.container {
-  background-color: var(--secondary-color);
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+/* .container {
+  width: 1400px;
+  max-width: 100%;
+  margin: 0 auto;
+} */
 
-.filters {
+.header {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
   flex-wrap: wrap;
+  gap: 16px;
 }
 
-.filterInput {
-  flex: 1;
-  min-width: 150px;
+.title {
+  font-weight: 600;
+  color: #2c3e50;
 }
 
-.card {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.viewControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.showMore {
-  cursor: pointer;
-  text-decoration: underline;
-  margin-top: 0.5rem;
+.cardsContainer {
+  width: 100%;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
 }
 
-.pagination {
-  margin-top: 1rem;
+.paginationContainer {
   display: flex;
   justify-content: center;
+  margin-top: 24px;
+  padding-bottom: 12px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
 }
 
 .noResults {
-  margin: 1rem;
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
 }
 
-@media (max-width: 600px) {
-  .container {
-    padding: 0.5rem;
-  }
-
-  .container table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .filters {
+@media (max-width: 768px) {
+  .header {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filtersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardsContainer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 508px) {
+  .cardsContainer {
+    grid-template-columns: 1fr;
   }
 }

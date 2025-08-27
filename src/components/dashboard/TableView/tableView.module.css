@@ -1,0 +1,19 @@
+.tablePaper {
+  border-radius: 8px;
+  overflow: auto;
+  margin-bottom: 24px;
+}
+
+.tableHeader {
+  background-color: #f8f9fa;
+}
+
+.tableHeader .MuiTableCell-head {
+  font-weight: 600;
+  color: #2c3e50;
+  background-color: #f8f9fa;
+}
+
+.tableRow:hover {
+  background-color: #f8f9fa;
+}

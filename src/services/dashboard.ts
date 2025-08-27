@@ -8,6 +8,8 @@ import {
   Timestamp,
 } from "firebase/firestore";
 
+import { config } from "../config";
+
 export type Participant = {
   id: string;
   checkedIn: boolean;
@@ -33,9 +35,12 @@ export type Checkout = {
   mercadoPagoId?: string;
   mercadoPagoPreferenceId?: string;
   metadata: {
-    eventId?: string;
-    participantIds?: string[];
+    error?: string;
     retryCount?: number;
+    participantIds?: string[];
+    eventId?: string;
+    manualPayment?: boolean;
+    processedBy?: string;
   };
   originalAmount?: number;
   payer: {
@@ -166,6 +171,55 @@ export class DashboardService {
         totalApprovedCheckouts: 0,
         totalParticipantsInApproved: 0,
       };
+    }
+  }
+
+  // Adicione este método ao seu DashboardService
+  async createManualCheckout(checkoutData: {
+    participants: Array<{
+      name: string;
+      email: string;
+      phone: string;
+      document: string;
+      ticketType: "all";
+    }>;
+    checkout: {
+      fullTickets: number;
+      halfTickets: number;
+      paymentMethod: string;
+      installments: number;
+      totalAmount: number;
+      metadata: {
+        eventId: string;
+        manualPayment: boolean;
+        processedBy: string;
+      };
+    };
+  }): Promise<{
+    success: boolean;
+    checkoutId: string;
+    participantIds: string[];
+    status: string;
+    message: string;
+  }> {
+    try {
+      const response = await fetch(`${config.baseUrl}/checkout/manual`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(checkoutData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Erro ao criar checkout manual");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Erro no createManualCheckout:", error);
+      throw error;
     }
   }
 }

@@ -6,7 +6,6 @@ import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
 import woman1 from "../../../assets/speakers/andressa-leao.jpeg";
 import woman2 from "../../../assets/speakers/daniele-xavier.jpeg";
 import woman3 from "../../../assets/speakers/joy-alano.jpeg";
-// import logoVk from "../../../assets/logo/logo-vk.png";
 
 interface HeroProps {
   sponsor?: boolean;

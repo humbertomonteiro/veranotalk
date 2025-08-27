@@ -115,6 +115,10 @@
   background-color: #d4af37;
 }
 
+.button:disabled {
+  opacity: 0.8;
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1);

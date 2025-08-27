@@ -15,9 +15,39 @@
 }
 
 .section h3 strong {
-  /* color: var(--high-color); */
   color: var(--secondary-color);
   text-decoration: underline;
+}
+
+/* Informações de pagamento */
+.paymentInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--secondary-color-rgb), 0.1);
+  border: 1px solid var(--secondary-color);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 0 auto 2rem auto;
+  max-width: 500px;
+  color: #fff;
+}
+
+.paymentIcon {
+  font-size: 1.8rem;
+  margin-right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paymentInfo p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.paymentInfo strong {
+  color: var(--secondary-color);
 }
 
 .container {
@@ -63,11 +93,6 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* .ticket:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-} */
-
 .highlight {
   border: 1px solid var(--secondary-color);
   background: var(--secondary-background);
@@ -104,21 +129,44 @@
 .price {
   margin: 1rem 0;
   line-height: 1;
-}
-
-.installment {
-  font-size: 1rem;
-  opacity: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .value {
   font-size: 3.5rem;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.real {
+  font-size: 1.5rem;
+  vertical-align: super;
 }
 
 .cents {
   font-size: 1.5rem;
   vertical-align: super;
+}
+
+.installmentInfo {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.installmentHighlight {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.installmentRegular {
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 .fullPrice {
@@ -135,20 +183,8 @@
 .benefits li {
   margin-bottom: 1rem;
   position: relative;
-  /* padding-left: 1.5rem; */
   font-size: 0.9rem;
 }
-
-/* .benefits li:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.5rem;
-  width: 0.5rem;
-  height: 0.5rem;
-  background: var(--secondary-color);
-  border-radius: 50%;
-} */
 
 /* Responsivo */
 @media (max-width: 768px) {
@@ -164,5 +200,16 @@
 
   .section h3 {
     font-size: 1.3rem;
+  }
+
+  .paymentInfo {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .paymentIcon {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
   }
 }

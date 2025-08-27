@@ -1,0 +1,35 @@
+.container {
+  background-color: var(--secondary-color);
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainContainer {
+  display: flex;
+  flex: 1;
+  margin-top: 64px; /* Altura do header */
+}
+
+.mainContent {
+  flex: 1;
+  padding: 24px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebarOpen {
+  margin-left: 240px;
+}
+
+.sidebarClosed {
+  margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    margin-left: 0 !important;
+    padding: 16px;
+  }
+}

@@ -7,13 +7,14 @@ import { Checkout } from "../../../domain/entities";
 import { config } from "../../../config";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
 interface SummaryCardProps {
   totalTickets: number;
   halfTickets: number;
   fullTickets: number;
   totalAmount: number;
-  originalAmount: number;
+  basePrice: number;
   discount: number | null;
   discountedAmount: number | null;
   couponCode: string;
@@ -41,7 +42,7 @@ export default function SummaryCard({
   fullTickets,
   halfTickets,
   totalAmount,
-  // originalAmount,
+  basePrice,
   discount,
   discountedAmount,
   couponCode,
@@ -49,6 +50,8 @@ export default function SummaryCard({
 }: SummaryCardProps) {
   const { setCheckout } = useCheckout();
   const [loading, setLoading] = useState(false);
+
+  const { id } = useParams<{ id: string }>();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -69,9 +72,10 @@ export default function SummaryCard({
       checkout: {
         fullTickets,
         halfTickets,
-        couponCode: couponCode || undefined, // Inclui couponCode, se presente
+        couponCode: couponCode || undefined,
         metadata: {
           eventId: "verano-talk-2025",
+          ticketType: id,
         },
       },
     };
@@ -116,7 +120,9 @@ export default function SummaryCard({
         <>
           <div className={styles.summaryItem}>
             <span>Ingressos Inteiros</span>
-            <span>{fullTickets} x R$ 499,00</span>
+            <span>
+              {fullTickets} x R$ {basePrice}
+            </span>
           </div>
 
           {halfTickets > 0 && (
@@ -130,7 +136,7 @@ export default function SummaryCard({
             <>
               <div className={styles.summaryItem}>
                 <span>Cupom ({couponCode})</span>
-                <span>- R$ {discount.toFixed(2)}</span>
+                <span>- R$ {(discount * fullTickets).toFixed(2)}</span>
               </div>
             </>
           )}

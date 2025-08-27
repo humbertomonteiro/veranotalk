@@ -1,42 +1,121 @@
 .container {
-  padding: 1rem 0;
-  margin-bottom: 1rem;
+  padding: 16px 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lastUpdated {
+  color: #6c757d;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
 }
 
 .card {
-  /* background-color: var(--primary-color) !important; */
-  color: var(--primary-color);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-  border-radius: 8px;
+  border-radius: 12px;
+  height: 100%;
 }
 
-.card .MuiTypography-h6 {
-  font-size: 1rem;
-  font-weight: 500;
-  opacity: 0.7;
-  color: var(--primary-color);
+.cardContent {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  height: 100%;
 }
 
-.card .MuiTypography-h4 {
-  font-size: 1.8rem;
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.textContainer {
+  flex: 1;
+}
+
+.value {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.card .title {
   font-weight: 600;
-  color: var(--primary-color);
+  margin-bottom: 4px;
+  color: #2c3e50;
 }
 
-@media (max-width: 600px) {
-  .container {
-    padding: 0.5rem 0;
+.description {
+  color: #6c757d;
+}
+
+.trendCard {
+  border-radius: 12px;
+  height: 100%;
+}
+
+.trendContent {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.trendHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.trendValue {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1976d2;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .card {
-    margin-bottom: 0.5rem;
+  .gridContainer {
+    display: flex;
+    flex-direction: column;
   }
 
-  .card .MuiTypography-h6 {
-    font-size: 0.9rem;
+  .cardContent {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px;
   }
 
-  .card .MuiTypography-h4 {
-    font-size: 1.5rem;
+  .iconContainer {
+    margin-right: 0;
+    margin-bottom: 16px;
   }
 }

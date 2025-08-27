@@ -17,8 +17,21 @@ export interface Participant {
 }
 
 export default function Checkout() {
-  const { id } = useParams<{ id: string }>(); // Captura o parâmetro 'id' da URL
-  const [fullTickets, setFullTickets] = useState(1);
+  const { id } = useParams<{ id: string }>();
+  const isGroupTicket = id === "2";
+  const minTickets = isGroupTicket ? 5 : 1;
+  const basePrice =
+    id === "1" ? 499 : id === "2" ? 399 : id === "3" ? 799 : 499;
+  const ticketLabel =
+    id === "1"
+      ? "1º Lote - Ingresso(s)"
+      : id === "2"
+      ? "2º Lote - Grupo (mínimo 5 ingressos)"
+      : id === "3"
+      ? "3º Lote - Ingresso(s)"
+      : "1º Lote - Ingresso(s)";
+
+  const [fullTickets, setFullTickets] = useState(minTickets);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [currentParticipant, setCurrentParticipant] = useState<Participant>({
     name: "",
@@ -28,28 +41,28 @@ export default function Checkout() {
     ticketType: "all",
   });
   const [couponCode, setCouponCode] = useState("");
-  const [originalAmount, setOriginalAmount] = useState(fullTickets * 499);
+  const [originalAmount, setOriginalAmount] = useState(minTickets * basePrice);
   const [discountedAmount, setDiscountedAmount] = useState<number | null>(null);
   const [discount, setDiscount] = useState<number | null>(null);
   const [couponError, setCouponError] = useState<string | null>(null);
 
   const totalTickets = fullTickets;
   const totalAmount =
-    discountedAmount !== null ? discountedAmount : fullTickets * 499;
+    discountedAmount !== null ? discountedAmount : fullTickets * basePrice;
 
   // Aplica cupom automaticamente baseado no parâmetro da URL
   useEffect(() => {
-    if (id && id !== "1") {
+    if (id && id !== "1" && id !== "2" && id !== "3") {
       setCouponCode(id.toLowerCase());
       handleApplyCoupon(id.toLowerCase());
     }
   }, [id]);
 
   const handleTicketChange = (type: "full", value: number) => {
-    const newValue = Math.max(0, Math.min(50, value));
+    const newValue = Math.max(minTickets, Math.min(50, value));
     const fullParticipants = participants.length;
     setFullTickets(Math.max(fullParticipants, newValue));
-    const newOriginalAmount = newValue * 499;
+    const newOriginalAmount = newValue * basePrice;
     setOriginalAmount(newOriginalAmount);
     setDiscountedAmount(null);
     setDiscount(null);
@@ -70,7 +83,7 @@ export default function Checkout() {
     type: "full",
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = parseInt(e.target.value) || 0;
+    const value = parseInt(e.target.value) || minTickets;
     handleTicketChange(type, value);
   };
 
@@ -102,10 +115,14 @@ export default function Checkout() {
   const handleRemoveParticipant = (index: number) => {
     const newParticipants = [...participants];
     newParticipants.splice(index, 1);
-    setParticipants(newParticipants);
     const newFullTickets = newParticipants.length;
+    if (isGroupTicket && newFullTickets < minTickets) {
+      toast.error("Não é possível remover. Mínimo de 5 ingressos para grupo.");
+      return;
+    }
+    setParticipants(newParticipants);
     setFullTickets(newFullTickets);
-    const newOriginalAmount = newFullTickets * 499;
+    const newOriginalAmount = newFullTickets * basePrice;
     setOriginalAmount(newOriginalAmount);
     setDiscountedAmount(null);
     setDiscount(null);
@@ -151,7 +168,7 @@ export default function Checkout() {
       setDiscountedAmount(data.discountedAmount);
       setDiscount(data.discount);
       setCouponError(null);
-      if (id !== "1") {
+      if (id !== "1" && id !== "2" && id !== "3") {
         console.log(`Cupom ${code} aplicado com sucesso`);
       } else {
         toast.success(`Cupom ${code} aplicado com sucesso`);
@@ -163,6 +180,44 @@ export default function Checkout() {
       setDiscount(null);
     }
   };
+
+  // const handleCheckout = async () => {
+  //   if (participants.length !== totalTickets) {
+  //     toast.error(
+  //       "Por favor, preencha as informações de todos os participantes."
+  //     );
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch(`${config.baseUrl}/checkout`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         participants: participants,
+  //         checkout: {
+  //           fullTickets: totalTickets,
+  //           halfTickets: 0,
+  //           couponCode: couponCode || null,
+  //           metadata: { eventId: "verano-talk", ticketType: id },
+  //         },
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       toast.error(errorData.error || "Erro ao processar checkout");
+  //       return;
+  //     }
+
+  //     const { paymentUrl } = await response.json();
+  //     window.location.href = paymentUrl; // Redirect to Mercado Pago
+  //   } catch (error) {
+  //     toast.error("Erro ao conectar com o servidor");
+  //   }
+  // };
 
   return (
     <main className={styles.main}>
@@ -182,18 +237,22 @@ export default function Checkout() {
                 <div className={styles.ticketSelectionType}>
                   <div className={styles.ticketType}>
                     <label>
-                      <span>1º Lote - Ingresso(s)</span>
+                      <span>{ticketLabel}</span>
                       <div className={styles.quantityControls}>
                         <button
                           onClick={() => handleDecrement("full")}
-                          disabled={fullTickets <= participants.length}
+                          disabled={
+                            isGroupTicket
+                              ? fullTickets <= minTickets
+                              : fullTickets <= participants.length
+                          }
                           className={styles.quantityButton}
                         >
                           -
                         </button>
                         <input
                           type="number"
-                          min={participants.length}
+                          min={isGroupTicket ? minTickets : participants.length}
                           max="50"
                           value={fullTickets}
                           onChange={(e) => handleInputChange("full", e)}
@@ -297,7 +356,7 @@ export default function Checkout() {
                 halfTickets={0}
                 totalTickets={totalTickets}
                 totalAmount={totalAmount}
-                originalAmount={originalAmount}
+                basePrice={basePrice}
                 discount={discount}
                 discountedAmount={discountedAmount}
                 couponCode={couponCode}

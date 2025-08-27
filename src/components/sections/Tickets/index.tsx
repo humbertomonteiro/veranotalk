@@ -3,6 +3,8 @@ import MainButton from "../../shared/MainButton";
 import Title from "../../shared/Title";
 import styles from "./tickets.module.css";
 
+import { FaCreditCard } from "react-icons/fa";
+
 export default function Tickets() {
   return (
     <section id="tickets" className={styles.section}>
@@ -11,46 +13,37 @@ export default function Tickets() {
       <h3>
         Garanta seu PASSAPORTE agora com o <strong>menor valor</strong>
       </h3>
-      <div className={styles.container}>
-        {/* Ticket 1 - Pré-venda */}
-        {/* <div className={`${styles.ticket} ${styles.highlight}`}>
-          <div className={styles.ribbon}>MENOR PREÇO</div>
-          <div className={styles.ticketHeader}>
-            <span className={styles.lote}>PRÉ-VENDA</span>
-            <div className={styles.price}>
-              <span className={styles.installment}>10x de R$</span>
-              <span className={styles.value}>49</span>
-              <span className={styles.cents}>,90</span>
-            </div>
-            <span className={styles.fullPrice}>ou R$ 499,00 à vista</span>
-          </div>
-          <ul className={styles.benefits}>
-            <li>✓ Menor preço</li>
-            <li>✓ Acesso a todas as palestras</li>
-            <li>✓ Material exclusivo em PDF</li>
-            <li>✓ Certificado digital</li>
-          </ul>
-          <MainButton
-            data={{
-              type: "link",
-              link: "/checkout/1",
-              text: "COMPRAR AGORA",
-              color: "gold",
-            }}
-          />
-        </div> */}
 
+      {/* Informação de parcelamento destacada */}
+      <div className={styles.paymentInfo}>
+        <div className={styles.paymentIcon}>
+          <FaCreditCard />
+        </div>
+        <p>
+          Parcelamos em até <strong>12x</strong> no cartão |{" "}
+          <strong>6x sem juros</strong>
+        </p>
+      </div>
+
+      <div className={styles.container}>
         {/* Ticket 1 - Primeiro Lote */}
-        <div className={`${styles.ticket} ${styles.highlight} `}>
-          {/* <div className={styles.ribbon}>MENOR PREÇO</div> */}
+        <div className={`${styles.ticket} ${styles.highlight}`}>
+          <div className={styles.ribbon}>MENOR PREÇO</div>
           <div className={styles.ticketHeader}>
             <span className={styles.lote}>PRIMEIRO LOTE</span>
             <div className={styles.price}>
-              <span className={styles.installment}>12x de R$</span>
-              <span className={styles.value}>50</span>
-              <span className={styles.cents}>,78</span>
+              <span className={styles.installmentRegular}>12x de </span>
+              <span className={styles.value}>
+                <div className={styles.real}>R$</div> 48
+                <span className={styles.cents}>,70</span>
+              </span>
             </div>
-            <span className={styles.fullPrice}>ou R$ 499,00 à vista</span>
+            <div className={styles.installmentInfo}>
+              <span className={styles.installmentHighlight}>
+                Ou 6x sem juros de R$ 83,16
+              </span>
+            </div>
+            <span className={styles.fullPrice}>À vista: R$ 499,00</span>
           </div>
           <ul className={styles.benefits}>
             <li>✓ Menor preço</li>
@@ -68,18 +61,29 @@ export default function Tickets() {
           />
         </div>
 
-        {/* Ticket 2 - Segundo Lote */}
-        <div className={styles.ticket}>
+        {/* Ticket 2 - Grupo */}
+        <div className={`${styles.ticket} ${styles.highlight}`}>
+          <div className={styles.ribbon}>GRUPO (MÍNIMO 5)</div>
           <div className={styles.ticketHeader}>
-            <span className={styles.lote}>SEGUNDO LOTE</span>
+            <span className={styles.lote}>PRIMEIRO LOTE - GRUPO</span>
             <div className={styles.price}>
-              <span className={styles.installment}>12x de R$</span>
-              <span className={styles.value}>60</span>
-              <span className={styles.cents}>,95</span>
+              <span className={styles.installmentRegular}>12x de </span>
+
+              <span className={styles.value}>
+                <span className={styles.cents}>R$</span> 38
+                <span className={styles.cents}>,94</span>
+              </span>
+              <span className={styles.installmentRegular}>(cada)</span>
             </div>
-            <span className={styles.fullPrice}>ou R$ 599,00 à vista</span>
+            <div className={styles.installmentInfo}>
+              <span className={styles.installmentHighlight}>
+                Ou 6x sem juros de R$ 66,50
+              </span>
+            </div>
+            <span className={styles.fullPrice}>À vista: R$ 399,00 (cada)</span>
           </div>
           <ul className={styles.benefits}>
+            <li>✓ Desconto especial para grupos (mínimo 5 ingressos)</li>
             <li>✓ Acesso a todas as palestras</li>
             <li>✓ Material exclusivo em PDF</li>
             <li>✓ Certificado digital</li>
@@ -89,21 +93,28 @@ export default function Tickets() {
               type: "link",
               link: "/checkout/2",
               text: "COMPRAR AGORA",
-              color: "white",
+              color: "gold",
             }}
           />
         </div>
 
-        {/* Ticket 3 - Terceiro Lote */}
+        {/* Ticket 3 - Segundo Lote */}
         <div className={styles.ticket}>
           <div className={styles.ticketHeader}>
-            <span className={styles.lote}>TERCEIRO LOTE</span>
+            <span className={styles.lote}>SEGUNDO LOTE</span>
             <div className={styles.price}>
-              <span className={styles.installment}>12x de R$</span>
-              <span className={styles.value}>81</span>
-              <span className={styles.cents}>,30</span>
+              <span className={styles.installmentRegular}>12x de </span>
+              <span className={styles.value}>
+                <span className={styles.cents}>R$</span> 58
+                <span className={styles.cents}>,46</span>
+              </span>
             </div>
-            <span className={styles.fullPrice}>ou R$ 799,00 à vista</span>
+            <div className={styles.installmentInfo}>
+              <span className={styles.installmentHighlight}>
+                Ou 6x sem juros de R$ 99,83
+              </span>
+            </div>
+            <span className={styles.fullPrice}>À vista: R$ 599,00</span>
           </div>
           <ul className={styles.benefits}>
             <li>✓ Acesso a todas as palestras</li>
@@ -113,9 +124,10 @@ export default function Tickets() {
           <MainButton
             data={{
               type: "link",
-              link: "/checkout/3",
-              text: "COMPRAR AGORA",
+              // link: "/checkout/2",
+              text: "SEGUNDO LOTE EM BREVE",
               color: "white",
+              disabled: true,
             }}
           />
         </div>
