@@ -20,8 +20,17 @@ export default function Checkout() {
   const { id } = useParams<{ id: string }>();
   const isGroupTicket = id === "2";
   const minTickets = isGroupTicket ? 5 : 1;
-  const basePrice =
-    id === "1" ? 499 : id === "2" ? 399 : id === "3" ? 799 : 499;
+  const getBasePrice = (tickets: number) =>
+    tickets >= 5
+      ? 399
+      : id === "1"
+      ? 499
+      : id === "2"
+      ? 399
+      : id === "3"
+      ? 799
+      : 499;
+  const [basePrice, setBasePrice] = useState(getBasePrice(minTickets));
   const ticketLabel =
     id === "1"
       ? "1º Lote - Ingresso(s)"
@@ -47,28 +56,61 @@ export default function Checkout() {
   const [couponError, setCouponError] = useState<string | null>(null);
 
   const totalTickets = fullTickets;
+  const disableCoupons = fullTickets >= 5;
   const totalAmount =
-    discountedAmount !== null ? discountedAmount : fullTickets * basePrice;
+    disableCoupons || discountedAmount === null
+      ? fullTickets * basePrice
+      : discountedAmount;
+
+  // Sincroniza estado do cupom quando disableCoupons mudar
+  useEffect(() => {
+    if (disableCoupons) {
+      setCouponCode("");
+      setDiscountedAmount(null);
+      setDiscount(null);
+      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
+      setOriginalAmount(fullTickets * basePrice);
+    }
+  }, [disableCoupons, fullTickets, basePrice]);
 
   // Aplica cupom automaticamente baseado no parâmetro da URL
   useEffect(() => {
-    if (id && id !== "1" && id !== "2" && id !== "3") {
+    if (id && id !== "1" && id !== "2" && id !== "3" && !disableCoupons) {
       setCouponCode(id.toLowerCase());
       handleApplyCoupon(id.toLowerCase());
+    } else if (disableCoupons) {
+      setCouponCode("");
+      setDiscountedAmount(null);
+      setDiscount(null);
+      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
     }
-  }, [id]);
+  }, [id, disableCoupons, fullTickets]);
 
-  const handleTicketChange = (type: "full", value: number) => {
+  const handleTicketChange = async (type: "full", value: number) => {
     const newValue = Math.max(minTickets, Math.min(50, value));
     const fullParticipants = participants.length;
-    setFullTickets(Math.max(fullParticipants, newValue));
-    const newOriginalAmount = newValue * basePrice;
-    setOriginalAmount(newOriginalAmount);
-    setDiscountedAmount(null);
-    setDiscount(null);
-    setCouponCode("");
-    setCouponError(null);
+    const newFullTickets = Math.max(fullParticipants, newValue);
+    const newBasePrice = getBasePrice(newFullTickets);
+
     console.log(type);
+
+    setFullTickets(newFullTickets);
+    setBasePrice(newBasePrice);
+    const newOriginalAmount = newFullTickets * newBasePrice;
+    setOriginalAmount(newOriginalAmount);
+
+    if (newFullTickets >= 5) {
+      setDiscountedAmount(null);
+      setDiscount(null);
+      setCouponCode("");
+      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
+    } else if (couponCode) {
+      await handleApplyCoupon(couponCode);
+    } else {
+      setDiscountedAmount(null);
+      setDiscount(null);
+      setCouponError(null);
+    }
   };
 
   const handleIncrement = (type: "full") => {
@@ -76,6 +118,14 @@ export default function Checkout() {
   };
 
   const handleDecrement = (type: "full") => {
+    if (fullTickets <= minTickets) {
+      toast.error(
+        `Mínimo de ${minTickets} ingresso${
+          minTickets > 1 ? "s" : ""
+        } para este lote`
+      );
+      return;
+    }
     handleTicketChange(type, fullTickets - 1);
   };
 
@@ -83,7 +133,15 @@ export default function Checkout() {
     type: "full",
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = parseInt(e.target.value) || minTickets;
+    const value = parseInt(e.target.value);
+    if (isNaN(value) || value < minTickets) {
+      toast.error(
+        `Mínimo de ${minTickets} ingresso${
+          minTickets > 1 ? "s" : ""
+        } para este lote`
+      );
+      return;
+    }
     handleTicketChange(type, value);
   };
 
@@ -109,33 +167,65 @@ export default function Checkout() {
         document: "",
         ticketType: "all",
       });
+    } else {
+      toast.error("Preencha todas as informações do participante");
     }
   };
 
   const handleRemoveParticipant = (index: number) => {
     const newParticipants = [...participants];
     newParticipants.splice(index, 1);
-    const newFullTickets = newParticipants.length;
+    const newFullTickets = Math.max(minTickets, newParticipants.length);
     if (isGroupTicket && newFullTickets < minTickets) {
       toast.error("Não é possível remover. Mínimo de 5 ingressos para grupo.");
       return;
     }
     setParticipants(newParticipants);
     setFullTickets(newFullTickets);
-    const newOriginalAmount = newFullTickets * basePrice;
+    const newBasePrice = getBasePrice(newFullTickets);
+    setBasePrice(newBasePrice);
+    const newOriginalAmount = newFullTickets * newBasePrice;
     setOriginalAmount(newOriginalAmount);
-    setDiscountedAmount(null);
-    setDiscount(null);
-    setCouponCode("");
-    setCouponError(null);
+    if (newFullTickets >= 5) {
+      setDiscountedAmount(null);
+      setDiscount(null);
+      setCouponCode("");
+      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
+    } else if (couponCode) {
+      handleApplyCoupon(couponCode);
+    } else {
+      setDiscountedAmount(null);
+      setDiscount(null);
+      setCouponError(null);
+    }
   };
 
   const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disableCoupons) {
+      toast.error("Cupons não são permitidos para 5 ou mais ingressos");
+      return;
+    }
     setCouponCode(e.target.value);
     setCouponError(null);
   };
 
+  const handleClearCoupon = () => {
+    setCouponCode("");
+    setDiscountedAmount(null);
+    setDiscount(null);
+    setCouponError(null);
+  };
+
   const handleApplyCoupon = async (code: string = couponCode) => {
+    if (disableCoupons) {
+      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
+      toast.error("Cupons não são permitidos para 5 ou mais ingressos");
+      setDiscountedAmount(null);
+      setDiscount(null);
+      setCouponCode("");
+      return;
+    }
+
     if (!code) {
       setCouponError("Por favor, insira um código de cupom");
       toast.error("Por favor, insira um código de cupom");
@@ -150,8 +240,9 @@ export default function Checkout() {
         },
         body: JSON.stringify({
           code,
-          eventId: "verano-talk",
+          eventId: "verano-talk-2025",
           totalAmount: originalAmount,
+          fullTickets,
         }),
       });
 
@@ -180,44 +271,6 @@ export default function Checkout() {
       setDiscount(null);
     }
   };
-
-  // const handleCheckout = async () => {
-  //   if (participants.length !== totalTickets) {
-  //     toast.error(
-  //       "Por favor, preencha as informações de todos os participantes."
-  //     );
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await fetch(`${config.baseUrl}/checkout`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         participants: participants,
-  //         checkout: {
-  //           fullTickets: totalTickets,
-  //           halfTickets: 0,
-  //           couponCode: couponCode || null,
-  //           metadata: { eventId: "verano-talk", ticketType: id },
-  //         },
-  //       }),
-  //     });
-
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       toast.error(errorData.error || "Erro ao processar checkout");
-  //       return;
-  //     }
-
-  //     const { paymentUrl } = await response.json();
-  //     window.location.href = paymentUrl; // Redirect to Mercado Pago
-  //   } catch (error) {
-  //     toast.error("Erro ao conectar com o servidor");
-  //   }
-  // };
 
   return (
     <main className={styles.main}>
@@ -269,35 +322,49 @@ export default function Checkout() {
                     </label>
                   </div>
                   <div className={styles.ticketType}>
-                    <label>
-                      <span>Cupom de Desconto</span>
-                      <div className={styles.couponControls}>
-                        <input
-                          type="text"
-                          value={couponCode}
-                          onChange={handleCouponChange}
-                          placeholder="Insira o código do cupom"
-                          className={styles.couponInput}
-                        />
-                        <button
-                          onClick={() => handleApplyCoupon()}
-                          className={styles.couponButton}
-                        >
-                          Aplicar
-                        </button>
-                      </div>
-                      {couponError && (
-                        <span className={styles.couponError}>
-                          {couponError}
-                        </span>
-                      )}
-                    </label>
+                    {!disableCoupons && (
+                      <label>
+                        <span>Cupom de Desconto</span>
+                        <div className={styles.couponControls}>
+                          <input
+                            type="text"
+                            value={couponCode}
+                            onChange={handleCouponChange}
+                            placeholder="Insira o código do cupom"
+                            className={styles.couponInput}
+                            disabled={disableCoupons}
+                          />
+                          <button
+                            onClick={() => handleApplyCoupon()}
+                            className={styles.couponButton}
+                            disabled={disableCoupons}
+                          >
+                            Aplicar
+                          </button>
+                          {couponCode && (
+                            <button
+                              onClick={handleClearCoupon}
+                              className={styles.couponButton}
+                            >
+                              Limpar
+                            </button>
+                          )}
+                        </div>
+                        {couponError && (
+                          <span className={styles.couponError}>
+                            {couponError}
+                          </span>
+                        )}
+                      </label>
+                    )}
                   </div>
                 </div>
 
                 {totalTickets > 0 && (
                   <div className={styles.total}>
-                    {discount !== null && discountedAmount !== null ? (
+                    {discount !== null &&
+                    discountedAmount !== null &&
+                    !disableCoupons ? (
                       <>
                         <div>
                           <span>Subtotal:</span>

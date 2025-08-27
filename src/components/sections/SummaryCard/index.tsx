@@ -50,8 +50,8 @@ export default function SummaryCard({
 }: SummaryCardProps) {
   const { setCheckout } = useCheckout();
   const [loading, setLoading] = useState(false);
-
   const { id } = useParams<{ id: string }>();
+  const disableCoupons = fullTickets >= 5;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ export default function SummaryCard({
       return;
     }
 
-    if (loading) return; // Evita múltiplos cliques enquanto está carregando
+    if (loading) return;
 
     const checkoutData = {
       participants: participants.map((p) => ({
@@ -72,7 +72,7 @@ export default function SummaryCard({
       checkout: {
         fullTickets,
         halfTickets,
-        couponCode: couponCode || undefined,
+        couponCode: disableCoupons ? null : couponCode || undefined,
         metadata: {
           eventId: "verano-talk-2025",
           ticketType: id,
@@ -91,21 +91,24 @@ export default function SummaryCard({
       });
 
       if (!response.ok) {
-        throw new Error("Erro ao processar checkout");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Erro ao processar checkout");
       }
 
       const data: ResponseOutput = await response.json();
 
       setCheckout(data.dataCheckout);
       localStorage.setItem("checkoutId-verano-talk", data.checkoutId);
-      toast.dismiss(); // Fecha o toast de "Processando..."
+      toast.dismiss();
       toast.success("Redirecionando para o Mercado Pago...");
       window.location.href = data.paymentUrl;
     } catch (error) {
       console.error("Erro no checkout:", error);
       toast.dismiss();
       toast.error(
-        "Ocorreu um erro ao processar seu pagamento. Tente novamente."
+        error instanceof Error
+          ? error.message
+          : "Ocorreu um erro ao processar seu pagamento. Tente novamente."
       );
     } finally {
       setLoading(false);
@@ -121,7 +124,7 @@ export default function SummaryCard({
           <div className={styles.summaryItem}>
             <span>Ingressos Inteiros</span>
             <span>
-              {fullTickets} x R$ {basePrice}
+              {fullTickets} x R$ {basePrice.toFixed(2)}
             </span>
           </div>
 
@@ -132,14 +135,17 @@ export default function SummaryCard({
             </div>
           )}
 
-          {couponCode && discount !== null && discountedAmount !== null && (
-            <>
-              <div className={styles.summaryItem}>
-                <span>Cupom ({couponCode})</span>
-                <span>- R$ {(discount * fullTickets).toFixed(2)}</span>
-              </div>
-            </>
-          )}
+          {couponCode &&
+            discount !== null &&
+            discountedAmount !== null &&
+            !disableCoupons && (
+              <>
+                <div className={styles.summaryItem}>
+                  <span>Cupom ({couponCode})</span>
+                  <span>- R$ {discount.toFixed(2)}</span>
+                </div>
+              </>
+            )}
 
           <div className={styles.divider}></div>
 
