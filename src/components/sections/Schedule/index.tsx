@@ -42,14 +42,15 @@ export default function Schedule({ id }: ScheduleProps) {
     },
     {
       time: "10:30 - 11:30",
-      title: "Empreendedorismo Real",
-      theme: "Da ideia ao Impacto",
+      title: "Roda de Conversa",
+      theme:
+        "A Independência financeira e realização pessoal como Pilares  do protagonismo feminino.",
       type: "roundtable",
     },
     {
       time: "11:30 - 12:30",
-      title: "Empreendedorismo Real",
-      theme: "Histórias que movem negócios",
+      title: "Roda de Conversa",
+      theme: "Desafios e Histórias que movem negócios",
       type: "roundtable",
     },
     {
