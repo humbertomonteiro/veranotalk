@@ -308,19 +308,26 @@ export default function Checkout() {
                   <div className={styles.total}>
                     <div>
                       <span>Subtotal:</span>
-                      <span>R$ {subtotal.toFixed(2)}</span>
+                      <span>
+                        R$ {subtotal ? subtotal.toFixed(2) : subtotal}
+                      </span>
                     </div>
 
                     {discountAmount > 0 && (
                       <div>
                         <span>Desconto:</span>
-                        <span>- R$ {discountAmount.toFixed(2)}</span>
+                        <span>
+                          - R${" "}
+                          {discountAmount
+                            ? discountAmount.toFixed(2)
+                            : discountAmount}
+                        </span>
                       </div>
                     )}
 
                     <div className={styles.totalAmount}>
                       <span>Total:</span>
-                      <span>R$ {total.toFixed(2)}</span>
+                      <span>R$ {total ? total.toFixed(2) : total}</span>
                     </div>
                   </div>
                 )}
