@@ -74,6 +74,11 @@ export default function Checkout() {
   const disableCoupons = !couponsAllowed;
 
   const totalTickets = fullTickets;
+  // const disableCoupons = fullTickets >= 5;
+  const totalAmount =
+    disableCoupons || discountedAmount === null
+      ? fullTickets * basePrice
+      : discountedAmount;
 
   // Sincroniza estado do cupom quando disableCoupons mudar
   useEffect(() => {
@@ -308,26 +313,19 @@ export default function Checkout() {
                   <div className={styles.total}>
                     <div>
                       <span>Subtotal:</span>
-                      <span>
-                        R$ {subtotal ? subtotal.toFixed(2) : subtotal}
-                      </span>
+                      <span>R$ {(subtotal || 0).toFixed(2)}</span>
                     </div>
 
                     {discountAmount > 0 && (
                       <div>
                         <span>Desconto:</span>
-                        <span>
-                          - R${" "}
-                          {discountAmount
-                            ? discountAmount.toFixed(2)
-                            : discountAmount}
-                        </span>
+                        <span>- R$ {(discountAmount || 0).toFixed(2)}</span>
                       </div>
                     )}
 
                     <div className={styles.totalAmount}>
                       <span>Total:</span>
-                      <span>R$ {total ? total.toFixed(2) : total}</span>
+                      <span>R$ {(total || 0).toFixed(2)}</span>
                     </div>
                   </div>
                 )}
@@ -366,9 +364,9 @@ export default function Checkout() {
                 fullTickets={fullTickets}
                 halfTickets={0}
                 totalTickets={totalTickets}
-                totalAmount={total}
+                totalAmount={total || 0}
                 basePrice={basePrice}
-                discount={discountAmount}
+                discount={discountAmount || 0}
                 discountedAmount={discountedAmount}
                 couponCode={couponCode}
                 participants={participants}
