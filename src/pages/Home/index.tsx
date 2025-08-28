@@ -8,6 +8,7 @@ import Footer from "../../components/template/Footer";
 import Questions from "../../components/sections/Questions";
 import Highlights from "../../components/sections/Highlights";
 import VideosSpeakers from "../../components/sections/VideosSpeakers";
+import Schedule from "../../components/sections/Schedule";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <About />
       <Tickets />
       <Speakers />
+      <Schedule />
       <VideosSpeakers />
       <Location />
       <Questions />
