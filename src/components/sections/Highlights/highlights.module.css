@@ -11,13 +11,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #000000a8, #00000093),
+  background: linear-gradient(to right, #00000077, #0000006b),
     url("../../../assets/bg/triangolo-effect.png") center/cover no-repeat;
   opacity: 0.9;
   z-index: -1;
 
   /* Efeito parallax */
-  background-attachment: fixed;
+  /* background-attachment: fixed; */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -26,6 +26,7 @@
 
 .container {
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .header {
