@@ -135,17 +135,14 @@ export default function SummaryCard({
             </div>
           )}
 
-          {couponCode &&
-            discount !== null &&
-            discountedAmount !== null &&
-            !disableCoupons && (
-              <>
-                <div className={styles.summaryItem}>
-                  <span>Cupom ({couponCode})</span>
-                  <span>- R$ {discount.toFixed(2)}</span>
-                </div>
-              </>
-            )}
+          {couponCode && discount && !disableCoupons && (
+            <>
+              <div className={styles.summaryItem}>
+                <span>Cupom ({couponCode})</span>
+                <span>- R$ {discount.toFixed(2)}</span>
+              </div>
+            </>
+          )}
 
           <div className={styles.divider}></div>
 

@@ -50,26 +50,37 @@ export default function Checkout() {
     ticketType: "all",
   });
   const [couponCode, setCouponCode] = useState("");
-  const [originalAmount, setOriginalAmount] = useState(minTickets * basePrice);
   const [discountedAmount, setDiscountedAmount] = useState<number | null>(null);
-  const [discount, setDiscount] = useState<number | null>(null);
-  const [couponError, setCouponError] = useState<string | null>(null);
+  const [coupon, setCoupon] = useState({});
+  const [discountTypeCoupon, setDiscountTypeCoupon] = useState<
+    "fixed" | "percentage"
+  >("fixed");
+  const [discountValueCoupon, setDiscountValueCoupon] = useState(0);
+
+  const unitPrice = getBasePrice(fullTickets);
+  const subtotal = unitPrice * fullTickets;
+
+  const couponsAllowed = fullTickets < 5; // mesmos critérios do disableCoupons
+  const hasCoupon = couponsAllowed && Object.keys(coupon).length > 0;
+
+  const discountAmount = hasCoupon
+    ? discountTypeCoupon === "fixed"
+      ? discountValueCoupon * fullTickets // fixo por ingresso
+      : subtotal * (discountValueCoupon / 100) // percentual sobre o subtotal
+    : 0;
+
+  const total = Math.max(0, subtotal - discountAmount);
+
+  const disableCoupons = !couponsAllowed;
 
   const totalTickets = fullTickets;
-  const disableCoupons = fullTickets >= 5;
-  const totalAmount =
-    disableCoupons || discountedAmount === null
-      ? fullTickets * basePrice
-      : discountedAmount;
 
   // Sincroniza estado do cupom quando disableCoupons mudar
   useEffect(() => {
     if (disableCoupons) {
       setCouponCode("");
       setDiscountedAmount(null);
-      setDiscount(null);
-      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
-      setOriginalAmount(fullTickets * basePrice);
+      // setDiscount(null);
     }
   }, [disableCoupons, fullTickets, basePrice]);
 
@@ -77,47 +88,17 @@ export default function Checkout() {
   useEffect(() => {
     if (id && id !== "1" && id !== "2" && id !== "3" && !disableCoupons) {
       setCouponCode(id.toLowerCase());
-      handleApplyCoupon(id.toLowerCase());
-    } else if (disableCoupons) {
-      setCouponCode("");
-      setDiscountedAmount(null);
-      setDiscount(null);
-      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
+      handleApplyCoupon(id.toLowerCase(), true);
     }
   }, [id, disableCoupons, fullTickets]);
 
-  const handleTicketChange = async (type: "full", value: number) => {
-    const newValue = Math.max(minTickets, Math.min(50, value));
-    const fullParticipants = participants.length;
-    const newFullTickets = Math.max(fullParticipants, newValue);
-    const newBasePrice = getBasePrice(newFullTickets);
-
-    console.log(type);
-
-    setFullTickets(newFullTickets);
-    setBasePrice(newBasePrice);
-    const newOriginalAmount = newFullTickets * newBasePrice;
-    setOriginalAmount(newOriginalAmount);
-
-    if (newFullTickets >= 5) {
-      setDiscountedAmount(null);
-      setDiscount(null);
-      setCouponCode("");
-      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
-    } else if (couponCode) {
-      await handleApplyCoupon(couponCode);
-    } else {
-      setDiscountedAmount(null);
-      setDiscount(null);
-      setCouponError(null);
-    }
-  };
-
   const handleIncrement = (type: "full") => {
-    handleTicketChange(type, fullTickets + 1);
+    console.log(type);
+    setFullTickets(fullTickets + 1);
   };
 
   const handleDecrement = (type: "full") => {
+    console.log(type);
     if (fullTickets <= minTickets) {
       toast.error(
         `Mínimo de ${minTickets} ingresso${
@@ -126,23 +107,24 @@ export default function Checkout() {
       );
       return;
     }
-    handleTicketChange(type, fullTickets - 1);
+    setFullTickets(fullTickets - 1);
   };
 
   const handleInputChange = (
     type: "full",
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = parseInt(e.target.value);
-    if (isNaN(value) || value < minTickets) {
+    const n = parseInt(e.target.value, 10);
+    const value = Math.max(minTickets, Math.min(50, isNaN(n) ? minTickets : n));
+    if (value !== n) {
       toast.error(
         `Mínimo de ${minTickets} ingresso${
           minTickets > 1 ? "s" : ""
-        } para este lote`
+        } e máximo de 50`
       );
-      return;
     }
-    handleTicketChange(type, value);
+    console.log(type);
+    setFullTickets(value);
   };
 
   const handleParticipantChange = (field: keyof Participant, value: string) => {
@@ -184,19 +166,13 @@ export default function Checkout() {
     setFullTickets(newFullTickets);
     const newBasePrice = getBasePrice(newFullTickets);
     setBasePrice(newBasePrice);
-    const newOriginalAmount = newFullTickets * newBasePrice;
-    setOriginalAmount(newOriginalAmount);
     if (newFullTickets >= 5) {
       setDiscountedAmount(null);
-      setDiscount(null);
       setCouponCode("");
-      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
     } else if (couponCode) {
       handleApplyCoupon(couponCode);
     } else {
       setDiscountedAmount(null);
-      setDiscount(null);
-      setCouponError(null);
     }
   };
 
@@ -206,69 +182,42 @@ export default function Checkout() {
       return;
     }
     setCouponCode(e.target.value);
-    setCouponError(null);
   };
 
   const handleClearCoupon = () => {
     setCouponCode("");
     setDiscountedAmount(null);
-    setDiscount(null);
-    setCouponError(null);
+    // setDiscount(null);
   };
 
-  const handleApplyCoupon = async (code: string = couponCode) => {
-    if (disableCoupons) {
-      setCouponError("Cupons não são permitidos para 5 ou mais ingressos");
-      toast.error("Cupons não são permitidos para 5 ou mais ingressos");
-      setDiscountedAmount(null);
-      setDiscount(null);
-      setCouponCode("");
-      return;
-    }
-
-    if (!code) {
-      setCouponError("Por favor, insira um código de cupom");
-      toast.error("Por favor, insira um código de cupom");
-      return;
-    }
-
+  const handleApplyCoupon = async (
+    code: string = couponCode,
+    silent = false
+  ) => {
     try {
       const response = await fetch(`${config.baseUrl}/coupons/validate`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          code,
-          eventId: "verano-talk-2025",
-          totalAmount: originalAmount,
-          fullTickets,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        setCouponError(errorData.error || "Erro ao validar cupom");
-        toast.error(errorData.error || "Erro ao validar cupom");
-        setDiscountedAmount(null);
-        setDiscount(null);
+        if (!silent) toast.error(errorData.error || "Erro ao validar cupom");
         return;
       }
 
       const data = await response.json();
-      setDiscountedAmount(data.discountedAmount);
-      setDiscount(data.discount);
-      setCouponError(null);
-      if (id !== "1" && id !== "2" && id !== "3") {
-        console.log(`Cupom ${code} aplicado com sucesso`);
-      } else {
-        toast.success(`Cupom ${code} aplicado com sucesso`);
-      }
+
+      // Salva apenas os metadados; o desconto é calculado no render
+      setCoupon(data.coupon);
+      setDiscountTypeCoupon(data.coupon.discountType);
+      setDiscountValueCoupon(data.coupon.discountValue);
+
+      if (!silent) toast.success(`Cupom ${code} aplicado com sucesso`);
     } catch (error) {
-      setCouponError("Erro ao conectar com o servidor");
-      toast.error("Erro ao conectar com o servidor");
-      setDiscountedAmount(null);
-      setDiscount(null);
+      console.log(error);
+      if (!silent) toast.error("Erro ao conectar com o servidor");
     }
   };
 
@@ -350,11 +299,6 @@ export default function Checkout() {
                             </button>
                           )}
                         </div>
-                        {couponError && (
-                          <span className={styles.couponError}>
-                            {couponError}
-                          </span>
-                        )}
                       </label>
                     )}
                   </div>
@@ -362,29 +306,22 @@ export default function Checkout() {
 
                 {totalTickets > 0 && (
                   <div className={styles.total}>
-                    {discount !== null &&
-                    discountedAmount !== null &&
-                    !disableCoupons ? (
-                      <>
-                        <div>
-                          <span>Subtotal:</span>
-                          <span>R$ {originalAmount.toFixed(2)}</span>
-                        </div>
-                        <div>
-                          <span>Desconto:</span>
-                          <span>R$ {discount.toFixed(2)}</span>
-                        </div>
-                        <div className={styles.totalAmount}>
-                          <span>Total:</span>
-                          <span>R$ {discountedAmount.toFixed(2)}</span>
-                        </div>
-                      </>
-                    ) : (
-                      <div className={styles.totalAmount}>
-                        <span>Total:</span>
-                        <span>R$ {totalAmount.toFixed(2)}</span>
+                    <div>
+                      <span>Subtotal:</span>
+                      <span>R$ {subtotal.toFixed(2)}</span>
+                    </div>
+
+                    {discountAmount > 0 && (
+                      <div>
+                        <span>Desconto:</span>
+                        <span>- R$ {discountAmount.toFixed(2)}</span>
                       </div>
                     )}
+
+                    <div className={styles.totalAmount}>
+                      <span>Total:</span>
+                      <span>R$ {total.toFixed(2)}</span>
+                    </div>
                   </div>
                 )}
               </div>
@@ -422,9 +359,9 @@ export default function Checkout() {
                 fullTickets={fullTickets}
                 halfTickets={0}
                 totalTickets={totalTickets}
-                totalAmount={totalAmount}
+                totalAmount={total}
                 basePrice={basePrice}
-                discount={discount}
+                discount={discountAmount}
                 discountedAmount={discountedAmount}
                 couponCode={couponCode}
                 participants={participants}
