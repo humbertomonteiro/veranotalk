@@ -13,10 +13,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #000000e1, #000000d5),
-    url("https://images.pexels.com/photos/109669/pexels-photo-109669.jpeg")
+  background: linear-gradient(to right, #311700da, #070300f1),
+    url("https://images.pexels.com/photos/9348140/pexels-photo-9348140.jpeg")
       center/cover no-repeat;
-  opacity: 0.7;
+  /* opacity: 0.9; */
   z-index: -1;
 
   /* Efeito parallax */
@@ -124,7 +124,7 @@
   border-radius: 12px;
   background: var(--tertiary-color);
   transition: all 0.3s ease;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
 }
 
 /* .timelineItem.active .itemMain,
