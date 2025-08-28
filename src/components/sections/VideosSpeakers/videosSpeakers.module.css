@@ -18,7 +18,7 @@
   z-index: -1;
 
   /* Efeito parallax */
-  /* background-attachment: fixed; */
+  background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -152,5 +152,14 @@
 
   .backgroundCurve {
     transform: translateY(-50%) scale(3.5);
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .backgroundOverlay {
+    background-attachment: scroll;
+    height: 100vh;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }

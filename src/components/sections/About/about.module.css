@@ -20,15 +20,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("https://images.pexels.com/photos/1884583/pexels-photo-1884583.jpeg")
-    center/cover no-repeat;
-  opacity: 0.2;
+  background: linear-gradient(to bottom, #311700da, #070300f1),
+    url("https://images.pexels.com/photos/1884583/pexels-photo-1884583.jpeg")
+      center/cover no-repeat;
+  /* opacity: 0.2; */
   z-index: -1;
-  border-top: 1px solid var(--secondary-color);
-  border-bottom: 1px solid var(--secondary-color);
 
   /* Efeito parallax */
-  /* background-attachment: fixed; */
+  background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -200,5 +199,14 @@
 
   .founderCard {
     width: 100%;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .backgroundOverlay {
+    background-attachment: scroll;
+    height: 100vh;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }

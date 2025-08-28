@@ -29,7 +29,8 @@
   border-radius: 12px;
   padding: 1rem;
   margin: 0 auto 2rem auto;
-  max-width: 500px;
+  width: 500px;
+  max-width: 90%;
   color: #fff;
 }
 
@@ -211,5 +212,14 @@
   .paymentIcon {
     margin-right: 0;
     margin-bottom: 0.5rem;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .backgroundOverlay {
+    background-attachment: scroll;
+    height: 100vh;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }

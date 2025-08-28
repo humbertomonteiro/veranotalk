@@ -13,14 +13,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, #311700da, #070300f1),
-    url("https://images.pexels.com/photos/9348140/pexels-photo-9348140.jpeg")
+  background: linear-gradient(to right, #221000da, #070300f8),
+    url("https://images.pexels.com/photos/10596392/pexels-photo-10596392.jpeg")
       center/cover no-repeat;
   /* opacity: 0.9; */
   z-index: -1;
 
   /* Efeito parallax */
-  /* background-attachment: fixed; */
+  background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -277,5 +277,14 @@
   .speakerImage {
     width: 60px;
     height: 60px;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .backgroundOverlay {
+    background-attachment: scroll;
+    height: 100vh;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
