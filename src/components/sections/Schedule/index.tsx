@@ -94,6 +94,7 @@ export default function Schedule({ id }: ScheduleProps) {
 
   return (
     <section id={id || "programacao"} className={styles.container}>
+      <div className={styles.backgroundOverlay}></div>
       <div className={styles.header}>
         <h2 className={styles.title}>PROGRAMAÇÃO</h2>
         <div className={styles.divider}></div>
