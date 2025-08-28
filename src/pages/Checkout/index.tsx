@@ -50,7 +50,7 @@ export default function Checkout() {
     ticketType: "all",
   });
   const [couponCode, setCouponCode] = useState("");
-  const [discountedAmount, setDiscountedAmount] = useState<number | null>(null);
+  // const [discountedAmount, setDiscountedAmount] = useState<number | null>(null);
   const [coupon, setCoupon] = useState({});
   const [discountTypeCoupon, setDiscountTypeCoupon] = useState<
     "fixed" | "percentage"
@@ -75,16 +75,16 @@ export default function Checkout() {
 
   const totalTickets = fullTickets;
   // const disableCoupons = fullTickets >= 5;
-  const totalAmount =
-    disableCoupons || discountedAmount === null
-      ? fullTickets * basePrice
-      : discountedAmount;
+  // const totalAmount =
+  //   disableCoupons || discountedAmount === null
+  //     ? fullTickets * basePrice
+  //     : discountedAmount;
 
   // Sincroniza estado do cupom quando disableCoupons mudar
   useEffect(() => {
     if (disableCoupons) {
       setCouponCode("");
-      setDiscountedAmount(null);
+      // setDiscountedAmount(null);
       // setDiscount(null);
     }
   }, [disableCoupons, fullTickets, basePrice]);
@@ -172,12 +172,12 @@ export default function Checkout() {
     const newBasePrice = getBasePrice(newFullTickets);
     setBasePrice(newBasePrice);
     if (newFullTickets >= 5) {
-      setDiscountedAmount(null);
+      // setDiscountedAmount(null);
       setCouponCode("");
     } else if (couponCode) {
       handleApplyCoupon(couponCode);
     } else {
-      setDiscountedAmount(null);
+      // setDiscountedAmount(null);
     }
   };
 
@@ -191,7 +191,7 @@ export default function Checkout() {
 
   const handleClearCoupon = () => {
     setCouponCode("");
-    setDiscountedAmount(null);
+    // setDiscountedAmount(null);
     // setDiscount(null);
   };
 
@@ -313,19 +313,19 @@ export default function Checkout() {
                   <div className={styles.total}>
                     <div>
                       <span>Subtotal:</span>
-                      <span>R$ {(subtotal || 0).toFixed(2)}</span>
+                      <span>R$ {subtotal.toFixed(2)}</span>
                     </div>
 
                     {discountAmount > 0 && (
                       <div>
                         <span>Desconto:</span>
-                        <span>- R$ {(discountAmount || 0).toFixed(2)}</span>
+                        <span>- R$ {discountAmount.toFixed(2)}</span>
                       </div>
                     )}
 
                     <div className={styles.totalAmount}>
                       <span>Total:</span>
-                      <span>R$ {(total || 0).toFixed(2)}</span>
+                      <span>R$ {total.toFixed(2)}</span>
                     </div>
                   </div>
                 )}
@@ -364,10 +364,9 @@ export default function Checkout() {
                 fullTickets={fullTickets}
                 halfTickets={0}
                 totalTickets={totalTickets}
-                totalAmount={total || 0}
+                totalAmount={total}
                 basePrice={basePrice}
-                discount={discountAmount || 0}
-                discountedAmount={discountedAmount}
+                discount={discountAmount}
                 couponCode={couponCode}
                 participants={participants}
               />

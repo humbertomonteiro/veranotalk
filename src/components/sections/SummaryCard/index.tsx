@@ -16,7 +16,6 @@ interface SummaryCardProps {
   totalAmount: number;
   basePrice: number;
   discount: number | null;
-  discountedAmount: number | null;
   couponCode: string;
   participants: Participant[];
 }
@@ -44,7 +43,6 @@ export default function SummaryCard({
   totalAmount,
   basePrice,
   discount,
-  discountedAmount,
   couponCode,
   participants,
 }: SummaryCardProps) {
