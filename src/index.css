@@ -49,7 +49,7 @@ img {
 }
 
 .area {
-  background: linear-gradient(to right, #070300f1, #311700f1, #070300f1),
+  background: linear-gradient(to right, #070300ea, #311700f1, #070300ea),
     url("./assets/bg/palmeiras.jpg");
   background-size: cover;
   background-position: center;
