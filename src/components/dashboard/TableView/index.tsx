@@ -17,7 +17,7 @@ export default function TableView({
 }: {
   participants: EnhancedParticipant[];
 }) {
-  const getPaymentMethodLabel = (method?: string) => {
+  const getPaymentMethodLabel = (method?: string | null) => {
     const labels: { [key: string]: string } = {
       pix: "PIX",
       credit_card: "Cartão",

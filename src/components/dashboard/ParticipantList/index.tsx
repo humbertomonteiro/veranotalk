@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import { type Participant, type Checkout } from "../../../services/dashboard";
 import {
   Grid,
   Typography,
@@ -9,7 +8,6 @@ import {
   Tooltip,
   Button,
   Dialog,
-  DialogTitle,
   DialogContent,
 } from "@mui/material";
 import { ViewModule, TableChart, Description } from "@mui/icons-material";
@@ -22,10 +20,14 @@ import TableView from "../TableView";
 import GenerateParticipantsPDF from "../GenerateParticipantsPDF";
 
 import useCheckout from "../../../hooks/useCheckout";
+import {
+  type ParticipantProps,
+  type CheckoutProps,
+} from "../../../domain/entities";
 
 // Tipo combinado para participante com todos os dados do checkout
-export type EnhancedParticipant = Participant & {
-  checkout?: Checkout;
+export type EnhancedParticipant = ParticipantProps & {
+  checkout?: CheckoutProps;
 };
 
 // Componente Principal

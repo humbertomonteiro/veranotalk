@@ -28,48 +28,50 @@ interface UpdateRequestBody {
   repo?: "participant" | "checkout" | "both";
 }
 
-export type Participant = {
-  id: string;
-  checkedIn: boolean;
-  checkoutId: string;
-  createdAt: string;
-  document: string;
-  email: string;
-  eventId: string;
-  name: string;
-  phone: string;
-  qrCode: string;
-  ticketType: string;
-  updatedAt: string;
-};
+import { type ParticipantProps, type CheckoutProps } from "../domain/entities";
 
-export type Checkout = {
-  id: string;
-  couponCode?: string;
-  createdAt: string;
-  discountAmount?: number;
-  fullTickets: number;
-  halfTickets: number;
-  mercadoPagoId?: string;
-  mercadoPagoPreferenceId?: string;
-  metadata: {
-    error?: string;
-    retryCount?: number;
-    participantIds?: string[];
-    eventId?: string;
-    manualPayment?: boolean;
-    processedBy?: string;
-  };
-  originalAmount?: number;
-  payer: {
-    document: string;
-    name: string;
-  };
-  paymentMethod: string;
-  status: string;
-  totalAmount: number;
-  updatedAt: string;
-};
+// export type Participant = {
+//   id: string;
+//   checkedIn: boolean;
+//   checkoutId: string;
+//   createdAt: string;
+//   document: string;
+//   email: string;
+//   eventId: string;
+//   name: string;
+//   phone: string;
+//   qrCode: string;
+//   ticketType: string;
+//   updatedAt: string;
+// };
+
+// export type Checkout = {
+//   id: string;
+//   couponCode?: string;
+//   createdAt: string;
+//   discountAmount?: number;
+//   fullTickets: number;
+//   halfTickets: number;
+//   mercadoPagoId?: string;
+//   mercadoPagoPreferenceId?: string;
+//   metadata: {
+//     error?: string;
+//     retryCount?: number;
+//     participantIds?: string[];
+//     eventId?: string;
+//     manualPayment?: boolean;
+//     processedBy?: string;
+//   };
+//   originalAmount?: number;
+//   payer: {
+//     document: string;
+//     name: string;
+//   };
+//   paymentMethod: string;
+//   status: string;
+//   totalAmount: number;
+//   updatedAt: string;
+// };
 
 export class DashboardService {
   async getCheckouts(filters: {
@@ -110,9 +112,9 @@ export class DashboardService {
       }
 
       const querySnapshot = await getDocs(q);
-      const checkouts: Checkout[] = querySnapshot.docs.map((doc) => {
+      const checkouts: CheckoutProps[] = querySnapshot.docs.map((doc) => {
         const data = doc.data();
-        return { id: doc.id, ...data } as Checkout;
+        return { id: doc.id, ...data } as CheckoutProps;
       });
       return checkouts;
     } catch (err) {
@@ -144,9 +146,9 @@ export class DashboardService {
       }
 
       const querySnapshot = await getDocs(q);
-      const participants: Participant[] = querySnapshot.docs.map((doc) => {
+      const participants: ParticipantProps[] = querySnapshot.docs.map((doc) => {
         const data = doc.data();
-        return { id: doc.id, ...data } as Participant;
+        return { id: doc.id, ...data } as ParticipantProps;
       });
       return participants;
     } catch (err) {

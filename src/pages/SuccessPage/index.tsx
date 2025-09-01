@@ -23,7 +23,7 @@ const SuccessPage = () => {
 
       try {
         const response = await fetch(
-          `${config.baseUrl}/checkout/${checkoutId}`,
+          `${config.baseUrl}/webhook/${checkoutId}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },

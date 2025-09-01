@@ -144,7 +144,7 @@ export default function ParticipantDetailsForm({
       }
 
       await dashboardService.updateCheckoutAndParticipant(
-        participant.id,
+        participant.id!,
         updateData,
         repo
       );
@@ -299,11 +299,11 @@ export default function ParticipantDetailsForm({
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Criado em:{" "}
-                  {new Date(participant.checkout.createdAt).toLocaleString()}
+                  {new Date(participant.checkout.createdAt!).toLocaleString()}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Atualizado em:{" "}
-                  {new Date(participant.checkout.updatedAt).toLocaleString()}
+                  {new Date(participant.checkout.updatedAt!).toLocaleString()}
                 </Typography>
               </Grid>
               <Grid>
@@ -322,13 +322,18 @@ export default function ParticipantDetailsForm({
                 <Typography variant="body2" color="textSecondary">
                   Evento ID: {participant.eventId}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Criado em: {new Date(participant.createdAt).toLocaleString()}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Atualizado em:{" "}
-                  {new Date(participant.updatedAt).toLocaleString()}
-                </Typography>
+                {participant.createdAt && (
+                  <Typography variant="body2" color="textSecondary">
+                    Criado em:{" "}
+                    {new Date(participant.createdAt).toLocaleString()}
+                  </Typography>
+                )}
+                {participant.updatedAt && (
+                  <Typography variant="body2" color="textSecondary">
+                    Atualizado em:{" "}
+                    {new Date(participant.updatedAt).toLocaleString()}
+                  </Typography>
+                )}
                 <Typography variant="body2" color="textSecondary">
                   Checkout ID: {participant.checkoutId}
                 </Typography>

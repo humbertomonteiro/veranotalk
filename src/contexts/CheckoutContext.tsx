@@ -6,14 +6,11 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
-import {
-  DashboardService,
-  type Checkout,
-  type Participant,
-} from "../services/dashboard";
+import { DashboardService } from "../services/dashboard";
+import { type ParticipantProps, type CheckoutProps } from "../domain/entities";
 
-export type EnhancedParticipant = Participant & {
-  checkout?: Checkout;
+export type EnhancedParticipant = ParticipantProps & {
+  checkout?: CheckoutProps;
 };
 
 // 2. Tipo do contexto exposto
@@ -23,8 +20,8 @@ type CheckoutContextType = {
   fetchStats: () => Promise<void>;
   fetchData: () => Promise<void>;
   lastUpdated: string;
-  checkout: Checkout | undefined;
-  setCheckout: (data: Checkout) => void;
+  checkout: CheckoutProps | undefined;
+  setCheckout: (data: CheckoutProps) => void;
   checkouts: EnhancedParticipant[];
   setCheckouts: (data: EnhancedParticipant[]) => void;
   loading: boolean;
@@ -55,7 +52,7 @@ export const CheckoutProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState<StatsType | undefined>(undefined);
   const [lastUpdated, setLastUpdated] = useState<string>("");
-  const [checkout, setCheckout] = useState<Checkout>();
+  const [checkout, setCheckout] = useState<CheckoutProps>();
   const [checkouts, setCheckouts] = useState<EnhancedParticipant[]>([]);
 
   useEffect(() => {
@@ -88,9 +85,9 @@ export const CheckoutProvider = ({ children }: Props) => {
       const checkoutsData = await dashboardService.getCheckouts({});
 
       const checkoutMap = checkoutsData.reduce((map, checkout) => {
-        map[checkout.id] = checkout;
+        map[checkout.id!] = checkout;
         return map;
-      }, {} as { [key: string]: Checkout });
+      }, {} as { [key: string]: CheckoutProps });
 
       const enhancedParticipants: EnhancedParticipant[] = participantsData.map(
         (participant) => ({

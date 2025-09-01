@@ -1,9 +1,9 @@
 import styles from "./summaryCheckout.module.css";
 import Title from "../../shared/Title";
-import { Checkout } from "../../../domain/entities";
+import { type CheckoutProps } from "../../../domain/entities";
 
 interface SummaryCheckoutProps {
-  checkout: Checkout | undefined;
+  checkout: CheckoutProps | undefined;
 }
 
 export default function SummaryCheckout({ checkout }: SummaryCheckoutProps) {
