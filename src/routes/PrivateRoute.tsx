@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { auth, db } from "../config/firebaseConfig";
+import { auth } from "../config/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-
+import { config } from "../config";
+import useUser from "../hooks/useUser";
 import Loading from "../components/shared/Loading";
 
 interface PrivateRouteProps {
@@ -11,39 +11,53 @@ interface PrivateRouteProps {
 }
 
 function PrivateRoute({ children }: PrivateRouteProps) {
+  const { user, setUser } = useUser();
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
         try {
-          console.log("Verificando role para UID:", user.uid);
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          const role = userDoc.exists()
-            ? userDoc.data().role || "none"
-            : "none";
-          console.log("Role:", role);
-          setIsAuthorized(role === "admin");
+          const token = await firebaseUser.getIdToken();
+          const response = await fetch(
+            `${config.baseUrl}/users/${firebaseUser.uid}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, // Adiciona o token JWT
+              },
+            }
+          );
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.error || "Erro ao buscar dados do usuário"
+            );
+          }
+
+          const userData = await response.json();
+          setUser(userData); // Atualiza o estado do usuário
         } catch (err) {
-          console.error("Erro ao verificar role:", err);
-          setIsAuthorized(false);
+          console.error("Erro ao buscar usuário:", err);
+          setUser(null); // Limpa o usuário em caso de erro
         }
       } else {
         console.log("Nenhum usuário logado");
-        setIsAuthorized(false);
+        setUser(null); // Limpa o usuário se não estiver logado
       }
       setIsLoading(false);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [setUser]); // Adiciona setUser como dependência
 
   if (isLoading) {
     return <Loading />;
   }
 
-  return isAuthorized ? children : <Navigate to="/login" />;
+  return user ? children : <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

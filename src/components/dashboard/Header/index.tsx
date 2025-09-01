@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../../config/firebaseConfig";
 import FirebaseAuth from "../../../services/auth";
-import { onAuthStateChanged } from "firebase/auth";
 import {
   AppBar,
   Toolbar,
@@ -11,32 +9,28 @@ import {
   Menu,
   MenuItem,
   Box,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
   AccountCircle,
   ExitToApp,
-  Settings,
+  // Settings,
 } from "@mui/icons-material";
 import styles from "./header.module.css";
+import useUser from "../../../hooks/useUser";
 
 interface HeaderProps {
   onMenuToggle: () => void;
 }
 
 function Header({ onMenuToggle }: HeaderProps) {
-  const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string | null>(null);
+  const { user } = useUser();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUserEmail(user ? user.email : null);
-      setUserName(user ? user.displayName || user.email : null);
-    });
-    return () => unsubscribe();
-  }, []);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleLogout = async () => {
     try {
@@ -71,24 +65,27 @@ function Header({ onMenuToggle }: HeaderProps) {
       }}
     >
       <Toolbar>
-        <IconButton
-          color="inherit"
-          edge="start"
-          onClick={onMenuToggle}
-          className={styles.menuButton}
-        >
-          <MenuIcon />
-        </IconButton>
+        {isMobile && (
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={onMenuToggle}
+            className={styles.menuButton}
+            aria-label="Abrir menu"
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
 
         <Typography variant="h6" component="div" className={styles.title}>
-          Verano Talk Admin
+          Dashboard Verano
         </Typography>
 
         <Box sx={{ flexGrow: 1 }} />
 
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant="body2" className={styles.userInfo}>
-            {userName || userEmail}
+            {user?.name}
           </Typography>
           <IconButton
             color="inherit"
@@ -105,12 +102,12 @@ function Header({ onMenuToggle }: HeaderProps) {
           onClose={handleCloseMenu}
           keepMounted
         >
-          <MenuItem onClick={handleCloseMenu}>
+          {/* <MenuItem onClick={handleCloseMenu}>
             <AccountCircle sx={{ mr: 1 }} /> Perfil
           </MenuItem>
           <MenuItem onClick={handleCloseMenu}>
             <Settings sx={{ mr: 1 }} /> Configurações
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem onClick={handleLogout}>
             <ExitToApp sx={{ mr: 1 }} /> Sair
           </MenuItem>

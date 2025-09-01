@@ -1,68 +1,66 @@
-// // frontend/src/services/dashboard.ts
-// export class DashboardService {
-//     // ... outros métodos existentes
+import { config } from "../config";
+import { type UserProps } from "../contexts/UserContext";
 
-//     async getUserProfile(uid: string): Promise<any> {
-//       try {
-//         const response = await fetch(`${this.baseUrl}/users/${uid}`, {
-//           method: 'GET',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${this.getAuthToken()}`
-//           },
-//         });
+export class UserService {
+  async getUsers(): Promise<any> {
+    try {
+      const response = await fetch(`${config.baseUrl}/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-//         if (!response.ok) {
-//           throw new Error('Erro ao buscar perfil do usuário');
-//         }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Erro ao criar checkout manual");
+      }
 
-//         return await response.json();
-//       } catch (error) {
-//         console.error('Erro no getUserProfile:', error);
-//         throw error;
-//       }
-//     }
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-//     async updateUserProfile(uid: string, updates: any): Promise<any> {
-//       try {
-//         const response = await fetch(`${this.baseUrl}/users/${uid}`, {
-//           method: 'PUT',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${this.getAuthToken()}`
-//           },
-//           body: JSON.stringify(updates),
-//         });
+  async createUser(userData: UserProps, password: string): Promise<any> {
+    try {
+      const response = await fetch(`${config.baseUrl}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...userData, password }),
+      });
 
-//         if (!response.ok) {
-//           throw new Error('Erro ao atualizar perfil do usuário');
-//         }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Erro ao criar usuário");
+      }
 
-//         return await response.json();
-//       } catch (error) {
-//         console.error('Erro no updateUserProfile:', error);
-//         throw error;
-//       }
-//     }
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-//     async getCurrentUserProfile(): Promise<any> {
-//       try {
-//         const response = await fetch(`${this.baseUrl}/users/me`, {
-//           method: 'GET',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${this.getAuthToken()}`
-//           },
-//         });
+  async updateUser(userData: UserProps): Promise<any> {
+    try {
+      const response = await fetch(`${config.baseUrl}/users/${userData.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...userData }),
+      });
 
-//         if (!response.ok) {
-//           throw new Error('Erro ao buscar perfil do usuário atual');
-//         }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Erro ao editar usuário");
+      }
 
-//         return await response.json();
-//       } catch (error) {
-//         console.error('Erro no getCurrentUserProfile:', error);
-//         throw error;
-//       }
-//     }
-//   }
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}

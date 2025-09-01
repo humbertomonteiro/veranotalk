@@ -6,9 +6,8 @@
 }
 
 .container {
-  width: 1200px;
-  max-width: 95%;
-  margin: 0 auto;
+  width: 100%;
+  overflow: hidden;
 }
 
 .authCard {
@@ -94,7 +93,7 @@
 }
 
 .mainContent {
-  flex-grow: 1;
+  width: 70%;
 }
 
 .profileCard {
@@ -196,7 +195,7 @@
   /* padding: 2rem; */
   /* border: 1px solid var(--border-color); */
   color: #fff;
-  width: 800px;
+  /* width: 800px; */
   max-width: 100%;
 }
 
@@ -310,8 +309,8 @@
 .eventInfoTab {
   border-radius: 1rem;
   overflow: hidden;
-  width: 800px;
-  max-width: 100%;
+  width: 100%;
+  /* max-width: 100%; */
 }
 
 /* Responsividade */
@@ -395,6 +394,10 @@
     align-items: center;
     width: 100%;
     margin-top: 0.5rem;
+  }
+
+  .mainContent {
+    width: 100%;
   }
 }
 

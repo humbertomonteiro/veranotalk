@@ -10,6 +10,24 @@ import {
 
 import { config } from "../config";
 
+interface UpdateRequestBody {
+  name?: string;
+  email?: string;
+  phone?: string;
+  ticketType?: string;
+  status?:
+    | "pending"
+    | "processing"
+    | "approved"
+    | "rejected"
+    | "refunded"
+    | "cancelled"
+    | "failed";
+  paymentMethod?: string;
+  totalAmount?: number;
+  repo?: "participant" | "checkout" | "both";
+}
+
 export type Participant = {
   id: string;
   checkedIn: boolean;
@@ -94,10 +112,8 @@ export class DashboardService {
       const querySnapshot = await getDocs(q);
       const checkouts: Checkout[] = querySnapshot.docs.map((doc) => {
         const data = doc.data();
-        console.log("Checkout encontrado:", { id: doc.id, ...data });
         return { id: doc.id, ...data } as Checkout;
       });
-      console.log("Checkouts retornados:", checkouts);
       return checkouts;
     } catch (err) {
       console.error("Erro ao buscar checkouts:", err);
@@ -130,10 +146,8 @@ export class DashboardService {
       const querySnapshot = await getDocs(q);
       const participants: Participant[] = querySnapshot.docs.map((doc) => {
         const data = doc.data();
-        console.log("Participante encontrado:", { id: doc.id, ...data });
         return { id: doc.id, ...data } as Participant;
       });
-      console.log("Participantes retornados:", participants);
       return participants;
     } catch (err) {
       console.error("Erro ao buscar participantes:", err);
@@ -174,41 +188,18 @@ export class DashboardService {
     }
   }
 
-  // Adicione este método ao seu DashboardService
-  async createManualCheckout(checkoutData: {
-    participants: Array<{
-      name: string;
-      email: string;
-      phone: string;
-      document: string;
-      ticketType: "all";
-    }>;
-    checkout: {
-      fullTickets: number;
-      halfTickets: number;
-      paymentMethod: string;
-      installments: number;
-      totalAmount: number;
-      metadata: {
-        eventId: string;
-        manualPayment: boolean;
-        processedBy: string;
-      };
-    };
-  }): Promise<{
-    success: boolean;
-    checkoutId: string;
-    participantIds: string[];
-    status: string;
-    message: string;
-  }> {
+  async updateCheckoutAndParticipant(
+    uid: string,
+    checkoutData: UpdateRequestBody,
+    repo: "participant" | "checkout" | "both"
+  ) {
     try {
-      const response = await fetch(`${config.baseUrl}/checkout/manual`, {
-        method: "POST",
+      const response = await fetch(`${config.baseUrl}/participant/${uid}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(checkoutData),
+        body: JSON.stringify({ ...checkoutData, repo }),
       });
 
       if (!response.ok) {
@@ -218,7 +209,7 @@ export class DashboardService {
 
       return await response.json();
     } catch (error) {
-      console.error("Erro no createManualCheckout:", error);
+      console.error("Erro em atualizar:", error);
       throw error;
     }
   }

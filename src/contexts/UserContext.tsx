@@ -1,83 +1,85 @@
-// // frontend/src/contexts/AuthContext.tsx
-// import React, { createContext, useContext, useEffect, useState } from "react";
-// import { onAuthStateChanged, type User as FirebaseUser } from "firebase/auth";
-// import { auth } from "../config/firebaseConfig";
-// import { getUserProfile } from "../services/auth";
+import { useState, createContext, useEffect } from "react";
+import { UserService } from "../services/user";
 
-// interface UserProfile {
-//   uid: string;
-//   email: string;
-//   name: string;
-//   role: string;
-//   permissions: string[];
-//   isActive: boolean;
-// }
+export interface UserProps {
+  id?: string;
+  email: string;
+  name: string;
+  role: "admin" | "staff" | "viewer";
+  permissions: string[];
+  isActive: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+  lastLogin?: Date;
+}
 
-// interface AuthContextType {
-//   user: FirebaseUser | null;
-//   userProfile: UserProfile | null;
-//   loading: boolean;
-//   refreshUserProfile: () => Promise<void>;
-// }
+interface UserContextType {
+  user: UserProps | null;
+  setUser: React.Dispatch<React.SetStateAction<UserProps | null>>;
+  users: UserProps[] | [];
+  setUsers: React.Dispatch<React.SetStateAction<[] | UserProps[]>> | null;
+  permissionsList: PermissionsList[] | [];
+  setPermissionsList: React.Dispatch<
+    React.SetStateAction<[] | PermissionsList[]>
+  > | null;
+}
 
-// const AuthContext = createContext<AuthContextType>({
-//   user: null,
-//   userProfile: null,
-//   loading: true,
-//   refreshUserProfile: async () => {},
-// });
+interface PermissionsList {
+  id: string;
+  label: string;
+}
 
-// export const useAuth = () => useContext(AuthContext);
+export const UserContext = createContext<UserContextType | undefined>(
+  undefined
+);
 
-// export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-//   children,
-// }) => {
-//   const [user, setUser] = useState<FirebaseUser | null>(null);
-//   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-//   const [loading, setLoading] = useState(true);
+const userService = new UserService();
 
-//   const refreshUserProfile = async () => {
-//     if (!user) {
-//       setUserProfile(null);
-//       return;
-//     }
+export default function UserProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [user, setUser] = useState<UserProps | null>(null);
+  const [users, setUsers] = useState<UserProps[] | []>([]);
+  const [permissionsList, setPermissionsList] = useState<
+    PermissionsList[] | []
+  >([
+    { id: "view_dashboard", label: "Visualizar Dashboard" },
+    { id: "create_checkout", label: "Criar Checkouts" },
+    { id: "manage_credentials", label: "Gerenciar Credenciamento" },
+    { id: "manage_users", label: "Gerenciar Usuários" },
+    { id: "view_stats_cards", label: "Metricas" },
+    { id: "details_checkout", label: "Detalhes do checkout" },
+    { id: "manage_coupons", label: "Gestão de Cupons" },
+  ]);
 
-//     try {
-//       const profile = await getUserProfile(user.uid);
-//       setUserProfile(profile);
-//     } catch (error) {
-//       console.error("Erro ao carregar perfil:", error);
-//       setUserProfile(null);
-//     }
-//   };
+  useEffect(() => {
+    async function getUsers() {
+      try {
+        const users = await userService.getUsers();
 
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-//       setUser(firebaseUser);
+        setUsers(users);
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-//       if (firebaseUser) {
-//         try {
-//           const profile = await getUserProfile(firebaseUser.uid);
-//           setUserProfile(profile);
-//         } catch (error) {
-//           console.error("Erro ao carregar perfil:", error);
-//           setUserProfile(null);
-//         }
-//       } else {
-//         setUserProfile(null);
-//       }
+    getUsers();
+  }, []);
 
-//       setLoading(false);
-//     });
-
-//     return unsubscribe;
-//   }, []);
-
-//   return (
-//     <AuthContext.Provider
-//       value={{ user, userProfile, loading, refreshUserProfile }}
-//     >
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
+  return (
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        users,
+        setUsers,
+        permissionsList,
+        setPermissionsList,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
+}

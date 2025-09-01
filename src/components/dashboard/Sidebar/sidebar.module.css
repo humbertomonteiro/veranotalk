@@ -1,14 +1,5 @@
 .drawer {
-  width: 240px;
   flex-shrink: 0;
-}
-
-.drawerOpen {
-  width: 240px;
-}
-
-.drawerClosed {
-  width: 0;
 }
 
 .drawerPaper {
@@ -16,6 +7,7 @@
   box-sizing: border-box;
   border: none;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
 }
 
 .toolbar {
@@ -50,8 +42,13 @@
   color: inherit;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .drawerPaper {
     width: 280px;
+    transform: translateX(-280px); /* Hidden by default on mobile */
+  }
+
+  .drawerPaper[style*="transform: translateX(0px)"] {
+    transform: translateX(0); /* Visible when open */
   }
 }

@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../config/firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { TextField, Button, Typography, Container, Box } from "@mui/material";
 import styles from "./login.module.css";
+import FirebaseAuth from "../../services/auth";
+import useUser from "../../hooks/useUser";
+
+const auth = new FirebaseAuth();
 
 function Login() {
+  const { setUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,8 +20,12 @@ function Login() {
     setLoading(true);
     try {
       console.log("Tentando login com:", email);
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("Login bem-sucedido");
+      const user = await auth.login(email, password);
+      if (!user) {
+        return console.log("User not found");
+      }
+      setUser(user);
+      console.log(user);
       navigate("/dashboard");
     } catch (err: any) {
       console.error("Erro no login:", err.message, err.code);

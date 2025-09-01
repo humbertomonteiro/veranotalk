@@ -3,9 +3,7 @@ import {
   Box,
   Paper,
   Typography,
-  TextField,
   Button,
-  Grid,
   Table,
   TableBody,
   TableCell,
@@ -17,49 +15,28 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
-  FormControlLabel,
-  Checkbox,
-  MenuItem,
 } from "@mui/material";
-import { People, Add, Edit, Delete } from "@mui/icons-material";
+import { People, Add, Edit, Check, Close } from "@mui/icons-material";
+import useUser from "../../../hooks/useUser";
+import FormNewUser from "../FormNewUser";
+import FormEditUser from "../FormEditUser";
 
 function UserManagement() {
-  const [openDialog, setOpenDialog] = useState(false);
+  const { users, permissionsList } = useUser();
+  const [openDialog, setOpenDialog] = useState<"create" | "edit" | null>(null);
   const [editingUser, setEditingUser] = useState<any>(null);
-
-  // Dados de exemplo
-  const users = [
-    {
-      id: "1",
-      name: "Admin User",
-      email: "admin@verano.com",
-      role: "admin",
-      permissions: ["all"],
-    },
-    {
-      id: "2",
-      name: "Credenciador",
-      email: "credenciador@verano.com",
-      role: "staff",
-      permissions: ["manage_credentials"],
-    },
-  ];
-
-  const permissionsList = [
-    { id: "view_dashboard", label: "Visualizar Dashboard" },
-    { id: "create_checkout", label: "Criar Checkouts" },
-    { id: "manage_credentials", label: "Gerenciar Credenciamento" },
-    { id: "manage_users", label: "Gerenciar Usuários" },
-  ];
 
   const handleEditUser = (user: any) => {
     setEditingUser(user);
-    setOpenDialog(true);
+    setOpenDialog("edit");
+  };
+
+  const handleNewUser = () => {
+    setOpenDialog("create");
   };
 
   const handleCloseDialog = () => {
-    setOpenDialog(false);
+    setOpenDialog(null);
     setEditingUser(null);
   };
 
@@ -77,7 +54,7 @@ function UserManagement() {
           <People sx={{ mr: 1 }} />
           <Typography variant="h5">Gestão de Usuários</Typography>
         </Box>
-        <Button variant="contained" startIcon={<Add />}>
+        <Button variant="contained" startIcon={<Add />} onClick={handleNewUser}>
           Novo Usuário
         </Button>
       </Box>
@@ -90,18 +67,25 @@ function UserManagement() {
               <TableCell>E-mail</TableCell>
               <TableCell>Função</TableCell>
               <TableCell>Permissões</TableCell>
+              <TableCell>Ativo</TableCell>
               <TableCell align="right">Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
+              <TableRow key={user?.email}>
+                <TableCell>{user?.name}</TableCell>
+                <TableCell>{user?.email}</TableCell>
                 <TableCell>
                   <Chip
-                    label={user.role === "admin" ? "Administrador" : "Equipe"}
-                    color={user.role === "admin" ? "primary" : "default"}
+                    label={
+                      user?.role === "admin"
+                        ? "Administrador"
+                        : user?.role === "staff"
+                        ? "Equipe"
+                        : "Visualizador"
+                    }
+                    color={user?.role === "admin" ? "primary" : "default"}
                   />
                 </TableCell>
                 <TableCell>
@@ -109,19 +93,20 @@ function UserManagement() {
                     {user.permissions.map((perm: string) => (
                       <Chip
                         key={perm}
-                        label={perm === "all" ? "Todas permissões" : perm}
+                        label={
+                          permissionsList.find((p) => p.id === perm)?.label ||
+                          perm
+                        }
                         size="small"
                         variant="outlined"
                       />
                     ))}
                   </Box>
                 </TableCell>
+                <TableCell>{user?.isActive ? <Check /> : <Close />}</TableCell>
                 <TableCell align="right">
                   <IconButton onClick={() => handleEditUser(user)}>
                     <Edit />
-                  </IconButton>
-                  <IconButton>
-                    <Delete />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -131,72 +116,24 @@ function UserManagement() {
       </TableContainer>
 
       <Dialog
-        open={openDialog}
+        open={openDialog !== null}
         onClose={handleCloseDialog}
         maxWidth="md"
         fullWidth
       >
         <DialogTitle>
-          {editingUser ? "Editar Usuário" : "Novo Usuário"}
+          {openDialog === "edit" ? "Editar Usuário" : "Novo Usuário"}
         </DialogTitle>
         <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid>
-              <TextField
-                fullWidth
-                label="Nome"
-                defaultValue={editingUser?.name}
-              />
-            </Grid>
-            <Grid>
-              <TextField
-                fullWidth
-                label="E-mail"
-                type="email"
-                defaultValue={editingUser?.email}
-              />
-            </Grid>
-            <Grid>
-              <TextField
-                fullWidth
-                select
-                label="Função"
-                defaultValue={editingUser?.role || "staff"}
-              >
-                <MenuItem value="admin">Administrador</MenuItem>
-                <MenuItem value="staff">Equipe</MenuItem>
-              </TextField>
-            </Grid>
-            <Grid>
-              <Typography variant="subtitle2" gutterBottom>
-                Permissões
-              </Typography>
-              <Grid container>
-                {permissionsList.map((permission) => (
-                  <Grid key={permission.id}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          defaultChecked={
-                            editingUser?.permissions?.includes(permission.id) ||
-                            editingUser?.permissions?.includes("all")
-                          }
-                        />
-                      }
-                      label={permission.label}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
+          {openDialog === "create" ? (
+            <FormNewUser onClose={handleCloseDialog} />
+          ) : (
+            <FormEditUser
+              onClose={handleCloseDialog}
+              editingUser={editingUser}
+            />
+          )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancelar</Button>
-          <Button variant="contained" onClick={handleCloseDialog}>
-            Salvar
-          </Button>
-        </DialogActions>
       </Dialog>
     </Box>
   );

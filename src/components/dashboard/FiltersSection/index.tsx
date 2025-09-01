@@ -1,7 +1,5 @@
 import {
   TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
   Select,
   MenuItem,
@@ -85,9 +83,33 @@ export default function FiltersSection({
                     ? "Cartão de Crédito"
                     : method === "boleto"
                     ? "Boleto"
+                    : method === "cash"
+                    ? "Dinheiro"
+                    : method === "transfer"
+                    ? "Transferência"
+                    : method === "other"
+                    ? "Outros"
                     : method}
                 </MenuItem>
               ))}
+            </Select>
+          </FormControl>
+
+          <FormControl className={styles.filterInput} size="small">
+            <InputLabel>Status</InputLabel>
+            <Select
+              value={filters.status}
+              onChange={(e) => onFilterChange("status", e.target.value)}
+              label="Status"
+            >
+              <MenuItem value="">Todos</MenuItem>
+              {["processing", "approved", "rejected", "pending"].map(
+                (status) => (
+                  <MenuItem key={status} value={status}>
+                    {status}
+                  </MenuItem>
+                )
+              )}
             </Select>
           </FormControl>
 
@@ -120,7 +142,7 @@ export default function FiltersSection({
             InputLabelProps={{ shrink: true }}
           />
 
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Checkbox
                 checked={filters.checkedIn ?? false}
@@ -138,7 +160,7 @@ export default function FiltersSection({
               />
             }
             label="Check-in Realizado"
-          />
+          /> */}
         </Box>
       )}
     </Box>

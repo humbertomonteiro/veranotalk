@@ -15,14 +15,10 @@ import {
   InputLabel,
   Select,
 } from "@mui/material";
-import {
-  PointOfSale,
-  Add,
-  Remove,
-  Delete,
-  CreditCard,
-} from "@mui/icons-material";
-import { DashboardService } from "../../../services/dashboard";
+import { PointOfSale, Add, Remove, Delete } from "@mui/icons-material";
+import { CheckoutService } from "../../../services/checkout";
+import useCheckout from "../../../hooks/useCheckout";
+import useUser from "../../../hooks/useUser";
 
 export interface Participant {
   name: string;
@@ -35,6 +31,8 @@ export interface Participant {
 const TICKET_PRICE = 499;
 
 function ManualCheckout() {
+  const { fetchData } = useCheckout();
+  const { user } = useUser();
   const [totalTickets, setTotalTickets] = useState(1);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [currentParticipant, setCurrentParticipant] = useState<Participant>({
@@ -147,14 +145,14 @@ function ManualCheckout() {
           metadata: {
             eventId: "verano-talk-2025",
             manualPayment: true,
-            processedBy: "admin", // Você pode obter do usuário logado
+            processedBy: `${user?.name} - ${user?.email}`,
           },
         },
       };
 
       // Chamar o serviço atualizado
-      const dashboardService = new DashboardService();
-      const result = await dashboardService.createManualCheckout(checkoutData);
+      const checkoutService = new CheckoutService();
+      const result = await checkoutService.createManualCheckout(checkoutData);
 
       console.log(result);
       showSnackbar(
@@ -164,6 +162,7 @@ function ManualCheckout() {
         "success"
       );
 
+      fetchData();
       // Limpar formulário após sucesso
       setParticipants([]);
       setTotalTickets(1);
@@ -191,18 +190,12 @@ function ManualCheckout() {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 0 }}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
         <PointOfSale sx={{ mr: 1 }} />
         <Typography variant="h5">Checkout Manual</Typography>
       </Box>
 
-      <Alert severity="info" sx={{ mb: 3 }}>
-        Utilize para registrar pagamentos presenciais. O checkout será criado
-        como APROVADO automaticamente.
-      </Alert>
-
-      {/* Layout com Flexbox em vez de Grid */}
       <Box
         sx={{
           display: "flex",
@@ -356,6 +349,7 @@ function ManualCheckout() {
                       !currentParticipant.phone ||
                       !currentParticipant.document
                     }
+                    sx={{ height: 48, "& .MuiInputBase-root": { height: 48 } }}
                   >
                     Adicionar Participante
                   </Button>
@@ -408,6 +402,9 @@ function ManualCheckout() {
                 <MenuItem value="debit_card">Cartão de Débito</MenuItem>
                 <MenuItem value="pix">PIX</MenuItem>
                 <MenuItem value="boleto">Boleto</MenuItem>
+                <MenuItem value="cash">Dinheiro</MenuItem>
+                <MenuItem value="transfer">Transferência</MenuItem>
+                <MenuItem value="other">Outros</MenuItem>
               </Select>
             </FormControl>
 
@@ -451,17 +448,6 @@ function ManualCheckout() {
                 <>Criar Checkout - R$ {totalAmount.toFixed(2)}</>
               )}
             </Button>
-          </Paper>
-
-          <Paper sx={{ p: 2 }}>
-            <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <CreditCard sx={{ mr: 1, color: "primary.main" }} />
-              <Typography variant="subtitle2">Pagamento Presencial</Typography>
-            </Box>
-            <Typography variant="body2" color="textSecondary">
-              O cliente passou o cartão na maquininha. Este checkout será
-              registrado como aprovado automaticamente.
-            </Typography>
           </Paper>
         </Box>
       </Box>

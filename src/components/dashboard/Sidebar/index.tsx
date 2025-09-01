@@ -9,17 +9,31 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Dashboard, PointOfSale, Badge, People } from "@mui/icons-material";
+import {
+  Dashboard,
+  PointOfSale,
+  Badge,
+  People,
+  Discount,
+} from "@mui/icons-material";
 import { type DashboardTab } from "../../../pages/Dashboard";
 import styles from "./sidebar.module.css";
+import useUser from "../../../hooks/useUser";
 
 interface SidebarProps {
   currentTab: DashboardTab;
   onTabChange: (tab: DashboardTab) => void;
   isOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
 }
 
-function Sidebar({ currentTab, onTabChange, isOpen }: SidebarProps) {
+function Sidebar({
+  currentTab,
+  onTabChange,
+  isOpen,
+  setSidebarOpen,
+}: SidebarProps) {
+  const { user } = useUser();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -37,30 +51,39 @@ function Sidebar({ currentTab, onTabChange, isOpen }: SidebarProps) {
       requiredPermission: "create_checkout",
     },
     {
-      id: "credentialing" as DashboardTab,
-      label: "Credenciamento",
-      icon: <Badge />,
-      requiredPermission: "manage_credentials",
-    },
-    {
       id: "user-management" as DashboardTab,
       label: "Gestão de Usuários",
       icon: <People />,
       requiredPermission: "manage_users",
     },
+    {
+      id: "coupon-management" as DashboardTab,
+      label: "Gestão de Cupons",
+      icon: <Discount />,
+      requiredPermission: "manage_coupons",
+    },
+    {
+      id: "credentialing" as DashboardTab,
+      label: "Credenciamento",
+      icon: <Badge />,
+      requiredPermission: "manage_credentials",
+    },
   ];
 
-  // Em uma implementação real, isso viria do contexto de autenticação
-  const userPermissions = [
-    "view_dashboard",
-    "create_checkout",
-    "manage_credentials",
-    "manage_users",
-  ];
+  const filteredMenuItems = menuItems.filter((item) => {
+    if (!user) {
+      console.log("Usuário não encontrado");
+      return false;
+    }
+    return user.permissions.includes(item.requiredPermission);
+  });
 
-  const filteredMenuItems = menuItems.filter((item) =>
-    userPermissions.includes(item.requiredPermission)
-  );
+  const handleMenuItemClick = (tab: DashboardTab) => {
+    onTabChange(tab);
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  };
 
   const drawerContent = (
     <>
@@ -69,50 +92,40 @@ function Sidebar({ currentTab, onTabChange, isOpen }: SidebarProps) {
       </div>
       <Divider />
       <List className={styles.menuList}>
-        {filteredMenuItems.map((item) => (
-          <ListItem key={item.id} disablePadding>
-            <ListItemButton
-              selected={currentTab === item.id}
-              onClick={() => onTabChange(item.id)}
-              className={styles.menuItem}
-            >
-              <ListItemIcon className={styles.menuIcon}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
+        {filteredMenuItems.length === 0 ? (
+          <ListItem>
+            <ListItemText primary="Nenhum item de menu disponível" />
           </ListItem>
-        ))}
+        ) : (
+          filteredMenuItems.map((item) => (
+            <ListItem key={item.id} disablePadding>
+              <ListItemButton
+                selected={currentTab === item.id}
+                onClick={() => handleMenuItemClick(item.id)}
+                className={styles.menuItem}
+                aria-selected={currentTab === item.id}
+              >
+                <ListItemIcon className={styles.menuIcon}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </ListItem>
+          ))
+        )}
       </List>
     </>
   );
 
-  if (isMobile) {
-    return (
-      <Drawer
-        variant="temporary"
-        open={isOpen}
-        onClose={() => onTabChange(currentTab)}
-        ModalProps={{ keepMounted: true }}
-        className={styles.drawer}
-        classes={{ paper: styles.drawerPaper }}
-      >
-        {drawerContent}
-      </Drawer>
-    );
-  }
-
   return (
     <Drawer
-      variant="permanent"
-      open={isOpen}
-      className={`${styles.drawer} ${
-        isOpen ? styles.drawerOpen : styles.drawerClosed
-      }`}
+      variant={isMobile ? "temporary" : "permanent"}
+      open={isMobile ? isOpen : true}
+      onClose={() => setSidebarOpen(false)}
+      ModalProps={{ keepMounted: true }}
+      className={styles.drawer}
       classes={{
-        paper: `${styles.drawerPaper} ${
-          isOpen ? styles.drawerOpen : styles.drawerClosed
-        }`,
+        paper: styles.drawerPaper,
       }}
     >
       {drawerContent}

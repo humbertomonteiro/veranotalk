@@ -1,23 +1,26 @@
-import styles from "./participantCard.module.css";
+import { useState } from "react";
 import {
   Card,
   CardContent,
   Typography,
-  // Button,
   Box,
   Chip,
-  // Tooltip,
+  Button,
+  Dialog,
 } from "@mui/material";
-
-// import { Info } from "@mui/icons-material";
-
+import styles from "./participantCard.module.css";
 import { type EnhancedParticipant } from "../ParticipantList";
+import ParticipantDetailsForm from "../ParticipantDetailsForm";
+import useUser from "../../../hooks/useUser";
 
 export default function ParticipantCard({
   participant,
 }: {
   participant: EnhancedParticipant;
 }) {
+  const { user } = useUser();
+  const [openDetails, setOpenDetails] = useState(false);
+
   const getStatusColor = (status?: string) => {
     switch (status?.toLowerCase()) {
       case "approved":
@@ -40,78 +43,96 @@ export default function ParticipantCard({
     return labels[method || ""] || method || "N/A";
   };
 
+  const handleOpenDetails = () => {
+    setOpenDetails(true);
+  };
+
+  const handleCloseDetails = () => {
+    setOpenDetails(false);
+  };
+
   return (
-    <Card className={styles.card} elevation={2}>
-      <CardContent className={styles.cardContent}>
-        <Box className={styles.cardHeader}>
-          <Typography variant="h6" className={styles.participantName}>
-            {participant.name}
-          </Typography>
-          {/* <Chip
-            label={participant.checkedIn ? "Check-in OK" : ""}
-            color={participant.checkedIn ? "success" : "warning"}
-            size="small"
-          /> */}
-        </Box>
-
-        <Box className={styles.cardInfo}>
-          <Typography variant="body2" color="textSecondary">
-            📧 {participant.email}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            🆔 {participant.document}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            📞 {participant.phone || "Não informado"}
-          </Typography>
-        </Box>
-
-        {participant.checkout && (
-          <Box className={styles.checkoutInfo}>
-            <Box className={styles.amountRow}>
-              <Typography variant="subtitle2">
-                Valor: R${" "}
-                {participant.checkout.totalAmount?.toFixed(2) || "0,00"}
-              </Typography>
-              <Chip
-                label={participant.checkout.status || "N/A"}
-                color={getStatusColor(participant.checkout.status)}
+    <>
+      <Card className={styles.card} elevation={2} sx={{ p: 0 }}>
+        <CardContent className={styles.cardContent}>
+          <Box className={styles.cardHeader}>
+            <Typography className={styles.participantName}>
+              {participant.name}
+            </Typography>
+            {user?.permissions.includes("details_checkout") && (
+              <Button
+                variant="outlined"
                 size="small"
-              />
-            </Box>
-
-            <Box className={styles.paymentRow}>
-              <Typography variant="body2">
-                💳 {getPaymentMethodLabel(participant.checkout.paymentMethod)}
-              </Typography>
-              {participant.checkout.couponCode && (
-                <Chip
-                  label={`Cupom: ${participant.checkout.couponCode}`}
-                  variant="outlined"
-                  size="small"
-                />
-              )}
-            </Box>
-
-            {participant.checkout.createdAt && (
-              <Typography variant="caption" color="textSecondary">
-                📅{" "}
-                {new Date(participant.checkout.createdAt).toLocaleDateString()}
-              </Typography>
+                onClick={handleOpenDetails}
+              >
+                Detalhes
+              </Button>
             )}
           </Box>
-        )}
 
-        {/* <Tooltip title={JSON.stringify(participant.checkout, null, 2)}>
-          <Button
-            size="small"
-            startIcon={<Info />}
-            className={styles.detailsButton}
-          >
-            Detalhes
-          </Button>
-        </Tooltip> */}
-      </CardContent>
-    </Card>
+          <Box className={styles.cardInfo}>
+            <Typography variant="body2" color="textSecondary">
+              📧 {participant.email}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              🆔 {participant.document}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              📞 {participant.phone || "Não informado"}
+            </Typography>
+          </Box>
+
+          {participant.checkout && (
+            <Box className={styles.checkoutInfo}>
+              <Box className={styles.amountRow}>
+                <Typography variant="subtitle2">
+                  Valor: R${" "}
+                  {participant.checkout.totalAmount?.toFixed(2) || "0,00"}
+                </Typography>
+                <Chip
+                  label={participant.checkout.status || "N/A"}
+                  color={getStatusColor(participant.checkout.status)}
+                  size="small"
+                />
+              </Box>
+
+              <Box className={styles.paymentRow}>
+                <Typography variant="body2">
+                  💳 {getPaymentMethodLabel(participant.checkout.paymentMethod)}
+                </Typography>
+                {participant.checkout.couponCode && (
+                  <Chip
+                    label={`Cupom: ${participant.checkout.couponCode}`}
+                    variant="outlined"
+                    size="small"
+                  />
+                )}
+              </Box>
+
+              {participant.checkout.createdAt && (
+                <Typography variant="caption" color="textSecondary">
+                  📅{" "}
+                  {new Date(
+                    participant.checkout.createdAt
+                  ).toLocaleDateString()}
+                </Typography>
+              )}
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+
+      <Dialog
+        open={openDetails}
+        onClose={handleCloseDetails}
+        maxWidth="md"
+        fullWidth
+      >
+        <ParticipantDetailsForm
+          participant={participant}
+          onClose={handleCloseDetails}
+        />
+      </Dialog>
+    </>
   );
 }

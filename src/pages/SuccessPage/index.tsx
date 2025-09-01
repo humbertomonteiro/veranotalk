@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
-import AreaParticipant from "../../components/sections/AreaParticipant";
-import SummaryCheckout from "../../components/sections/SummaryCheckout";
 import styles from "./succesPage.module.css";
-import { useCheckout } from "../../hooks/useCheckout";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Checkout } from "../../domain/entities";
 import { config } from "../../config";
+import useCheckout from "../../hooks/useCheckout";
+import AreaParticipant from "../../components/sections/AreaParticipant";
+import SummaryCheckout from "../../components/sections/SummaryCheckout";
 
 const SuccessPage = () => {
   const { checkout, setCheckout } = useCheckout();

@@ -1,9 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import {
-  DashboardService,
-  type Participant,
-  type Checkout,
-} from "../../../services/dashboard";
+import { useState, useMemo } from "react";
+import { type Participant, type Checkout } from "../../../services/dashboard";
 import {
   Grid,
   Typography,
@@ -11,14 +7,21 @@ import {
   Box,
   IconButton,
   Tooltip,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from "@mui/material";
-import { ViewModule, TableChart } from "@mui/icons-material";
+import { ViewModule, TableChart, Description } from "@mui/icons-material";
 import Loading from "../../shared/Loading";
 import styles from "./participantList.module.css";
 
 import ParticipantCard from "../ParticipantCard";
 import FiltersSection from "../FiltersSection";
 import TableView from "../TableView";
+import GenerateParticipantsPDF from "../GenerateParticipantsPDF";
+
+import useCheckout from "../../../hooks/useCheckout";
 
 // Tipo combinado para participante com todos os dados do checkout
 export type EnhancedParticipant = Participant & {
@@ -27,11 +30,9 @@ export type EnhancedParticipant = Participant & {
 
 // Componente Principal
 function ParticipantList() {
-  const [allParticipants, setAllParticipants] = useState<EnhancedParticipant[]>(
-    []
-  );
-  const [loading, setLoading] = useState(true);
+  const { checkouts, loading } = useCheckout();
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [openPDFDialog, setOpenPDFDialog] = useState(false);
   const [filters, setFilters] = useState({
     document: "",
     email: "",
@@ -40,45 +41,22 @@ function ParticipantList() {
     couponCode: "",
     startDate: "" as string,
     endDate: "" as string,
+    status: "" as string,
   });
   const [page, setPage] = useState(1);
   const participantsPerPage = 6;
 
-  const paymentMethods = ["pix", "credit_card", "boleto"];
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const dashboardService = new DashboardService();
-      const participantsData = await dashboardService.getParticipants({});
-      const checkoutsData = await dashboardService.getCheckouts({});
-
-      const checkoutMap = checkoutsData.reduce((map, checkout) => {
-        map[checkout.id] = checkout;
-        return map;
-      }, {} as { [key: string]: Checkout });
-
-      const enhancedParticipants: EnhancedParticipant[] = participantsData.map(
-        (participant) => ({
-          ...participant,
-          checkout: checkoutMap[participant.checkoutId],
-        })
-      );
-
-      setAllParticipants(enhancedParticipants);
-    } catch (err) {
-      console.error("Erro ao buscar dados:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const paymentMethods = [
+    "pix",
+    "credit_card",
+    "boleto",
+    "cash",
+    "transfer",
+    "other",
+  ];
 
   const filteredParticipants = useMemo(() => {
-    return allParticipants.filter((participant) => {
+    return checkouts.filter((participant) => {
       const matchesDocument = filters.document
         ? participant.document
             .toLowerCase()
@@ -93,6 +71,9 @@ function ParticipantList() {
           : true;
       const matchesPaymentMethod = filters.paymentMethod
         ? participant.checkout?.paymentMethod === filters.paymentMethod
+        : true;
+      const matchesStatus = filters.status
+        ? participant.checkout?.status === filters.status
         : true;
       const matchesCouponCode = filters.couponCode
         ? participant.checkout?.couponCode
@@ -119,10 +100,11 @@ function ParticipantList() {
         matchesCheckedIn &&
         matchesPaymentMethod &&
         matchesCouponCode &&
+        matchesStatus &&
         matchesDateRange()
       );
     });
-  }, [allParticipants, filters]);
+  }, [checkouts, filters]);
 
   const paginatedParticipants = filteredParticipants.slice(
     (page - 1) * participantsPerPage,
@@ -145,6 +127,14 @@ function ParticipantList() {
     setPage(value);
   };
 
+  const handleOpenPDFDialog = () => {
+    setOpenPDFDialog(true);
+  };
+
+  const handleClosePDFDialog = () => {
+    setOpenPDFDialog(false);
+  };
+
   if (loading) return <Loading />;
 
   return (
@@ -155,7 +145,7 @@ function ParticipantList() {
         </Typography>
         <Box className={styles.viewControls}>
           <Typography variant="body2" color="textSecondary">
-            {filteredParticipants.length} participantes encontrados
+            {filteredParticipants.length} participantes
           </Typography>
           <Tooltip
             title={
@@ -173,6 +163,13 @@ function ParticipantList() {
               {viewMode === "cards" ? <TableChart /> : <ViewModule />}
             </IconButton>
           </Tooltip>
+          <Button
+            variant="contained"
+            startIcon={<Description />}
+            onClick={handleOpenPDFDialog}
+          >
+            Gerar PDF
+          </Button>
         </Box>
       </Box>
 
@@ -215,6 +212,12 @@ function ParticipantList() {
           />
         </Box>
       )}
+
+      <Dialog open={openPDFDialog} onClose={handleClosePDFDialog} maxWidth="md">
+        <DialogContent>
+          <GenerateParticipantsPDF onClose={handleClosePDFDialog} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

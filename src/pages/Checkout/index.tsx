@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./checkout.module.css";
-import ParticipantForm from "../../components/sections/ParticipantForm";
-import ParticipantsList from "../../components/sections/ParticipantsList";
-import PaymentInfo from "../../components/sections/PaymentInfo";
-import SummaryCard from "../../components/sections/SummaryCard";
+import ParticipantForm from "../../components/checkout/ParticipantForm";
+import ParticipantsList from "../../components/checkout/ParticipantsList";
+import PaymentInfo from "../../components/checkout/PaymentInfo";
+import SummaryCard from "../../components/checkout/SummaryCard";
 import { toast, ToastContainer } from "react-toastify";
 import { config } from "../../config";
 
@@ -60,13 +60,13 @@ export default function Checkout() {
   const unitPrice = getBasePrice(fullTickets);
   const subtotal = unitPrice * fullTickets;
 
-  const couponsAllowed = fullTickets < 5; // mesmos critérios do disableCoupons
+  const couponsAllowed = fullTickets < 5;
   const hasCoupon = couponsAllowed && Object.keys(coupon).length > 0;
 
   const discountAmount = hasCoupon
     ? discountTypeCoupon === "fixed"
-      ? discountValueCoupon * fullTickets // fixo por ingresso
-      : subtotal * (discountValueCoupon / 100) // percentual sobre o subtotal
+      ? discountValueCoupon * fullTickets
+      : subtotal * (discountValueCoupon / 100)
     : 0;
 
   const total = Math.max(0, subtotal - discountAmount);
@@ -74,18 +74,10 @@ export default function Checkout() {
   const disableCoupons = !couponsAllowed;
 
   const totalTickets = fullTickets;
-  // const disableCoupons = fullTickets >= 5;
-  // const totalAmount =
-  //   disableCoupons || discountedAmount === null
-  //     ? fullTickets * basePrice
-  //     : discountedAmount;
 
-  // Sincroniza estado do cupom quando disableCoupons mudar
   useEffect(() => {
     if (disableCoupons) {
       setCouponCode("");
-      // setDiscountedAmount(null);
-      // setDiscount(null);
     }
   }, [disableCoupons, fullTickets, basePrice]);
 

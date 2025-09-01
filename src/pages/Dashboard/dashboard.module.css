@@ -1,5 +1,5 @@
 .container {
-  background-color: var(--secondary-color);
+  background-color: #dbdbdb;
 }
 .container {
   display: flex;
@@ -10,12 +10,13 @@
 .mainContainer {
   display: flex;
   flex: 1;
-  margin-top: 64px; /* Altura do header */
+  margin-top: 64px;
+  margin-left: 240px;
 }
 
 .mainContent {
   flex: 1;
-  padding: 24px;
+  padding-top: 1rem;
   transition: margin-left 0.3s ease;
 }
 
@@ -27,9 +28,8 @@
   margin-left: 0;
 }
 
-@media (max-width: 768px) {
-  .mainContent {
-    margin-left: 0 !important;
-    padding: 16px;
+@media (max-width: 960px) {
+  .mainContainer {
+    margin-left: 0;
   }
 }

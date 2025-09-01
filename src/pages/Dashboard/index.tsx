@@ -8,24 +8,31 @@ import ManualCheckout from "../../components/dashboard/ManualCheckout";
 import Credentialing from "../../components/dashboard/Credentialing";
 import UserManagement from "../../components/dashboard/UserManagement";
 import styles from "./dashboard.module.css";
+import useUser from "../../hooks/useUser";
+import CouponManagement from "../../components/dashboard/CouponManagement";
 
-// Definição dos tipos de abas
 export type DashboardTab =
   | "dashboard"
   | "manual-checkout"
   | "credentialing"
-  | "user-management";
+  | "user-management"
+  | "coupon-management";
 
 function Dashboard() {
+  const { user } = useUser();
   const [currentTab, setCurrentTab] = useState<DashboardTab>("dashboard");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setSidebarOpen((prev) => !prev);
+  };
 
   const renderContent = () => {
     switch (currentTab) {
       case "dashboard":
         return (
           <>
-            <StatsCard />
+            {user?.permissions.includes("view_stats_cards") && <StatsCard />}
             <ParticipantList />
           </>
         );
@@ -35,6 +42,8 @@ function Dashboard() {
         return <Credentialing />;
       case "user-management":
         return <UserManagement />;
+      case "coupon-management":
+        return <CouponManagement />;
       default:
         return (
           <>
@@ -47,12 +56,13 @@ function Dashboard() {
 
   return (
     <Box className={styles.container}>
-      <Header onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <Header onMenuToggle={handleMenuToggle} />
       <Box className={styles.mainContainer}>
         <Sidebar
           currentTab={currentTab}
           onTabChange={setCurrentTab}
           isOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
         />
         <Container
           className={`${styles.mainContent} ${

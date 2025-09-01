@@ -13,8 +13,12 @@
 .cardHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cardHeader button {
+  align-self: flex-end;
 }
 
 .participantName {

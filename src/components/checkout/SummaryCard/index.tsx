@@ -2,12 +2,12 @@ import type { Participant } from "../../../pages/Checkout";
 import styles from "./summarryCard.module.css";
 import MainButton from "../../shared/MainButton";
 import type { FormEvent } from "react";
-import { useCheckout } from "../../../hooks/useCheckout";
-import { Checkout } from "../../../domain/entities";
-import { config } from "../../../config";
+import useCheckout from "../../../hooks/useCheckout";
+
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { CheckoutService } from "../../../services/checkout";
 
 interface SummaryCardProps {
   totalTickets: number;
@@ -18,22 +18,6 @@ interface SummaryCardProps {
   discount: number | null;
   couponCode: string;
   participants: Participant[];
-}
-
-export type CheckoutStatus =
-  | "pending"
-  | "processing"
-  | "approved"
-  | "rejected"
-  | "refunded"
-  | "cancelled"
-  | "failed";
-
-interface ResponseOutput {
-  checkoutId: string;
-  paymentUrl: string;
-  status: CheckoutStatus;
-  dataCheckout: Checkout;
 }
 
 export default function SummaryCard({
@@ -81,19 +65,9 @@ export default function SummaryCard({
     try {
       setLoading(true);
       toast.info("Processando seu pagamento...", { autoClose: false });
+      const checkoutService = new CheckoutService();
 
-      const response = await fetch(`${config.baseUrl}/checkout`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(checkoutData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Erro ao processar checkout");
-      }
-
-      const data: ResponseOutput = await response.json();
+      const data = await checkoutService.createCheckout(checkoutData);
 
       setCheckout(data.dataCheckout);
       localStorage.setItem("checkoutId-verano-talk", data.checkoutId);
