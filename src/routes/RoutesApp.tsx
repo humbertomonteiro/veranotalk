@@ -28,7 +28,16 @@ export default function RoutesApp() {
         element={<Sponsor phone="5598981644714" contactName="Ana Paula" />}
       />
 
-      <Route path="/webarchive" element={<WebArchive />} />
+      <Route
+        path="/webarchive"
+        element={
+          <WebArchive phone="5598984735237" contactName="Thayana Vieira" />
+        }
+      />
+      <Route
+        path="/webarchive-verano"
+        element={<WebArchive phone="5598981644714" contactName="Ana Paula" />}
+      />
       <Route
         path="/apoiar-local"
         element={

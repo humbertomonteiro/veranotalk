@@ -3,6 +3,7 @@
   padding: 2rem 0 4rem 0;
   overflow: hidden;
   z-index: 2;
+  /* min-height: 100dvh; */
 }
 
 .backgroundOverlay {

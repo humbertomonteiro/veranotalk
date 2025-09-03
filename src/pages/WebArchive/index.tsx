@@ -5,7 +5,13 @@ import Hero from "../../components/sections/Hero";
 import FooterSponsor from "../../components/template/FooterSponsor";
 import Schedule from "../../components/sections/Schedule";
 
-export default function WebArchive() {
+export default function WebArchive({
+  phone,
+  contactName,
+}: {
+  phone: string;
+  contactName: string;
+}) {
   return (
     <div>
       <Hero sponsor={true} />
@@ -13,7 +19,7 @@ export default function WebArchive() {
       <About sponsor={true} />
       <Schedule />
       <Location sponsor={true} />
-      <FooterSponsor sponsor={true} />
+      <FooterSponsor sponsor={true} phone={phone} contactName={contactName} />
     </div>
   );
 }
