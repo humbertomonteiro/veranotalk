@@ -9,7 +9,13 @@ import WhatsAppButton from "../../components/shared/WhatsAppButton";
 import FooterSponsor from "../../components/template/FooterSponsor";
 import Schedule from "../../components/sections/Schedule";
 
-export default function Sponsor() {
+export default function Sponsor({
+  phone,
+  contactName,
+}: {
+  phone: string;
+  contactName: string;
+}) {
   return (
     <div>
       <Hero sponsor={true} />
@@ -20,8 +26,8 @@ export default function Sponsor() {
       <VideosSpeakers />
       <Location sponsor={true} />
       <Questions sponsor={true} />
-      <FooterSponsor sponsor={true} />
-      <WhatsAppButton />
+      <FooterSponsor sponsor={true} phone={phone} contactName={contactName} />
+      <WhatsAppButton phone={phone} contactName={contactName} />
     </div>
   );
 }

@@ -4,15 +4,17 @@ import styles from "./sponsors.module.css";
 import { FaCrown, FaMedal, FaAward, FaGem } from "react-icons/fa";
 
 interface SponsorsProps {
-  type?: "national" | "location";
+  type?: "national" | "location" | "event";
+  phone: string;
 }
 
-export default function Sponsors({ type }: SponsorsProps) {
+export default function Sponsors({ type, phone }: SponsorsProps) {
   const sponsorships = [
     {
       id: 1,
       title: "Patrocinador Master",
       category: "Diamante",
+      priceEvent: "R$ 15.000",
       price: "R$ 25.000",
       priceNational: "R$ 60.000",
       icon: <FaGem className={styles.icon} />,
@@ -33,6 +35,7 @@ export default function Sponsors({ type }: SponsorsProps) {
       id: 2,
       title: "Patrocinador Oficial",
       category: "Ouro",
+      priceEvent: "R$ 10.000",
       price: "R$ 15.000",
       priceNational: "R$ 40.000",
       icon: <FaCrown className={styles.icon} />,
@@ -50,6 +53,7 @@ export default function Sponsors({ type }: SponsorsProps) {
       id: 3,
       title: "Patrocinador de Apoio",
       category: "Prata",
+      priceEvent: "R$ 5.000",
       price: "R$ 8.000",
       priceNational: "R$ 20.000",
       icon: <FaMedal className={styles.icon} />,
@@ -66,6 +70,7 @@ export default function Sponsors({ type }: SponsorsProps) {
       title: "Amigo do Evento",
       category: "Bronze",
       price: "R$ 4.000",
+      priceEvent: "R$ 2.000",
       priceNational: "R$ 10.000",
       icon: <FaAward className={styles.icon} />,
       benefits: [
@@ -105,7 +110,11 @@ export default function Sponsors({ type }: SponsorsProps) {
                   <div className={styles.price}>
                     {type === "location"
                       ? sponsor.price
-                      : sponsor.priceNational}
+                      : type === "national"
+                      ? sponsor.priceNational
+                      : type === "event"
+                      ? sponsor.priceEvent
+                      : sponsor.price}
                   </div>
                 </div>
                 <ul className={styles.benefits}>
@@ -117,10 +126,14 @@ export default function Sponsors({ type }: SponsorsProps) {
                   <MainButton
                     data={{
                       type: "link",
-                      link: `https://wa.me/5598984735273?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${
+                      link: `https://wa.me/${phone}?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${
                         sponsor.category
                       }%20${
-                        type === "national" ? "Nacional" : "."
+                        type === "national"
+                          ? "Nacional"
+                          : type === "location"
+                          ? "Local"
+                          : "."
                       }%20Poderia%20me%20ajudar?`,
                       text: "QUERO PATROCINAR",
                       color: sponsor.highlight ? "gold" : "white",
@@ -147,7 +160,11 @@ export default function Sponsors({ type }: SponsorsProps) {
                   <div className={styles.price}>
                     {type === "location"
                       ? sponsor.price
-                      : sponsor.priceNational}
+                      : type === "national"
+                      ? sponsor.priceNational
+                      : type === "event"
+                      ? sponsor.priceEvent
+                      : sponsor.price}
                   </div>
                 </div>
                 <ul className={styles.benefits}>
@@ -159,7 +176,7 @@ export default function Sponsors({ type }: SponsorsProps) {
                   <MainButton
                     data={{
                       type: "link",
-                      link: `https://wa.me/5598984735273?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
+                      link: `https://wa.me/${phone}?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
                       text: "QUERO PATROCINAR",
                       color: sponsor.highlight ? "gold" : "white",
                     }}

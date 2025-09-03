@@ -70,6 +70,7 @@ export default function SummaryCard({
       const data = await checkoutService.createCheckout(checkoutData);
 
       setCheckout(data.dataCheckout);
+
       localStorage.setItem("checkoutId-verano-talk", data.checkoutId);
       toast.dismiss();
       toast.success("Redirecionando para o Mercado Pago...");

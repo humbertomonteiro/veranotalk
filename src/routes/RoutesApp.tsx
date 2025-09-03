@@ -19,12 +19,41 @@ export default function RoutesApp() {
       <Route path="/" element={<Home />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-      <Route path="/apoiar" element={<Sponsor />} />
+      <Route
+        path="/apoiar"
+        element={<Sponsor phone="5598984735273" contactName="Thayana Vieira" />}
+      />
+      <Route
+        path="/apoiar-verano"
+        element={<Sponsor phone="5598981644714" contactName="Ana Paula" />}
+      />
+
       <Route path="/webarchive" element={<WebArchive />} />
-      <Route path="/apoiar-local" element={<BoxesSponsors />} />
+      <Route
+        path="/apoiar-local"
+        element={
+          <BoxesSponsors phone={"5598984735237"} contactName="Thayana Vieira" />
+        }
+      />
       <Route
         path="/apoiar-nacional"
-        element={<BoxesSponsors type="national" />}
+        element={
+          <BoxesSponsors
+            phone={"5598984735237"}
+            contactName="Thayana Vieira"
+            type="national"
+          />
+        }
+      />
+      <Route
+        path="/apoiar-event"
+        element={
+          <BoxesSponsors
+            phone={"5598981644714"}
+            contactName="Ana Paula"
+            type="event"
+          />
+        }
       />
 
       <Route path="/checkout/:id" element={<Checkout />} />

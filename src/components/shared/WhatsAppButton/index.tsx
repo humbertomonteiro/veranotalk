@@ -1,13 +1,19 @@
 import { FaWhatsapp } from "react-icons/fa";
 import styles from "./whatsAppButton.module.css";
 
-export default function WhatsAppButton() {
-  const phoneNumber = "5598984735273";
-  const contactName = "Thayana Vieira";
+export default function WhatsAppButton({
+  phone,
+  contactName,
+}: {
+  phone: string;
+  contactName: string;
+}) {
+  // const phoneNumber = "5598984735273";
+  // const contactName = "Thayana Vieira";
   const message =
     "Olá, gostaria de informações sobre patrocínios para o Verano Talk!";
 
-  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+  const whatsappLink = `https://wa.me/${phone}?text=${encodeURIComponent(
     message
   )}`;
 
