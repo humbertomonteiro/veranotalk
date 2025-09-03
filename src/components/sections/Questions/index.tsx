@@ -13,7 +13,7 @@ const questionsSponsors = [
   {
     id: 2,
     question: `Qual o público Alvo?`,
-    response: `Feminino, empresárias de vários segmentos.`,
+    response: `Empreendedores, empresários, investidores, profissionais liberais, além de pessoas interessadas em inovação, liderança e desenvolvimento profissional.`,
     link: "",
   },
   {

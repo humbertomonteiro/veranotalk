@@ -64,6 +64,16 @@ export default function RoutesApp() {
           />
         }
       />
+      <Route
+        path="/apoiar-event-local"
+        element={
+          <BoxesSponsors
+            phone={"5598981644714"}
+            contactName="Ana Paula"
+            type="event-local"
+          />
+        }
+      />
 
       <Route path="/checkout/:id" element={<Checkout />} />
       <Route path="/success" element={<SuccessPage />} />

@@ -4,7 +4,7 @@ import styles from "./sponsors.module.css";
 import { FaCrown, FaMedal, FaAward, FaGem } from "react-icons/fa";
 
 interface SponsorsProps {
-  type?: "national" | "location" | "event";
+  type?: "national" | "location" | "event" | "event-local";
   phone: string;
 }
 
@@ -14,8 +14,8 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       id: 1,
       title: "Patrocinador Master",
       category: "Diamante",
-      priceEvent: "R$ 15.000",
       price: "R$ 25.000",
+      priceEvent: "R$ 15.000",
       priceNational: "R$ 60.000",
       icon: <FaGem className={styles.icon} />,
       benefits: [
@@ -35,8 +35,8 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       id: 2,
       title: "Patrocinador Oficial",
       category: "Ouro",
-      priceEvent: "R$ 10.000",
       price: "R$ 15.000",
+      priceEvent: "R$ 10.000",
       priceNational: "R$ 40.000",
       icon: <FaCrown className={styles.icon} />,
       benefits: [
@@ -53,8 +53,8 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       id: 3,
       title: "Patrocinador de Apoio",
       category: "Prata",
-      priceEvent: "R$ 5.000",
       price: "R$ 8.000",
+      priceEvent: "R$ 5.000",
       priceNational: "R$ 20.000",
       icon: <FaMedal className={styles.icon} />,
       benefits: [
@@ -114,7 +114,7 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
                       ? sponsor.priceNational
                       : type === "event"
                       ? sponsor.priceEvent
-                      : sponsor.price}
+                      : type === "event-local" && sponsor.price}
                   </div>
                 </div>
                 <ul className={styles.benefits}>
@@ -164,7 +164,7 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
                       ? sponsor.priceNational
                       : type === "event"
                       ? sponsor.priceEvent
-                      : sponsor.price}
+                      : type === "event-local" && sponsor.price}
                   </div>
                 </div>
                 <ul className={styles.benefits}>
