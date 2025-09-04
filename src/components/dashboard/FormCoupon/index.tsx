@@ -18,11 +18,11 @@ interface FormCouponProps {
 
 function FormCoupon({ onClose, onSuccess, editingCoupon }: FormCouponProps) {
   const [formData, setFormData] = useState<CouponProps>({
-    code: editingCoupon?.code || "",
+    code: editingCoupon?.code.toLowerCase() || "",
     discountType: editingCoupon?.discountType || "fixed",
     discountValue: editingCoupon?.discountValue || 0,
-    maxUses: editingCoupon?.maxUses || null,
-    expiresAt: editingCoupon?.expiresAt || null,
+    maxUses: editingCoupon?.maxUses || undefined,
+    expiresAt: editingCoupon?.expiresAt || undefined,
     eventId: editingCoupon?.eventId || "",
   });
   const [hasExpiration, setHasExpiration] = useState(false);
