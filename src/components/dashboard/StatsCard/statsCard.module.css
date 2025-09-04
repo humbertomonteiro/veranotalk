@@ -37,18 +37,10 @@
   height: 100%;
 }
 
-.cardContent {
-  display: flex;
-  align-items: center;
-  padding: 24px;
-  height: 100%;
-}
-
 .iconContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 16px;
+  gap: 1rem;
   border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.7);
 }
@@ -107,9 +99,13 @@
     flex-direction: column;
   }
 
+  .card {
+    display: flex;
+    flex-direction: column;
+  }
+
   .cardContent {
     flex-direction: column;
-    text-align: center;
     padding: 16px;
   }
 

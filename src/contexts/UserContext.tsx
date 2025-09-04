@@ -46,6 +46,7 @@ export default function UserProvider({
     PermissionsList[] | []
   >([
     { id: "view_dashboard", label: "Visualizar Dashboard" },
+    { id: "cash_flow", label: "Fluxo de caixa" },
     { id: "create_checkout", label: "Criar Checkouts" },
     { id: "manage_credentials", label: "Gerenciar Credenciamento" },
     { id: "manage_users", label: "Gerenciar Usuários" },

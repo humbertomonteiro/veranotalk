@@ -228,6 +228,7 @@ function ManualCheckout() {
                   style: { textAlign: "center", width: 60 },
                 }}
                 variant="outlined"
+                size="small"
                 sx={{ mx: 2 }}
               />
 

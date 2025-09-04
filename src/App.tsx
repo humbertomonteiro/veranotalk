@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import RoutesApp from "./routes/RoutesApp";
 import { CheckoutProvider } from "./contexts/CheckoutContext";
+import TransactionProvider from "./contexts/TransactionContext";
 import { useEffect } from "react";
 
 import Aos from "aos";
@@ -16,8 +17,10 @@ function App() {
   return (
     <BrowserRouter>
       <CheckoutProvider>
-        <RoutesApp />
-        <div className="area"></div>
+        <TransactionProvider>
+          <RoutesApp />
+          <div className="area"></div>
+        </TransactionProvider>
       </CheckoutProvider>
     </BrowserRouter>
   );

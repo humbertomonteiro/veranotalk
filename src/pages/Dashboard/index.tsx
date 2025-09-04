@@ -10,9 +10,11 @@ import UserManagement from "../../components/dashboard/UserManagement";
 import styles from "./dashboard.module.css";
 import useUser from "../../hooks/useUser";
 import CouponManagement from "../../components/dashboard/CouponManagement";
+import TransactionManagement from "../../components/dashboard/TransactionManagement";
 
 export type DashboardTab =
   | "dashboard"
+  | "cash-flow"
   | "manual-checkout"
   | "credentialing"
   | "user-management"
@@ -36,6 +38,8 @@ function Dashboard() {
             <ParticipantList />
           </>
         );
+      case "cash-flow":
+        return <TransactionManagement />;
       case "manual-checkout":
         return <ManualCheckout />;
       case "credentialing":

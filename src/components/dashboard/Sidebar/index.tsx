@@ -15,6 +15,7 @@ import {
   Badge,
   People,
   Discount,
+  ConfirmationNumber,
 } from "@mui/icons-material";
 import { type DashboardTab } from "../../../pages/Dashboard";
 import styles from "./sidebar.module.css";
@@ -47,8 +48,14 @@ function Sidebar({
     {
       id: "manual-checkout" as DashboardTab,
       label: "Checkout Manual",
-      icon: <PointOfSale />,
+      icon: <ConfirmationNumber />,
       requiredPermission: "create_checkout",
+    },
+    {
+      id: "cash-flow" as DashboardTab,
+      label: "Fluxo de caixa",
+      icon: <PointOfSale />,
+      requiredPermission: "cash_flow",
     },
     {
       id: "user-management" as DashboardTab,

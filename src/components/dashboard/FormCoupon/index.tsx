@@ -23,7 +23,7 @@ function FormCoupon({ onClose, onSuccess, editingCoupon }: FormCouponProps) {
     discountValue: editingCoupon?.discountValue || 0,
     maxUses: editingCoupon?.maxUses || undefined,
     expiresAt: editingCoupon?.expiresAt || undefined,
-    eventId: editingCoupon?.eventId || "",
+    eventId: "verano-talk-2025",
   });
   const [hasExpiration, setHasExpiration] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -129,15 +129,6 @@ function FormCoupon({ onClose, onSuccess, editingCoupon }: FormCouponProps) {
               )
             }
             inputProps={{ min: 1 }}
-          />
-        </Grid>
-
-        <Grid>
-          <TextField
-            fullWidth
-            label="ID do Evento (opcional)"
-            value={formData.eventId || ""}
-            onChange={(e) => handleChange("eventId", e.target.value)}
           />
         </Grid>
 

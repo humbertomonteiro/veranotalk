@@ -11,6 +11,7 @@ import { AttachMoney, CheckCircle, People, Update } from "@mui/icons-material";
 import Loading from "../../shared/Loading";
 import styles from "./statsCard.module.css";
 import useCheckout from "../../../hooks/useCheckout";
+import { formatBRL } from "../../../utils/formatCurrency";
 
 function StatsCard() {
   const { loading, stats, lastUpdated, fetchStats } = useCheckout();
@@ -24,7 +25,7 @@ function StatsCard() {
   const statCards = [
     {
       title: "Valor Total",
-      value: `R$ ${stats.totalValue.toFixed(2)}`,
+      value: formatBRL(stats.totalValue),
       icon: <AttachMoney fontSize="large" />,
       description: "Valor total em checkouts aprovados",
       color: "#2e7d32",
@@ -69,23 +70,23 @@ function StatsCard() {
         {statCards.map((card, index) => (
           <Grid key={index}>
             <Card className={styles.card} sx={{ padding: "1rem" }}>
-              <CardContent className={styles.cardContent} sx={{ padding: 0 }}>
+              <CardContent className={styles.cardContent}>
+                <Typography variant="subtitle1" className={styles.title}>
+                  {card.title}
+                </Typography>
                 <Box
                   className={styles.iconContainer}
                   sx={{ color: card.color }}
                 >
-                  {card.icon}
-                </Box>
-                <Box className={styles.textContainer}>
+                  {card.icon}{" "}
                   <Typography
                     className={styles.value}
                     sx={{ color: card.color, fontSize: "1.8rem" }}
                   >
                     {card.value}
                   </Typography>
-                  <Typography variant="subtitle1" className={styles.title}>
-                    {card.title}
-                  </Typography>
+                </Box>
+                <Box className={styles.textContainer}>
                   <Typography variant="body2" className={styles.description}>
                     {card.description}
                   </Typography>

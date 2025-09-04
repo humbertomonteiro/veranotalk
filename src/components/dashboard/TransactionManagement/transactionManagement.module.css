@@ -1,0 +1,21 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  width: 100%;
+}
+
+.description {
+  color: #6c757d;
+}
+
+@media (max-width: 768px) {
+  .gridContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}
