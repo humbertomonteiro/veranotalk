@@ -22,13 +22,13 @@ export default function Location({ sponsor }: LocationProps) {
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>ONDE</span>
                 <span className={styles.highlightValue}>
-                  Blue Tree Towers São Luís
+                  Hotel Resort Rio Poty
                 </span>
               </div>
 
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>QUANDO</span>
-                <span className={styles.highlightValue}>16 de Outubro</span>
+                <span className={styles.highlightValue}>01 de Novembro</span>
               </div>
 
               <div className={styles.highlightItem}>
@@ -39,9 +39,8 @@ export default function Location({ sponsor }: LocationProps) {
 
             <p className={styles.description}>
               Um dos mais sofisticados hotéis de São Luís, com localização
-              privilegiada à beira da praia do Calhau. O espaço une conforto,
-              estrutura moderna e atmosfera elegante - perfeito para inspirar
-              transformação.
+              privilegiada. O espaço une conforto, estrutura moderna e atmosfera
+              elegante - perfeito para inspirar transformação.
             </p>
 
             <address className={styles.address}>
@@ -74,7 +73,7 @@ export default function Location({ sponsor }: LocationProps) {
           <div className={styles.visualContent} data-aos-delay="200">
             <div className={styles.imageWrapper}>
               <img
-                src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/8518894.jpg?k=de0518435df2f627c46a1c74c6d1775bb1700db00ef3ee96caa9e6ad017abdcf&o="
+                src="https://images3.motor-reserva.com.br/cdn-cgi/image/fit=scale-down,format=webp,width=1920,quality=100/curl/motor_reserva/images/configuracao_estabelecimento/cliente_3519/2024071017206290052.jpg"
                 alt="Blue Tree Towers São Luís"
                 className={styles.hotelImage}
               />
@@ -83,7 +82,7 @@ export default function Location({ sponsor }: LocationProps) {
 
             <div className={styles.mapContainer}>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13407.466542561542!2d-44.27104643299819!3d-2.4858844935808104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f68dec9ad1c7f7%3A0x519b649773b06026!2sBlue%20Tree%20Towers!5e0!3m2!1sen!2sbr!4v1752926331872!5m2!1sen!2sbr"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3986.057632761173!2d-44.3059667328186!3d-2.487876494220485!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f68c403d478bd7%3A0xe27d5a9d33498f48!2sRio%20Poty%20Hotel%20%26%20Resort!5e0!3m2!1spt-BR!2sbr!4v1757696305245!5m2!1spt-BR!2sbr"
                 loading="lazy"
                 allowFullScreen
                 className={styles.map}
