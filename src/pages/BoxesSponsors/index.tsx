@@ -3,7 +3,7 @@ import WhatsAppButton from "../../components/shared/WhatsAppButton";
 import FooterSponsor from "../../components/template/FooterSponsor";
 
 interface BoxesSponsorsProps {
-  type?: "national" | "location" | "event" | "event-local";
+  type?: "national" | "location" | "ana-top" | "ana-basic";
   phone: string;
   contactName: string;
 }

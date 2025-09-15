@@ -4,7 +4,7 @@ import styles from "./sponsors.module.css";
 import { FaCrown, FaMedal, FaAward, FaGem } from "react-icons/fa";
 
 interface SponsorsProps {
-  type?: "national" | "location" | "event" | "event-local";
+  type?: "national" | "location" | "ana-top" | "ana-basic";
   phone: string;
 }
 
@@ -14,9 +14,10 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       id: 1,
       title: "Patrocinador Master",
       category: "Diamante",
-      price: "R$ 25.000",
-      priceEvent: "R$ 15.000",
       priceNational: "R$ 60.000",
+      priceLocation: "R$ 25.000",
+      priceAnaTop: "R$ 15.000",
+      priceAnaBasic: "R$ 5.000",
       icon: <FaGem className={styles.icon} />,
       benefits: [
         "Exclusividade como patrocinador master (máx. 1 cota).",
@@ -35,9 +36,10 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       id: 2,
       title: "Patrocinador Oficial",
       category: "Ouro",
-      price: "R$ 15.000",
-      priceEvent: "R$ 10.000",
       priceNational: "R$ 40.000",
+      priceLocation: "R$ 15.000",
+      priceAnaTop: "R$ 10.000",
+      priceAnaBasic: "R$ 3.000",
       icon: <FaCrown className={styles.icon} />,
       benefits: [
         "Logomarca em destaque em todos os materiais de divulgação (digital e físico).",
@@ -53,9 +55,10 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       id: 3,
       title: "Patrocinador de Apoio",
       category: "Prata",
-      price: "R$ 8.000",
-      priceEvent: "R$ 5.000",
       priceNational: "R$ 20.000",
+      priceLocation: "R$ 8.000",
+      priceAnaTop: "R$ 5.000",
+      priceAnaBasic: "R$ 1.500",
       icon: <FaMedal className={styles.icon} />,
       benefits: [
         "Logomarca nos materiais digitais e físicos do evento.",
@@ -69,9 +72,9 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       id: 4,
       title: "Amigo do Evento",
       category: "Bronze",
-      price: "R$ 4.000",
-      priceEvent: "R$ 2.000",
       priceNational: "R$ 10.000",
+      priceLocation: "R$ 4.000",
+      priceAnaTop: "R$ 2.000",
       icon: <FaAward className={styles.icon} />,
       benefits: [
         "Logomarca no site e nas redes sociais do evento.",
@@ -108,13 +111,15 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
                   <h3>{sponsor.title}</h3>
                   <span className={styles.category}>{sponsor.category}</span>
                   <div className={styles.price}>
-                    {type === "location"
-                      ? sponsor.price
-                      : type === "national"
+                    {type === "national"
                       ? sponsor.priceNational
-                      : type === "event"
-                      ? sponsor.priceEvent
-                      : type === "event-local" && sponsor.price}
+                      : type === "location"
+                      ? sponsor.priceLocation
+                      : type === "ana-top"
+                      ? sponsor.priceAnaTop
+                      : type === "ana-basic"
+                      ? sponsor.priceAnaBasic
+                      : sponsor.priceLocation}
                   </div>
                 </div>
                 <ul className={styles.benefits}>
@@ -151,45 +156,45 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
           </div>
           {/* Segunda linha - Prata e Bronze */}
           <div className={styles.sponsorRow}>
-            {sponsorships.slice(2, 4).map((sponsor) => (
-              <div key={sponsor.id} className={styles.sponsorCard}>
-                <div className={styles.cardHeader}>
-                  <div className={styles.iconContainer}>{sponsor.icon}</div>
-                  <h3>{sponsor.title}</h3>
-                  <span className={styles.category}>{sponsor.category}</span>
-                  <div className={styles.price}>
-                    {type === "location"
-                      ? sponsor.price
-                      : type === "national"
-                      ? sponsor.priceNational
-                      : type === "event"
-                      ? sponsor.priceEvent
-                      : type === "event-local" && sponsor.price}
+            {sponsorships
+              .slice(2, 4)
+              .filter((sponsor) => !(type === "ana-basic" && sponsor.id === 4))
+              .map((sponsor) => (
+                <div key={sponsor.id} className={styles.sponsorCard}>
+                  <div className={styles.cardHeader}>
+                    <div className={styles.iconContainer}>{sponsor.icon}</div>
+                    <h3>{sponsor.title}</h3>
+                    <span className={styles.category}>{sponsor.category}</span>
+                    <div className={styles.price}>
+                      {type === "national"
+                        ? sponsor.priceNational
+                        : type === "location"
+                        ? sponsor.priceLocation
+                        : type === "ana-top"
+                        ? sponsor.priceAnaTop
+                        : type === "ana-basic"
+                        ? sponsor.priceAnaBasic
+                        : sponsor.priceLocation}
+                    </div>
+                  </div>
+                  <ul className={styles.benefits}>
+                    {sponsor.benefits.map((benefit, index) => (
+                      <li key={index}>✓ {benefit}</li>
+                    ))}
+                  </ul>
+                  <div className={styles.contact}>
+                    <MainButton
+                      data={{
+                        type: "link",
+                        link: `https://wa.me/${phone}?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
+                        text: "QUERO PATROCINAR",
+                        color: sponsor.highlight ? "gold" : "white",
+                      }}
+                      target={"_blank"}
+                    />
                   </div>
                 </div>
-                <ul className={styles.benefits}>
-                  {sponsor.benefits.map((benefit, index) => (
-                    <li key={index}>✓ {benefit}</li>
-                  ))}
-                </ul>
-                <div className={styles.contact}>
-                  <MainButton
-                    data={{
-                      type: "link",
-                      link: `https://wa.me/${phone}?text=Olá,%20gostaria%20de%20ser%20um%20apoiador%20do%20evento%20Verano%20Talk%20na%20categoria%20${sponsor.category}.%20Poderia%20me%20ajudar?`,
-                      text: "QUERO PATROCINAR",
-                      color: sponsor.highlight ? "gold" : "white",
-                    }}
-                    target={"_blank"}
-                  />
-                  {/* <p className={styles.contactText}>
-                      Produção Comercial:
-                      <br />
-                      <strong>Thayana Vieira</strong>
-                    </p> */}
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </section>

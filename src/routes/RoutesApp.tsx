@@ -19,6 +19,7 @@ export default function RoutesApp() {
       <Route path="/" element={<Home />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
+      {/* Rotas com landing page sem buttons */}
       <Route
         path="/apoiar"
         element={<Sponsor phone="5598984735273" contactName="Thayana Vieira" />}
@@ -28,6 +29,7 @@ export default function RoutesApp() {
         element={<Sponsor phone="5598981644714" contactName="Ana Paula" />}
       />
 
+      {/* Rotas para webarchive */}
       <Route
         path="/webarchive"
         element={
@@ -38,12 +40,8 @@ export default function RoutesApp() {
         path="/webarchive-verano"
         element={<WebArchive phone="5598981644714" contactName="Ana Paula" />}
       />
-      <Route
-        path="/apoiar-local"
-        element={
-          <BoxesSponsors phone={"5598984735237"} contactName="Thayana Vieira" />
-        }
-      />
+
+      {/* rotas de boxes de apoio */}
       <Route
         path="/apoiar-nacional"
         element={
@@ -55,12 +53,23 @@ export default function RoutesApp() {
         }
       />
       <Route
+        path="/apoiar-local"
+        element={
+          <BoxesSponsors
+            phone={"5598984735237"}
+            contactName="Thayana Vieira"
+            type="location"
+          />
+        }
+      />
+
+      <Route
         path="/apoiar-event"
         element={
           <BoxesSponsors
             phone={"5598981644714"}
             contactName="Ana Paula"
-            type="event"
+            type="ana-top"
           />
         }
       />
@@ -70,7 +79,17 @@ export default function RoutesApp() {
           <BoxesSponsors
             phone={"5598981644714"}
             contactName="Ana Paula"
-            type="event-local"
+            type="location"
+          />
+        }
+      />
+      <Route
+        path="/apoiar-event-basic"
+        element={
+          <BoxesSponsors
+            phone={"5598981644714"}
+            contactName="Ana Paula"
+            type="ana-basic"
           />
         }
       />
