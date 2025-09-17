@@ -19,6 +19,8 @@ import { PointOfSale, Add, Remove, Delete } from "@mui/icons-material";
 import { CheckoutService } from "../../../services/checkout";
 import useCheckout from "../../../hooks/useCheckout";
 import useUser from "../../../hooks/useUser";
+import { config } from "../../../config";
+import { ToastContainer, toast } from "react-toastify";
 
 export interface Participant {
   name: string;
@@ -43,7 +45,13 @@ function ManualCheckout() {
     ticketType: "all",
   });
   const [paymentMethod, setPaymentMethod] = useState<
-    "pix" | "credit_card" | "boleto" | "debit_card"
+    | "pix"
+    | "credit_card"
+    | "boleto"
+    | "debit_card"
+    | "cash"
+    | "transfer"
+    | "other"
   >("credit_card");
   const [installments, setInstallments] = useState(1);
   const [submitting, setSubmitting] = useState(false);
@@ -56,8 +64,21 @@ function ManualCheckout() {
     message: "",
     severity: "success",
   });
+  const [couponCode, setCouponCode] = useState("");
+  const [coupon, setCoupon] = useState({});
+  const [discountTypeCoupon, setDiscountTypeCoupon] = useState<
+    "fixed" | "percentage"
+  >("fixed");
+  const [discountValueCoupon, setDiscountValueCoupon] = useState(0);
 
-  const totalAmount = totalTickets * TICKET_PRICE;
+  const subtotal = totalTickets * TICKET_PRICE;
+  const hasCoupon = Object.keys(coupon).length > 0;
+  const discountAmount = hasCoupon
+    ? discountTypeCoupon === "fixed"
+      ? discountValueCoupon * totalTickets
+      : subtotal * (discountValueCoupon / 100)
+    : 0;
+  const totalAmount = Math.max(0, subtotal - discountAmount);
 
   const handleTicketChange = (value: number) => {
     const newValue = Math.max(1, Math.min(50, value));
@@ -111,6 +132,46 @@ function ManualCheckout() {
     setTotalTickets(Math.max(1, newParticipants.length));
   };
 
+  const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCouponCode(e.target.value);
+  };
+
+  const handleClearCoupon = () => {
+    setCouponCode("");
+    setCoupon({});
+    setDiscountTypeCoupon("fixed");
+    setDiscountValueCoupon(0);
+    toast.info("Cupom removido");
+  };
+
+  const handleApplyCoupon = async (
+    code: string = couponCode,
+    silent = false
+  ) => {
+    try {
+      const response = await fetch(`${config.baseUrl}/coupons/validate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (!silent) toast.error(errorData.error || "Erro ao validar cupom");
+        return;
+      }
+
+      const data = await response.json();
+      setCoupon(data.coupon);
+      setDiscountTypeCoupon(data.coupon.discountType);
+      setDiscountValueCoupon(data.coupon.discountValue);
+      if (!silent) toast.success(`Cupom ${code} aplicado com sucesso`);
+    } catch (error) {
+      console.log(error);
+      if (!silent) toast.error("Erro ao conectar com o servidor");
+    }
+  };
+
   const handleSubmit = async () => {
     if (participants.length !== totalTickets) {
       showSnackbar(
@@ -142,6 +203,8 @@ function ManualCheckout() {
           paymentMethod: paymentMethod,
           installments: paymentMethod === "credit_card" ? installments : 1,
           totalAmount: totalAmount,
+          couponCode: couponCode || undefined,
+          discountAmount: discountAmount || undefined,
           metadata: {
             eventId: "verano-talk-2025",
             manualPayment: true,
@@ -150,7 +213,6 @@ function ManualCheckout() {
         },
       };
 
-      // Chamar o serviço atualizado
       const checkoutService = new CheckoutService();
       const result = await checkoutService.createManualCheckout(checkoutData);
 
@@ -163,11 +225,14 @@ function ManualCheckout() {
       );
 
       fetchData();
-      // Limpar formulário após sucesso
       setParticipants([]);
       setTotalTickets(1);
       setPaymentMethod("credit_card");
       setInstallments(1);
+      setCouponCode("");
+      setCoupon({});
+      setDiscountTypeCoupon("fixed");
+      setDiscountValueCoupon(0);
     } catch (error) {
       console.error("Erro ao criar checkout:", error);
       showSnackbar(
@@ -191,6 +256,7 @@ function ManualCheckout() {
 
   return (
     <Box sx={{ p: 0 }}>
+      <ToastContainer />
       <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
         <PointOfSale sx={{ mr: 1 }} />
         <Typography variant="h5">Checkout Manual</Typography>
@@ -203,7 +269,6 @@ function ManualCheckout() {
           gap: 3,
         }}
       >
-        {/* Coluna esquerda - Formulário e participantes */}
         <Box sx={{ flex: 2 }}>
           <Paper sx={{ p: 3, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
@@ -241,8 +306,39 @@ function ManualCheckout() {
               </IconButton>
 
               <Typography variant="body1" sx={{ ml: 2 }}>
-                × R$ 499,00 = R$ {totalAmount.toFixed(2)}
+                × R$ 499,00 = R$ {subtotal.toFixed(2)}
               </Typography>
+            </Box>
+
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Cupom de Desconto
+              </Typography>
+              <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+                <TextField
+                  fullWidth
+                  label="Código do Cupom"
+                  value={couponCode}
+                  onChange={handleCouponChange}
+                  placeholder="Insira o código do cupom"
+                />
+                <Button
+                  variant="outlined"
+                  onClick={() => handleApplyCoupon()}
+                  disabled={!couponCode}
+                >
+                  Aplicar
+                </Button>
+                {couponCode && (
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleClearCoupon}
+                  >
+                    Limpar
+                  </Button>
+                )}
+              </Box>
             </Box>
 
             <Typography variant="h6" gutterBottom>
@@ -250,7 +346,6 @@ function ManualCheckout() {
               {totalTickets})
             </Typography>
 
-            {/* Lista de participantes */}
             {participants.length > 0 && (
               <Box sx={{ mb: 3 }}>
                 {participants.map((participant, index) => (
@@ -285,7 +380,6 @@ function ManualCheckout() {
               </Box>
             )}
 
-            {/* Formulário do participante */}
             {participants.length < totalTickets && (
               <Paper variant="outlined" sx={{ p: 2 }}>
                 <Typography variant="subtitle2" gutterBottom>
@@ -360,7 +454,6 @@ function ManualCheckout() {
           </Paper>
         </Box>
 
-        {/* Coluna direita - Resumo e pagamento */}
         <Box sx={{ flex: 1 }}>
           <Paper sx={{ p: 3, mb: 2 }}>
             <Typography variant="h6" gutterBottom>
@@ -374,6 +467,18 @@ function ManualCheckout() {
                 <Typography>Ingressos:</Typography>
                 <Typography>{totalTickets} × R$ 499,00</Typography>
               </Box>
+              {discountAmount > 0 && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mb: 1,
+                  }}
+                >
+                  <Typography>Desconto:</Typography>
+                  <Typography>- R$ {discountAmount.toFixed(2)}</Typography>
+                </Box>
+              )}
               <Box
                 sx={{
                   display: "flex",

@@ -22,7 +22,21 @@ export type DashboardTab =
 
 function Dashboard() {
   const { user } = useUser();
-  const [currentTab, setCurrentTab] = useState<DashboardTab>("dashboard");
+  const constentViwer = user?.permissions.includes("view_dashboard");
+  let setViwer: DashboardTab = "dashboard";
+
+  if (constentViwer) {
+    setViwer = "dashboard";
+  } else {
+    switch (user?.permissions[0]) {
+      case "create_checkout":
+        setViwer = "manual-checkout";
+        return;
+    }
+  }
+  const [currentTab, setCurrentTab] = useState<DashboardTab>(
+    setViwer || "dashboard"
+  );
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleMenuToggle = () => {
@@ -35,7 +49,11 @@ function Dashboard() {
         return (
           <>
             {user?.permissions.includes("view_stats_cards") && <StatsCard />}
-            <ParticipantList />
+            {user?.permissions.includes("view_dashboard") ? (
+              <ParticipantList />
+            ) : (
+              "Seja bem-vindo(a)"
+            )}
           </>
         );
       case "cash-flow":
