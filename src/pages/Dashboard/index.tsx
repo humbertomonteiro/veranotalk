@@ -31,7 +31,6 @@ function Dashboard() {
     switch (user?.permissions[0]) {
       case "create_checkout":
         setViwer = "manual-checkout";
-        return;
     }
   }
   const [currentTab, setCurrentTab] = useState<DashboardTab>(
