@@ -66,6 +66,7 @@ function CategoryBreakdown() {
           display: "flex",
           alignItems: "center",
           alignSelf: "flex-end",
+          marginTop: 2,
         }}
       >
         {/* <Typography variant="h6">Resumo por Categoria</Typography> */}

@@ -167,6 +167,13 @@ export default function ParticipantDetailsForm({
           </Alert>
         )}
 
+        {participant?.checkout?.metadata?.manualPayment && (
+          <Grid sx={{ pb: 2 }}>
+            <Typography variant="subtitle1" color="primary">
+              PDV: {participant?.checkout?.metadata?.processedBy}
+            </Typography>
+          </Grid>
+        )}
         <Grid container sx={{ pt: 1, gap: 2 }} className={styles.cardContent}>
           <Grid>
             <TextField
@@ -305,10 +312,14 @@ export default function ParticipantDetailsForm({
                   Atualizado em:{" "}
                   {new Date(participant.checkout.updatedAt!).toLocaleString()}
                 </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Vendido por:{" "}
+                  {participant.checkout.metadata?.processedBy || "N/A"}
+                </Typography>
               </Grid>
               <Grid>
                 <Typography variant="subtitle2" gutterBottom>
-                  Informações Fixas
+                  Informações Fixas do participante
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   ID: {participant.id}

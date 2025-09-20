@@ -21,6 +21,7 @@ import useCheckout from "../../../hooks/useCheckout";
 import useUser from "../../../hooks/useUser";
 import { config } from "../../../config";
 import { ToastContainer, toast } from "react-toastify";
+import UserTransfers from "../UserTransfers";
 
 export interface Participant {
   name: string;
@@ -211,6 +212,7 @@ function ManualCheckout() {
             processedBy: `${user?.name} - ${user?.email}`,
           },
         },
+        userId: user?.id,
       };
 
       const checkoutService = new CheckoutService();
@@ -572,6 +574,8 @@ function ManualCheckout() {
           {snackbar.message}
         </Alert>
       </Snackbar>
+
+      <UserTransfers />
     </Box>
   );
 }

@@ -11,6 +11,13 @@ export interface UserProps {
   createdAt?: Date;
   updatedAt?: Date;
   lastLogin?: Date;
+  valueSold?: number;
+  transfers?: {
+    id: string;
+    value: number;
+    status: "sent" | "accepted" | "rejected";
+    createdAt: Date;
+  }[];
 }
 
 interface UserContextType {
@@ -22,6 +29,7 @@ interface UserContextType {
   setPermissionsList: React.Dispatch<
     React.SetStateAction<[] | PermissionsList[]>
   > | null;
+  getUsers(): Promise<void>;
 }
 
 interface PermissionsList {
@@ -55,17 +63,16 @@ export default function UserProvider({
     { id: "manage_coupons", label: "Gestão de Cupons" },
   ]);
 
-  useEffect(() => {
-    async function getUsers() {
-      try {
-        const users = await userService.getUsers();
+  async function getUsers() {
+    try {
+      const users = await userService.getUsers();
 
-        setUsers(users);
-      } catch (error) {
-        console.log(error);
-      }
+      setUsers(users);
+    } catch (error) {
+      console.log(error);
     }
-
+  }
+  useEffect(() => {
     getUsers();
   }, []);
 
@@ -78,6 +85,7 @@ export default function UserProvider({
         setUsers,
         permissionsList,
         setPermissionsList,
+        getUsers,
       }}
     >
       {children}

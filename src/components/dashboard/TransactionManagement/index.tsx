@@ -1,5 +1,5 @@
 import styles from "./transactionManagement.module.css";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Box,
   Paper,
@@ -38,6 +38,7 @@ import { TransactionService } from "../../../services/transaction";
 import FormTransaction from "../FormTransaction";
 import useTransaction from "../../../hooks/useTransaction";
 import useCheckout from "../../../hooks/useCheckout";
+import useUser from "../../../hooks/useUser";
 import {
   type TransactionProps,
   TransactionCategory,
@@ -46,11 +47,13 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { formatBRL } from "../../../utils/formatCurrency";
 import CategoryBreakdown from "../CategoryBreakdown";
+import AdmUserTransfers from "../AdmUserTransfers";
 
 function TransactionManagement() {
   const { transactions, cashFlowSummary, setTransactions, setCashFlowSummary } =
     useTransaction();
-  const { stats } = useCheckout();
+  const { stats, fetchStats } = useCheckout();
+  const { users, getUsers } = useUser();
   const [openDialog, setOpenDialog] = useState<"create" | "edit" | null>(null);
   const [editingTransaction, setEditingTransaction] =
     useState<TransactionProps | null>(null);
@@ -66,6 +69,28 @@ function TransactionManagement() {
   const [filterEndDate, setFilterEndDate] = useState<string>("");
   const [sortBy, setSortBy] = useState<"date" | "amount" | "category">("date");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [totalValueTransfersAccepted, setTotalValueTransfersAccepted] =
+    useState(0);
+  const [totalValueSold, setTotalValueSold] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const valueAccepted = users.reduce((sum, user) => {
+      const userAccepted = user.transfers
+        ? user.transfers
+            .filter((transfer) => transfer.status === "accepted")
+            .reduce((s, t) => s + t.value, 0)
+        : 0;
+      return sum + userAccepted;
+    }, 0);
+    setTotalValueTransfersAccepted(valueAccepted);
+
+    const valueSold = users.reduce(
+      (sum, user) => sum + (user.valueSold ? user.valueSold : 0),
+      0
+    );
+    setTotalValueSold(valueSold);
+  }, [users]);
 
   const transactionService = new TransactionService();
 
@@ -194,6 +219,27 @@ function TransactionManagement() {
     }
   };
 
+  const handleUpdate = async () => {
+    setIsLoading(true);
+    try {
+      await Promise.all([fetchStats(), getUsers()]);
+      console.log("Update successful");
+    } catch (error) {
+      console.error("Error updating data:", error);
+      showSnackbar("Erro ao atualizar dados", "error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const valueTicketsWithoutTransfers =
+    (stats?.totalValue ?? 0) - totalValueSold;
+  const totalRevenues =
+    (cashFlowSummary?.totalDeposits ?? 0) +
+    valueTicketsWithoutTransfers +
+    totalValueTransfersAccepted;
+  const totalBalance = totalRevenues - (cashFlowSummary?.totalExpenses ?? 0);
+
   return (
     <Box>
       <Box
@@ -208,13 +254,18 @@ function TransactionManagement() {
           <AccountBalanceWallet sx={{ mr: 1 }} />
           <Typography variant="h5">Gestão de Transações</Typography>
         </Box>
-        <Button
-          variant="contained"
-          startIcon={<Add />}
-          onClick={handleNewTransaction}
-        >
-          Nova Transação
-        </Button>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Button onClick={handleUpdate} disabled={isLoading}>
+            {isLoading ? "Atualizando..." : "Atualizar"}
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            onClick={handleNewTransaction}
+          >
+            Nova Transação
+          </Button>
+        </Box>
       </Box>
 
       {/* Resumo do Fluxo de Caixa */}
@@ -241,13 +292,14 @@ function TransactionManagement() {
                   className={styles.value}
                   sx={{ fontSize: "1.8rem" }}
                 >
-                  {formatBRL(
-                    cashFlowSummary.totalDeposits + stats?.totalValue!
-                  )}
+                  {formatBRL(totalRevenues)}
                 </Typography>
 
                 <Typography variant="body2" className={styles.description}>
-                  Valor dos ingressos: {formatBRL(stats?.totalValue || 0)}
+                  Valor dos ingressos: {formatBRL(valueTicketsWithoutTransfers)}
+                </Typography>
+                <Typography variant="body2" className={styles.description}>
+                  PDV's pagos: {formatBRL(totalValueTransfersAccepted)}
                 </Typography>
                 <Typography variant="body2" className={styles.description}>
                   Outras receitas:{" "}
@@ -256,6 +308,7 @@ function TransactionManagement() {
               </Box>
             </CardContent>
           </Card>
+
           <Card className={styles.card}>
             <CardContent>
               {" "}
@@ -307,11 +360,18 @@ function TransactionManagement() {
                   className={styles.value}
                   sx={{ fontSize: "1.8rem" }}
                 >
-                  {formatBRL(cashFlowSummary.balance + stats?.totalValue!)}
+                  {formatBRL(totalBalance)}
                 </Typography>
 
                 <Typography variant="body2" className={styles.description}>
-                  Balanço são as receitas menos as despenas
+                  A receber PDV's:{" "}
+                  {formatBRL(totalValueSold - totalValueTransfersAccepted)}
+                </Typography>
+                <Typography variant="body2" className={styles.description}>
+                  Balanço projetado:{" "}
+                  {formatBRL(
+                    totalBalance + totalValueSold - totalValueTransfersAccepted
+                  )}
                 </Typography>
               </Box>
             </CardContent>
@@ -319,7 +379,7 @@ function TransactionManagement() {
         </Grid>
       )}
 
-      <CategoryBreakdown />
+      <AdmUserTransfers users={users} handleUpdate={handleUpdate} />
 
       <Card sx={{ mb: 2, gap: 2 }}>
         <Typography variant="subtitle1">Filtros</Typography>
@@ -496,6 +556,8 @@ function TransactionManagement() {
           {snackbar.message}
         </Alert>
       </Snackbar>
+
+      <CategoryBreakdown />
     </Box>
   );
 }
