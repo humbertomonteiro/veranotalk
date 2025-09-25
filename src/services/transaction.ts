@@ -2,7 +2,7 @@ import { config } from "../config";
 import {
   type TransactionProps,
   TransactionCategory,
-} from "../contexts/TransactionContext"; // Supondo que você tenha um contexto para transações
+} from "../contexts/TransactionContext";
 
 export class TransactionService {
   async createTransaction(
@@ -16,7 +16,7 @@ export class TransactionService {
         },
         body: JSON.stringify({
           ...transactionData,
-          date: transactionData.date.toISOString(), // Converte a data para ISO
+          date: transactionData.date.toISOString(),
         }),
       });
 

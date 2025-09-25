@@ -22,6 +22,7 @@ import useUser from "../../../hooks/useUser";
 import { config } from "../../../config";
 import { ToastContainer, toast } from "react-toastify";
 import UserTransfers from "../UserTransfers";
+import ParticipantList from "../ParticipantList";
 
 export interface Participant {
   name: string;
@@ -150,6 +151,7 @@ function ManualCheckout() {
     silent = false
   ) => {
     try {
+      // const codeLowerCase = code.toLowerCase();
       const response = await fetch(`${config.baseUrl}/coupons/validate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -576,6 +578,8 @@ function ManualCheckout() {
       </Snackbar>
 
       <UserTransfers />
+
+      <ParticipantList filtersPDVs={`${user?.name} - ${user?.email}`} />
     </Box>
   );
 }

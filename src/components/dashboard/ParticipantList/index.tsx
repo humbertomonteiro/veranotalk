@@ -30,8 +30,12 @@ export type EnhancedParticipant = ParticipantProps & {
   checkout?: CheckoutProps;
 };
 
+interface ParticipantListProps {
+  filtersPDVs?: string;
+}
+
 // Componente Principal
-function ParticipantList() {
+function ParticipantList({ filtersPDVs }: ParticipantListProps) {
   const { checkouts, loading } = useCheckout();
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   const [openPDFDialog, setOpenPDFDialog] = useState(false);
@@ -44,6 +48,7 @@ function ParticipantList() {
     startDate: "" as string,
     endDate: "" as string,
     status: "" as string,
+    filtersPDVs,
   });
   const [page, setPage] = useState(1);
   const participantsPerPage = 6;
@@ -82,6 +87,11 @@ function ParticipantList() {
             ?.toLowerCase()
             .includes(filters.couponCode.toLowerCase())
         : true;
+      const matchesFilterPDVs = filters.filtersPDVs
+        ? participant.checkout?.metadata?.processedBy
+            ?.toLowerCase()
+            .includes(filters.filtersPDVs.toLowerCase())
+        : true;
       const matchesDateRange = () => {
         if (!filters.startDate && !filters.endDate) return true;
         const createdAt = participant.checkout?.createdAt
@@ -103,6 +113,7 @@ function ParticipantList() {
         matchesPaymentMethod &&
         matchesCouponCode &&
         matchesStatus &&
+        matchesFilterPDVs &&
         matchesDateRange()
       );
     });

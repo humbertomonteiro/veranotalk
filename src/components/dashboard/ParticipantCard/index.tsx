@@ -87,7 +87,10 @@ export default function ParticipantCard({
               <Box className={styles.amountRow}>
                 <Typography variant="subtitle2">
                   Valor: R${" "}
-                  {participant.checkout.totalAmount?.toFixed(2) || "0,00"}
+                  {(
+                    participant.checkout.totalAmount! /
+                    participant.checkout.metadata?.participantIds?.length!
+                  )?.toFixed(2) || "0,00"}
                 </Typography>
                 <Chip
                   label={participant.checkout.status || "N/A"}

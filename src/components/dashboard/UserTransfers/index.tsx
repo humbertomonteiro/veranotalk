@@ -156,7 +156,7 @@ export default function UserTransfers() {
   };
 
   return (
-    <Box sx={{ p: 2, bgcolor: "background.default" }}>
+    <Box sx={{ p: 2, mb: 3, bgcolor: "background.default" }}>
       <ToastContainer />
       <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
         <PointOfSale sx={{ mr: 1, color: "primary.main" }} />
