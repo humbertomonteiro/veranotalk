@@ -28,9 +28,9 @@ export default function Tickets() {
       <div className={styles.container}>
         {/* Ticket 1 - Primeiro Lote */}
         <div className={`${styles.ticket} ${styles.highlight}`}>
-          <div className={styles.ribbon}>MENOR PREÇO</div>
+          {/* <div className={styles.ribbon}>MENOR PREÇO</div> */}
           <div className={styles.ticketHeader}>
-            <span className={styles.lote}>PRIMEIRO LOTE</span>
+            <span className={styles.lote}>Ingresso</span>
             <div className={styles.price}>
               <span className={styles.installmentRegular}>12x de </span>
               <span className={styles.value}>
@@ -61,11 +61,11 @@ export default function Tickets() {
           />
         </div>
 
-        {/* Ticket 2 - Grupo */}
+        {/* Ticket 2 - Segundo Lote */}
         <div className={`${styles.ticket} ${styles.highlight}`}>
-          <div className={styles.ribbon}>GRUPO (MÍNIMO 5)</div>
+          <div className={styles.ribbon}>Casadinha (Mínimo 2)</div>
           <div className={styles.ticketHeader}>
-            <span className={styles.lote}>PRIMEIRO LOTE - GRUPO</span>
+            <span className={styles.lote}>Igresso - Casadinha</span>
             <div className={styles.price}>
               <span className={styles.installmentRegular}>12x de </span>
 
@@ -83,7 +83,7 @@ export default function Tickets() {
             <span className={styles.fullPrice}>À vista: R$ 399,00 (cada)</span>
           </div>
           <ul className={styles.benefits}>
-            <li>✓ Desconto especial para grupos (mínimo 5 ingressos)</li>
+            <li>✓ Desconto especial para duplas (mínimo 2 ingressos)</li>
             <li>✓ Acesso a todas as palestras</li>
             <li>✓ Material exclusivo em PDF</li>
             <li>✓ Certificado digital</li>
@@ -93,30 +93,35 @@ export default function Tickets() {
               type: "link",
               link: "/checkout/2",
               text: "COMPRAR AGORA",
-              color: "gold",
+              color: "white",
+              disabled: true,
             }}
           />
         </div>
 
-        {/* Ticket 3 - Segundo Lote */}
-        <div className={styles.ticket}>
+        {/* Ticket 3 - Grupo */}
+        <div className={`${styles.ticket} ${styles.highlight}`}>
+          <div className={styles.ribbon}>GRUPO (MÍNIMO 5)</div>
           <div className={styles.ticketHeader}>
-            <span className={styles.lote}>SEGUNDO LOTE</span>
+            <span className={styles.lote}>Ingresso - GRUPO</span>
             <div className={styles.price}>
               <span className={styles.installmentRegular}>12x de </span>
+
               <span className={styles.value}>
-                <span className={styles.cents}>R$</span> 58
-                <span className={styles.cents}>,46</span>
+                <span className={styles.cents}>R$</span> 36
+                <span className={styles.cents}>,12</span>
               </span>
+              <span className={styles.installmentRegular}>(cada)</span>
             </div>
             <div className={styles.installmentInfo}>
               <span className={styles.installmentHighlight}>
-                Ou 6x sem juros de R$ 99,83
+                Ou 6x sem juros de R$ 59,17
               </span>
             </div>
-            <span className={styles.fullPrice}>À vista: R$ 599,00</span>
+            <span className={styles.fullPrice}>À vista: R$ 355,00 (cada)</span>
           </div>
           <ul className={styles.benefits}>
+            <li>✓ Desconto especial para grupos (mínimo 5 ingressos)</li>
             <li>✓ Acesso a todas as palestras</li>
             <li>✓ Material exclusivo em PDF</li>
             <li>✓ Certificado digital</li>
@@ -124,10 +129,9 @@ export default function Tickets() {
           <MainButton
             data={{
               type: "link",
-              // link: "/checkout/2",
-              text: "SEGUNDO LOTE EM BREVE",
-              color: "white",
-              disabled: true,
+              link: "/checkout/3",
+              text: "COMPRAR AGORA",
+              color: "gold",
             }}
           />
         </div>
