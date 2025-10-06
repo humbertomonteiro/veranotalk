@@ -74,8 +74,8 @@ export default function Location({ sponsor }: LocationProps) {
           <div className={styles.visualContent} data-aos-delay="200">
             <div className={styles.imageWrapper}>
               <img
-                src="https://images3.motor-reserva.com.br/cdn-cgi/image/fit=scale-down,format=webp,width=1920,quality=100/curl/motor_reserva/images/configuracao_estabelecimento/cliente_3519/2024071017206290052.jpg"
-                alt="Blue Tree Towers São Luís"
+                src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/430493440.jpg?k=e4b5eed7a3bc025a5cdfba4508fd3b568751eadf07d35b45f236d63bc0e80b76&o="
+                alt="Hotel Resort Rio Poty"
                 className={styles.hotelImage}
               />
               <div className={styles.imageOverlay}></div>
