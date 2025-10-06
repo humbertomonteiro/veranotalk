@@ -17,7 +17,7 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       priceNational: "R$ 60.000",
       priceLocation: "R$ 25.000",
       priceAnaTop: "R$ 15.000",
-      priceAnaBasic: "R$ 5.000",
+      priceAnaBasic: "R$ 10.000",
       icon: <FaGem className={styles.icon} />,
       benefits: [
         "Exclusividade como patrocinador master (máx. 1 cota).",
@@ -39,7 +39,7 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       priceNational: "R$ 40.000",
       priceLocation: "R$ 15.000",
       priceAnaTop: "R$ 10.000",
-      priceAnaBasic: "R$ 3.000",
+      priceAnaBasic: "R$ 5.000",
       icon: <FaCrown className={styles.icon} />,
       benefits: [
         "Logomarca em destaque em todos os materiais de divulgação (digital e físico).",
@@ -58,7 +58,7 @@ export default function Sponsors({ type, phone }: SponsorsProps) {
       priceNational: "R$ 20.000",
       priceLocation: "R$ 8.000",
       priceAnaTop: "R$ 5.000",
-      priceAnaBasic: "R$ 1.500",
+      priceAnaBasic: "R$ 3.000",
       icon: <FaMedal className={styles.icon} />,
       benefits: [
         "Logomarca nos materiais digitais e físicos do evento.",
