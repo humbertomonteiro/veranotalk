@@ -14,7 +14,7 @@ export default function Location({ sponsor }: LocationProps) {
         <div className={styles.content}>
           <div className={styles.textContent}>
             <div className={styles.header}>
-              <h3>O PALCO DO VERANO TALK 2025</h3>
+              <h3>O PALCO DO VERANO TALK 2026</h3>
               <div className={styles.divider}></div>
             </div>
 
@@ -22,13 +22,13 @@ export default function Location({ sponsor }: LocationProps) {
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>ONDE</span>
                 <span className={styles.highlightValue}>
-                  Hotel Resort Rio Poty
+                  Blue Tree Towers São Luis
                 </span>
               </div>
 
               <div className={styles.highlightItem}>
                 <span className={styles.highlightLabel}>QUANDO</span>
-                <span className={styles.highlightValue}>01 de Novembro</span>
+                <span className={styles.highlightValue}>21 de Março</span>
               </div>
 
               <div className={styles.highlightItem}>
@@ -55,8 +55,7 @@ export default function Location({ sponsor }: LocationProps) {
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
               </svg>
-              Av. dos Holandeses, 2/5 - Quadra 32 - Ponta D'areia, São Luís -
-              MA, 65071-380
+              Endereço: Av. Avicenia, 1 – Calhau, São Luís – MA
             </address>
 
             {!sponsor && (
@@ -74,8 +73,8 @@ export default function Location({ sponsor }: LocationProps) {
           <div className={styles.visualContent} data-aos-delay="200">
             <div className={styles.imageWrapper}>
               <img
-                src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/430493440.jpg?k=e4b5eed7a3bc025a5cdfba4508fd3b568751eadf07d35b45f236d63bc0e80b76&o="
-                alt="Hotel Resort Rio Poty"
+                src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/8518894.jpg?k=de0518435df2f627c46a1c74c6d1775bb1700db00ef3ee96caa9e6ad017abdcf&o="
+                alt="Blue Tree São Luis"
                 className={styles.hotelImage}
               />
               <div className={styles.imageOverlay}></div>
@@ -83,9 +82,8 @@ export default function Location({ sponsor }: LocationProps) {
 
             <div className={styles.mapContainer}>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3986.057632761173!2d-44.3059667328186!3d-2.487876494220485!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f68c403d478bd7%3A0xe27d5a9d33498f48!2sRio%20Poty%20Hotel%20%26%20Resort!5e0!3m2!1spt-BR!2sbr!4v1757696305245!5m2!1spt-BR!2sbr"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7972.122225237989!2d-44.264989!3d-2.486725!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f68dec9ad1c7f7%3A0x519b649773b06026!2sBlue%20Tree%20Premium%20S%C3%A3o%20Lu%C3%ADs!5e0!3m2!1spt-BR!2sbr!4v1760466718584!5m2!1spt-BR!2sbr"
                 loading="lazy"
-                allowFullScreen
                 className={styles.map}
               ></iframe>
             </div>

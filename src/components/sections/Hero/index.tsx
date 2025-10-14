@@ -44,7 +44,7 @@ export default function Hero({ sponsor }: HeroProps) {
           <div className={styles.highlightBox}>
             <span>SÃO LUIS - MARANHÃO</span>
             <div className={styles.divider}></div>
-            <span>01/11/2025 - Das 09 as 20 horas </span>
+            <span>21/03/2026 - Das 09 as 20 horas </span>
           </div>
 
           {!sponsor && (
