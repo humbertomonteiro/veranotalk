@@ -20,7 +20,7 @@ export default function VideosSpeakers() {
 
     return () => {
       const script = document.querySelector(
-        'script[src="https://www.instagram.com/embed.js"]'
+        'script[src="https://www.instagram.com/embed.js"]',
       );
       if (script) document.body.removeChild(script);
     };
@@ -35,10 +35,10 @@ export default function VideosSpeakers() {
       url: "https://www.instagram.com/reel/DL0oMNJpI7z/",
       instagramUser: "joyalano_",
     },
-    {
-      url: "https://www.instagram.com/reel/DJra3eExxQr/",
-      instagramUser: "euandressaleao",
-    },
+    // {
+    //   url: "https://www.instagram.com/reel/DJra3eExxQr/",
+    //   instagramUser: "euandressaleao",
+    // },
     {
       url: "https://www.instagram.com/reel/DKuF_rdOJgE/",
       instagramUser: "danixaviier",

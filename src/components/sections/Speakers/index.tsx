@@ -5,7 +5,7 @@ import styles from "./speakers.module.css";
 import danieleXavier from "../../../assets/speakers/daniele-xavier.jpeg";
 import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
 import joyAlano from "../../../assets/speakers/joy-alano.jpeg";
-import andressaLeao from "../../../assets/speakers/andressa-leao.jpeg";
+// import andressaLeao from "../../../assets/speakers/andressa-leao.jpeg";
 
 // Importe os estilos do Swiper
 import "swiper/css";
@@ -80,30 +80,30 @@ export default function Speakers() {
         "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
       badge: "LIDERANÇA",
     },
-    {
-      id: 4,
-      name: "Andressa Leão",
-      image: andressaLeao,
-      title: "Empresaria e Mentora",
-      bio: [
-        `Proprietária da Andressa Leão Store, com mais de
-        100 mil seguidoras no Instagram, Andressa construiu
-        uma identidade sólida no varejo de moda por meio de
-        curadoria cuidadosa e posicionamento autêntico.`,
-        `Com anos de experiência em gestão de loja física, ecommerce
-        e lives de vendas, ela combina expertise
-        comercial com conexão genuína ao público. No
-        Verano Talk, vai compartilhar como integrar estilo,
-        presença digital e estratégias de
-        vendas para transformar um negócio
-        de moda em uma marca relevante
-        e lucrativa.
-        `,
-      ],
-      // quote:
-      //   "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
-      badge: "POSICIONAMENTO",
-    },
+    // {
+    //   id: 4,
+    //   name: "Andressa Leão",
+    //   image: andressaLeao,
+    //   title: "Empresaria e Mentora",
+    //   bio: [
+    //     `Proprietária da Andressa Leão Store, com mais de
+    //     100 mil seguidoras no Instagram, Andressa construiu
+    //     uma identidade sólida no varejo de moda por meio de
+    //     curadoria cuidadosa e posicionamento autêntico.`,
+    //     `Com anos de experiência em gestão de loja física, ecommerce
+    //     e lives de vendas, ela combina expertise
+    //     comercial com conexão genuína ao público. No
+    //     Verano Talk, vai compartilhar como integrar estilo,
+    //     presença digital e estratégias de
+    //     vendas para transformar um negócio
+    //     de moda em uma marca relevante
+    //     e lucrativa.
+    //     `,
+    //   ],
+    //   // quote:
+    //   //   "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
+    //   badge: "POSICIONAMENTO",
+    // },
   ];
 
   return (

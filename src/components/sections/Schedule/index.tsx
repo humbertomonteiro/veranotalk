@@ -3,7 +3,7 @@ import styles from "./schedule.module.css";
 // Importando imagens (ajuste os caminhos conforme necessário)
 import daniXavier from "../../../assets/speakers/daniele-xavier.jpeg";
 import joyAlano from "../../../assets/speakers/joy-alano.jpeg";
-import andressaLeao from "../../../assets/speakers/andressa-leao.jpeg";
+// import andressaLeao from "../../../assets/speakers/andressa-leao.jpeg";
 import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
 // import genericSpeaker from "../../../assets/speakers/generic-speaker.jpg";
 
@@ -66,13 +66,13 @@ export default function Schedule({ id }: ScheduleProps) {
       image: joyAlano,
       type: "talk",
     },
-    {
-      time: "15:00 - 16:00",
-      speaker: "Andresa Leão",
-      theme: "Como o Posicionamento Impulsiona Seus Negócios",
-      image: andressaLeao,
-      type: "talk",
-    },
+    // {
+    //   time: "15:00 - 16:00",
+    //   speaker: "Andresa Leão",
+    //   theme: "Como o Posicionamento Impulsiona Seus Negócios",
+    //   image: andressaLeao,
+    //   type: "talk",
+    // },
     {
       time: "16:00 - 16:30",
       title: "Intervalo",
