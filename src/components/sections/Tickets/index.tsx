@@ -70,17 +70,17 @@ export default function Tickets() {
               <span className={styles.installmentRegular}>12x de </span>
 
               <span className={styles.value}>
-                <span className={styles.cents}>R$</span> 38
-                <span className={styles.cents}>,94</span>
+                <span className={styles.cents}>R$</span> 35
+                <span className={styles.cents}>,52</span>
               </span>
               <span className={styles.installmentRegular}>(cada)</span>
             </div>
             <div className={styles.installmentInfo}>
               <span className={styles.installmentHighlight}>
-                Ou 6x sem juros de R$ 66,50
+                Ou 6x sem juros de R$ 58,18 (cada)
               </span>
             </div>
-            <span className={styles.fullPrice}>À vista: R$ 399,00 (cada)</span>
+            <span className={styles.fullPrice}>À vista: R$ 349,00 (cada)</span>
           </div>
           <ul className={styles.benefits}>
             <li>✓ Desconto especial para duplas (mínimo 2 ingressos)</li>
@@ -108,17 +108,17 @@ export default function Tickets() {
               <span className={styles.installmentRegular}>12x de </span>
 
               <span className={styles.value}>
-                <span className={styles.cents}>R$</span> 36
-                <span className={styles.cents}>,12</span>
+                <span className={styles.cents}>R$</span> 30
+                <span className={styles.cents}>,43</span>
               </span>
               <span className={styles.installmentRegular}>(cada)</span>
             </div>
             <div className={styles.installmentInfo}>
               <span className={styles.installmentHighlight}>
-                Ou 6x sem juros de R$ 59,17
+                Ou 6x sem juros de R$ 49,84 (cada)
               </span>
             </div>
-            <span className={styles.fullPrice}>À vista: R$ 355,00 (cada)</span>
+            <span className={styles.fullPrice}>À vista: R$ 299,00 (cada)</span>
           </div>
           <ul className={styles.benefits}>
             <li>✓ Desconto especial para grupos (mínimo 5 ingressos)</li>

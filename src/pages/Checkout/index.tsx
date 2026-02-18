@@ -23,10 +23,10 @@ export default function Checkout() {
   const minTickets = isGroupTicket ? 5 : isDoubleTicket ? 2 : 1;
 
   const getBasePrice = (tickets: number) => {
-    if (isGroupTicket) return 355;
-    if (isDoubleTicket) return 399;
-    if (tickets >= 5) return 355;
-    if (tickets >= 2) return 399;
+    if (isGroupTicket) return 299;
+    if (isDoubleTicket) return 349;
+    if (tickets >= 5) return 299;
+    if (tickets >= 2) return 349;
     return 499;
   };
 
@@ -50,12 +50,12 @@ export default function Checkout() {
   const ticketLabel = isGroupTicket
     ? "Ingresso de Grupo (mínimo 5 ingressos)"
     : isDoubleTicket
-    ? "Ingresso Casadinha (mínimo 2 ingressos)"
-    : fullTickets >= 5
-    ? "Ingresso de Grupo"
-    : fullTickets >= 2
-    ? "Ingresso Casadinha"
-    : "Ingresso Individual";
+      ? "Ingresso Casadinha (mínimo 2 ingressos)"
+      : fullTickets >= 5
+        ? "Ingresso de Grupo"
+        : fullTickets >= 2
+          ? "Ingresso Casadinha"
+          : "Ingresso Individual";
 
   const unitPrice = getBasePrice(fullTickets);
   const subtotal = unitPrice * fullTickets;
@@ -94,7 +94,7 @@ export default function Checkout() {
       toast.error(
         `Mínimo de ${minTickets} ingresso${
           minTickets > 1 ? "s" : ""
-        } para este lote`
+        } para este lote`,
       );
       return;
     }
@@ -108,7 +108,7 @@ export default function Checkout() {
       toast.error(
         `Mínimo de ${minTickets} ingresso${
           minTickets > 1 ? "s" : ""
-        } e máximo de 50`
+        } e máximo de 50`,
       );
     }
     setFullTickets(value);
@@ -149,7 +149,7 @@ export default function Checkout() {
       toast.error(
         `Mínimo de ${minTickets} ingresso${
           minTickets > 1 ? "s" : ""
-        } para este lote`
+        } para este lote`,
       );
       return;
     }
@@ -173,7 +173,7 @@ export default function Checkout() {
 
   const handleApplyCoupon = async (
     code: string = couponCode,
-    silent = false
+    silent = false,
   ) => {
     if (!couponsAllowed) {
       if (!silent) toast.error("Cupons são permitidos apenas para 1 ingresso");
