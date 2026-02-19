@@ -4,6 +4,7 @@ import styles from "./hero.module.css";
 
 import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
 // import woman1 from "../../../assets/speakers/andressa-leao.jpeg";'
+import woman1 from "../../../assets/speakers/luciana-wodzik.jpeg";
 import woman2 from "../../../assets/speakers/daniele-xavier.jpeg";
 import woman3 from "../../../assets/speakers/joy-alano.jpeg";
 
@@ -78,15 +79,15 @@ export default function Hero({ sponsor }: HeroProps) {
 
         <div className={styles.secondaryGrid} data-aos-dalay="200">
           {/* <div className={styles.secondaryImages} > */}
-          {/* <div className={styles.img}>
+          <div className={styles.img}>
             <img src={woman1} alt="Participantes do evento" />
             <div className={styles.imgOverlay}>
               <div className={styles.imgContent}>
-                <h3>Andressa Leão</h3>
+                <h3>Luciana Wodzik</h3>
                 <p>#Posicionamento</p>
               </div>
             </div>
-          </div> */}
+          </div>
           <div className={styles.img}>
             <img src={woman2} alt="Palestrante no evento" />
             <div className={styles.imgOverlay}>

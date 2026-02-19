@@ -5,6 +5,7 @@ import daniXavier from "../../../assets/speakers/daniele-xavier.jpeg";
 import joyAlano from "../../../assets/speakers/joy-alano.jpeg";
 // import andressaLeao from "../../../assets/speakers/andressa-leao.jpeg";
 import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
+import lucianaWodzik from "../../../assets/speakers/luciana-wodzik.jpeg";
 // import genericSpeaker from "../../../assets/speakers/generic-speaker.jpg";
 
 interface ScheduleItem {
@@ -66,13 +67,13 @@ export default function Schedule({ id }: ScheduleProps) {
       image: joyAlano,
       type: "talk",
     },
-    // {
-    //   time: "15:00 - 16:00",
-    //   speaker: "Andresa Leão",
-    //   theme: "Como o Posicionamento Impulsiona Seus Negócios",
-    //   image: andressaLeao,
-    //   type: "talk",
-    // },
+    {
+      time: "15:00 - 16:00",
+      speaker: "Luciana Wodzik",
+      theme: "Como o Posicionamento Impulsiona Seus Negócios",
+      image: lucianaWodzik,
+      type: "talk",
+    },
     {
       time: "16:00 - 16:30",
       title: "Intervalo",

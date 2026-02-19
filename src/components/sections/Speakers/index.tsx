@@ -5,7 +5,8 @@ import styles from "./speakers.module.css";
 import danieleXavier from "../../../assets/speakers/daniele-xavier.jpeg";
 import felipeTheodoro from "../../../assets/speakers/felipe-theodoro.jpeg";
 import joyAlano from "../../../assets/speakers/joy-alano.jpeg";
-// import andressaLeao from "../../../assets/speakers/andressa-leao.jpeg";
+import lucianaWodzik from "../../../assets/speakers/luciana-wodzik.jpeg";
+// import lucianaWodzik from "../../../assets/speakers/andressa-leao.jpeg";
 
 // Importe os estilos do Swiper
 import "swiper/css";
@@ -79,6 +80,47 @@ export default function Speakers() {
       quote:
         "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
       badge: "LIDERANÇA",
+    },
+    {
+      id: 4,
+      name: "Luciana Wodzik",
+      image: lucianaWodzik,
+      title: "CEO domaior grupo de moda da América Latina",
+      bio: [
+        `De modelo de calce a CEO do
+maior grupo de moda da
+América Latina
+Luciana Wodzik construiu uma
+trajetória singular e inspiradora no
+varejo brasileir
+Iniciou sua carreira como modelo de
+calce na Arezzo&Co, no Nordeste, e,
+com visão estratégica e uma
+capacidade incomum de execução,
+chegou à presidência da companhia
+tornando-se a primeira mulher não
+fundadora a assumir a cadeira de
+CEO do maior grupo de moda da
+América Latina
+Ao longo de quase três décadas,
+liderou as principais marcas do
+portfólio:
+Arezzo, Schutz, Anacapri, Alexandre
+Birman, Brizza e Vans Brasil 
+e foi
+protagonista em momentos-chave
+da história da empresa.`,
+        `Hoje, Lu Wodzik se consolida como
+referência em liderança feminina,
+cultura de alta performance e
+transformação no varejo , unindo
+vis ão de negócio, sensibilidade
+criativa e execução impecável.
+        `,
+      ],
+      // quote:
+      //   "Porque vender bem não é empurrar produto... é falar a língua do perfil certo.",
+      badge: "POSICIONAMENTO",
     },
     // {
     //   id: 4,
