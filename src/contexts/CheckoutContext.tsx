@@ -27,6 +27,12 @@ type CheckoutContextType = {
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
   generateParticipantsPDF: (fields: string[]) => Promise<void>;
+  ticketDefault: number;
+  setTicketDefault: Dispatch<SetStateAction<number>>;
+  ticketDouble: number;
+  setTicketDouble: Dispatch<SetStateAction<number>>;
+  ticketGroup: number;
+  setTicketGroup: Dispatch<SetStateAction<number>>;
 };
 
 type StatsType = {
@@ -40,7 +46,7 @@ type StatsType = {
 
 // 3. Criação do contexto
 export const CheckoutContext = createContext<CheckoutContextType | undefined>(
-  undefined
+  undefined,
 );
 
 // 4. Provider
@@ -54,6 +60,9 @@ export const CheckoutProvider = ({ children }: Props) => {
   const [lastUpdated, setLastUpdated] = useState<string>("");
   const [checkout, setCheckout] = useState<CheckoutProps>();
   const [checkouts, setCheckouts] = useState<EnhancedParticipant[]>([]);
+  const [ticketDefault, setTicketDefault] = useState(499);
+  const [ticketDouble, setTicketDouble] = useState(399);
+  const [ticketGroup, setTicketGroup] = useState(349);
 
   useEffect(() => {
     fetchData();
@@ -84,16 +93,19 @@ export const CheckoutProvider = ({ children }: Props) => {
       const participantsData = await dashboardService.getParticipants({});
       const checkoutsData = await dashboardService.getCheckouts({});
 
-      const checkoutMap = checkoutsData.reduce((map, checkout) => {
-        map[checkout.id!] = checkout;
-        return map;
-      }, {} as { [key: string]: CheckoutProps });
+      const checkoutMap = checkoutsData.reduce(
+        (map, checkout) => {
+          map[checkout.id!] = checkout;
+          return map;
+        },
+        {} as { [key: string]: CheckoutProps },
+      );
 
       const enhancedParticipants: EnhancedParticipant[] = participantsData.map(
         (participant) => ({
           ...participant,
           checkout: checkoutMap[participant.checkoutId],
-        })
+        }),
       );
 
       setCheckouts(enhancedParticipants);
@@ -124,7 +136,7 @@ export const CheckoutProvider = ({ children }: Props) => {
       // Validar campos
       const validFields = ["nome", "documento", "email", "celular", "cupom"];
       const selectedFields = fields.filter((field) =>
-        validFields.includes(field)
+        validFields.includes(field),
       );
       if (selectedFields.length === 0) {
         throw new Error("Nenhum campo válido selecionado");
@@ -132,7 +144,7 @@ export const CheckoutProvider = ({ children }: Props) => {
 
       // Ordenar participantes por nome
       const sortedParticipants = [...checkouts].sort((a, b) =>
-        a.name.localeCompare(b.name)
+        a.name.localeCompare(b.name),
       );
 
       // Mapeamento de campos para cabeçalhos da tabela
@@ -173,7 +185,7 @@ export const CheckoutProvider = ({ children }: Props) => {
         .map((participant) =>
           selectedFields
             .map((field) => fieldToData(participant, field))
-            .join(" & ")
+            .join(" & "),
         )
         .join(" \\\\ \\hline\n");
 
@@ -255,6 +267,12 @@ export const CheckoutProvider = ({ children }: Props) => {
         loading,
         setLoading,
         generateParticipantsPDF,
+        ticketDefault,
+        setTicketDefault,
+        ticketDouble,
+        setTicketDouble,
+        ticketGroup,
+        setTicketGroup,
       }}
     >
       {children}

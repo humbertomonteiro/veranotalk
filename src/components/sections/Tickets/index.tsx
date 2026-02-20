@@ -5,7 +5,29 @@ import styles from "./tickets.module.css";
 
 import { FaCreditCard } from "react-icons/fa";
 
+import useCheckout from "../../../hooks/useCheckout";
+import { formatBRL } from "../../../utils/formatCurrency";
+
+const splitPrice = (value: number) => {
+  const total = (value * 1.2211) / 12;
+
+  // Formata o número com 2 casas decimais fixas
+  const formatted = new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(total);
+
+  const [integer, cents] = formatted.split(",");
+  return { integer, cents };
+};
+
 export default function Tickets() {
+  const { ticketDefault, ticketDouble, ticketGroup } = useCheckout();
+
+  const priceDefault = splitPrice(ticketDefault);
+  const priceDouble = splitPrice(ticketDouble);
+  const priceGroup = splitPrice(ticketGroup);
+
   return (
     <section id="tickets" className={styles.section}>
       <Title>Ingresso</Title>
@@ -34,16 +56,18 @@ export default function Tickets() {
             <div className={styles.price}>
               <span className={styles.installmentRegular}>12x de </span>
               <span className={styles.value}>
-                <div className={styles.real}>R$</div> 48
-                <span className={styles.cents}>,70</span>
+                <div className={styles.real}>R$</div> {priceDefault.integer}
+                <span className={styles.cents}>,{priceDefault.cents}</span>
               </span>
             </div>
             <div className={styles.installmentInfo}>
               <span className={styles.installmentHighlight}>
-                Ou 6x sem juros de R$ 83,16
+                Ou 6x sem juros de {formatBRL(ticketDefault / 6)}
               </span>
             </div>
-            <span className={styles.fullPrice}>À vista: R$ 499,00</span>
+            <span className={styles.fullPrice}>
+              À vista: {formatBRL(ticketDefault)}
+            </span>
           </div>
           <ul className={styles.benefits}>
             <li>✓ Menor preço</li>
@@ -70,17 +94,19 @@ export default function Tickets() {
               <span className={styles.installmentRegular}>12x de </span>
 
               <span className={styles.value}>
-                <span className={styles.cents}>R$</span> 35
-                <span className={styles.cents}>,52</span>
+                <span className={styles.cents}>R$</span> {priceDouble.integer}
+                <span className={styles.cents}>,{priceDouble.cents}</span>
               </span>
               <span className={styles.installmentRegular}>(cada)</span>
             </div>
             <div className={styles.installmentInfo}>
               <span className={styles.installmentHighlight}>
-                Ou 6x sem juros de R$ 58,18 (cada)
+                Ou 6x sem juros de {formatBRL(ticketDouble / 6)} (cada)
               </span>
             </div>
-            <span className={styles.fullPrice}>À vista: R$ 349,00 (cada)</span>
+            <span className={styles.fullPrice}>
+              À vista: {formatBRL(ticketDouble)} (cada)
+            </span>
           </div>
           <ul className={styles.benefits}>
             <li>✓ Desconto especial para duplas (mínimo 2 ingressos)</li>
@@ -108,17 +134,19 @@ export default function Tickets() {
               <span className={styles.installmentRegular}>12x de </span>
 
               <span className={styles.value}>
-                <span className={styles.cents}>R$</span> 30
-                <span className={styles.cents}>,43</span>
+                <span className={styles.cents}>R$</span> {priceGroup.integer}
+                <span className={styles.cents}>,{priceGroup.cents}</span>
               </span>
               <span className={styles.installmentRegular}>(cada)</span>
             </div>
             <div className={styles.installmentInfo}>
               <span className={styles.installmentHighlight}>
-                Ou 6x sem juros de R$ 49,84 (cada)
+                Ou 6x sem juros de {formatBRL(ticketGroup / 6)} (cada)
               </span>
             </div>
-            <span className={styles.fullPrice}>À vista: R$ 299,00 (cada)</span>
+            <span className={styles.fullPrice}>
+              À vista: {formatBRL(ticketGroup)} (cada)
+            </span>
           </div>
           <ul className={styles.benefits}>
             <li>✓ Desconto especial para grupos (mínimo 5 ingressos)</li>
