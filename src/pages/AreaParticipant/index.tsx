@@ -36,19 +36,19 @@ const AreaParticipante = () => {
       try {
         const normalizedDocument = documento.replace(/\D/g, "");
         console.log(
-          `Enviando requisição para documento: ${normalizedDocument}`
+          `Enviando requisição para documento: ${normalizedDocument}`,
         );
         const response = await fetch(
           `${config.baseUrl}/participant/${normalizedDocument}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-          }
+          },
         );
 
         if (!response.ok) {
           throw new Error(
-            `Erro HTTP: ${response.status} ${response.statusText}`
+            `Erro HTTP: ${response.status} ${response.statusText}`,
           );
         }
 
@@ -73,7 +73,7 @@ const AreaParticipante = () => {
         setIsLoading(false);
       }
     }, 500),
-    [documento]
+    [documento],
   );
 
   const handleLogout = () => {
@@ -86,7 +86,7 @@ const AreaParticipante = () => {
   const downloadQRCode = async () => {
     try {
       const canvas = document.getElementById(
-        "qrCodeCanvas"
+        "qrCodeCanvas",
       ) as HTMLCanvasElement;
       if (
         !canvas ||
@@ -114,9 +114,9 @@ const AreaParticipante = () => {
 
       // Cabeçalho (topo da página)
       doc.setFontSize(16);
-      doc.text("VERANO TALK 2025", 105, 20, { align: "center" });
+      doc.text("VERANO TALK 2026", 105, 20, { align: "center" });
       doc.setFontSize(10);
-      doc.text("16 DE OUTUBRO | SÃO LUÍS - MA", 105, 26, { align: "center" });
+      doc.text("21 DE MARÇO | SÃO LUÍS - MA", 105, 26, { align: "center" });
 
       // Linha divisória do cabeçalho
       doc.setDrawColor(primaryColor);
@@ -131,29 +131,29 @@ const AreaParticipante = () => {
 
       // Informações (lado direito)
       doc.setFontSize(12);
-      doc.text("INGRESSO VERANO TALK - 2025", 110, startY + 5);
+      doc.text("INGRESSO VERANO TALK - 2026", 110, startY + 5);
 
       doc.setFontSize(10);
       doc.text(`NOME: ${participanteData.name}`, 110, startY + 10);
       doc.text(
         `DOCUMENTO: ${participanteData.document.replace(
           /(\d{3})(\d{3})(\d{3})(\d{2})/,
-          "$1.$2.$3-$4"
+          "$1.$2.$3-$4",
         )}`,
         110,
-        startY + 15
+        startY + 15,
       );
       doc.text(
         `TIPO: ${participanteData.ticketType === "all" ? "Inteiro" : "Meia"}`,
         110,
-        startY + 20
+        startY + 20,
       );
       doc.text(
         `STATUS: ${
           participanteData.checkedIn ? "Check-in realizado" : "Ativo"
         }`,
         110,
-        startY + 25
+        startY + 25,
       );
 
       // Linha divisória do rodapé
@@ -169,7 +169,7 @@ const AreaParticipante = () => {
       });
 
       // Baixar PDF
-      doc.save(`ingresso-verano-talk-2025-${participanteData.id}.pdf`);
+      doc.save(`ingresso-verano-talk-2026-${participanteData.id}.pdf`);
       toast.success("Ingresso baixado com sucesso!");
     } catch (error) {
       toast.error("Erro ao baixar o ingresso.");
