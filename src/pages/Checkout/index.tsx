@@ -8,6 +8,8 @@ import SummaryCard from "../../components/checkout/SummaryCard";
 import { toast, ToastContainer } from "react-toastify";
 import { config } from "../../config";
 
+import useCheckout from "../../hooks/useCheckout";
+
 export interface Participant {
   name: string;
   email: string;
@@ -17,17 +19,18 @@ export interface Participant {
 }
 
 export default function Checkout() {
+  const { ticketDefault, ticketDouble, ticketGroup } = useCheckout();
   const { id } = useParams<{ id: string }>();
   const isGroupTicket = id === "3";
   const isDoubleTicket = id === "2";
   const minTickets = isGroupTicket ? 5 : isDoubleTicket ? 2 : 1;
 
   const getBasePrice = (tickets: number) => {
-    if (isGroupTicket) return 299;
-    if (isDoubleTicket) return 349;
-    if (tickets >= 5) return 299;
-    if (tickets >= 2) return 349;
-    return 499;
+    if (isGroupTicket) return ticketGroup;
+    if (isDoubleTicket) return ticketDouble;
+    if (tickets >= 5) return ticketGroup;
+    if (tickets >= 2) return ticketDouble;
+    return ticketDefault;
   };
 
   const [basePrice, setBasePrice] = useState(getBasePrice(minTickets));
