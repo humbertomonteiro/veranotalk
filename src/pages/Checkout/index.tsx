@@ -215,7 +215,7 @@ export default function Checkout() {
           <div className={styles.content}>
             <div className={styles.textContent}>
               <div className={styles.header}>
-                <h3>VERANO TALK 2025</h3>
+                <h3>VERANO TALK 2026</h3>
                 <div className={styles.divider}></div>
                 <p className={styles.subtitle}>Checkout seguro</p>
               </div>
