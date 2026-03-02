@@ -121,12 +121,12 @@ function ParticipantList({ filtersPDVs }: ParticipantListProps) {
 
   const paginatedParticipants = filteredParticipants.slice(
     (page - 1) * participantsPerPage,
-    page * participantsPerPage
+    page * participantsPerPage,
   );
 
   const handleFilterChange = (
     field: string,
-    value: string | boolean | undefined
+    value: string | boolean | undefined,
   ) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
     setPage(1);
@@ -134,7 +134,7 @@ function ParticipantList({ filtersPDVs }: ParticipantListProps) {
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
-    value: number
+    value: number,
   ) => {
     console.log(event);
     setPage(value);
@@ -181,7 +181,7 @@ function ParticipantList({ filtersPDVs }: ParticipantListProps) {
             startIcon={<Description />}
             onClick={handleOpenPDFDialog}
           >
-            Gerar PDF
+            Gerar Excel
           </Button>
         </Box>
       </Box>

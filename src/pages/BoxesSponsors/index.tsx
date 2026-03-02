@@ -6,18 +6,22 @@ interface BoxesSponsorsProps {
   type?: "national" | "location" | "ana-top" | "ana-basic";
   phone: string;
   contactName: string;
+  showFooter?: boolean;
 }
 
 export default function BoxesSponsors({
   type,
   phone,
   contactName,
+  showFooter,
 }: BoxesSponsorsProps) {
   return (
     <div>
       <Sponsors type={type ? type : "location"} phone={phone} />
-      <FooterSponsor sponsor={true} phone={phone} contactName={contactName} />
-      <WhatsAppButton phone={phone} contactName={contactName} />
+      {showFooter && (
+        <FooterSponsor sponsor={true} phone={phone} contactName={contactName} />
+      )}
+      {showFooter && <WhatsAppButton phone={phone} contactName={contactName} />}
     </div>
   );
 }

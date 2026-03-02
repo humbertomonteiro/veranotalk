@@ -1,5 +1,5 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Title from "../../shared/Title";
 import styles from "./speakers.module.css";
 import danieleXavier from "../../../assets/speakers/daniele-xavier.jpeg";
@@ -153,7 +153,7 @@ criativa e execução impecável.
       <Title>Palestrantes</Title>
       <div className={styles.backgroundOverlay}></div>
       <div className={styles.container}>
-        <Swiper
+        {/* <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
           slidesPerView={1}
@@ -166,49 +166,50 @@ criativa e execução impecável.
           navigation
           pagination={{ clickable: true }}
           className={styles.speakersSwiper}
-        >
+        > */}
+        <div className={styles.speakersGrid}>
           {speakers.map((speaker) => (
-            <SwiperSlide key={speaker.id} className={styles.speakerSlide}>
-              <div className={styles.speakerCard}>
-                <div
-                  className={styles.speakerBackground}
-                  style={{ backgroundImage: `url(${speaker.image})` }}
-                ></div>
+            // <SwiperSlide key={speaker.id} className={styles.speakerSlide}>
+            <div className={styles.speakerCard}>
+              <div
+                className={styles.speakerBackground}
+                style={{ backgroundImage: `url(${speaker.image})` }}
+              ></div>
 
-                <div className={styles.speakerContent}>
-                  <div className={styles.speakerImageContainer}>
-                    <img
-                      src={speaker.image}
-                      alt={`Palestrante ${speaker.name}`}
-                      className={styles.speakerImage}
-                    />
-                    <div className={styles.speakerBadge}>{speaker.badge}</div>
+              <div className={styles.speakerContent}>
+                <div className={styles.speakerImageContainer}>
+                  <img
+                    src={speaker.image}
+                    alt={`Palestrante ${speaker.name}`}
+                    className={styles.speakerImage}
+                  />
+                  <div className={styles.speakerBadge}>{speaker.badge}</div>
+                </div>
+
+                <div className={styles.speakerInfo}>
+                  <div className={styles.speakerHeader}>
+                    <h3 className={styles.speakerName}>{speaker.name}</h3>
+                    <p className={styles.speakerTitle}>{speaker.title}</p>
+                    <div className={styles.divider}></div>
                   </div>
 
-                  <div className={styles.speakerInfo}>
-                    <div className={styles.speakerHeader}>
-                      <h3 className={styles.speakerName}>{speaker.name}</h3>
-                      <p className={styles.speakerTitle}>{speaker.title}</p>
-                      <div className={styles.divider}></div>
-                    </div>
-
-                    <div className={styles.speakerBio}>
-                      {speaker.bio.map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
-                      ))}
-                    </div>
-
-                    {speaker.quote && (
-                      <div className={styles.speakerQuote}>
-                        <blockquote>"{speaker.quote}"</blockquote>
-                      </div>
-                    )}
+                  <div className={styles.speakerBio}>
+                    {speaker.bio.map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
                   </div>
+
+                  {speaker.quote && (
+                    <div className={styles.speakerQuote}>
+                      <blockquote>"{speaker.quote}"</blockquote>
+                    </div>
+                  )}
                 </div>
               </div>
-            </SwiperSlide>
+            </div>
+            // </SwiperSlide>
           ))}
-        </Swiper>
+        </div>
       </div>
     </section>
   );

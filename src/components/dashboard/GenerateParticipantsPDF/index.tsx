@@ -17,7 +17,7 @@ interface GenerateParticipantsPDFProps {
 }
 
 function GenerateParticipantsPDF({ onClose }: GenerateParticipantsPDFProps) {
-  const { generateParticipantsPDF, loading } = useCheckout();
+  const { generateParticipantsExcel, loading } = useCheckout();
   const [selectedFields, setSelectedFields] = useState({
     nome: true,
     documento: true,
@@ -37,7 +37,7 @@ function GenerateParticipantsPDF({ onClose }: GenerateParticipantsPDFProps) {
 
   const handleGeneratePDF = async () => {
     const fields = Object.keys(selectedFields).filter(
-      (field) => selectedFields[field as keyof typeof selectedFields]
+      (field) => selectedFields[field as keyof typeof selectedFields],
     );
     if (fields.length === 0) {
       setSnackbar({
@@ -55,7 +55,7 @@ function GenerateParticipantsPDF({ onClose }: GenerateParticipantsPDFProps) {
     });
 
     try {
-      await generateParticipantsPDF(fields);
+      await generateParticipantsExcel([...fields, "valor", "data"]);
       setSnackbar({
         open: true,
         message: "PDF gerado com sucesso!",
