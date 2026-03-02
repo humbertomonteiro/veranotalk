@@ -33,7 +33,10 @@ type CheckoutContextType = {
   setTicketDouble: Dispatch<SetStateAction<number>>;
   ticketGroup: number;
   setTicketGroup: Dispatch<SetStateAction<number>>;
-  generateParticipantsExcel: (fields: string[]) => Promise<void>;
+  generateParticipantsExcel: (
+    fields: string[],
+    status: "all" | "approved" | "rejected" | "processing",
+  ) => Promise<void>;
 };
 
 type StatsType = {
@@ -264,7 +267,10 @@ export const CheckoutProvider = ({ children }: Props) => {
     }
   };
 
-  const generateParticipantsExcel = async (fields: string[]) => {
+  const generateParticipantsExcel = async (
+    fields: string[],
+    status: "all" | "approved" | "rejected" | "processing" = "all",
+  ) => {
     try {
       const validFields = [
         "nome",
@@ -274,18 +280,21 @@ export const CheckoutProvider = ({ children }: Props) => {
         "cupom",
         "valor",
         "data",
+        "status",
         "checkoutId",
       ] as const;
 
-      const selectedFields = fields.filter((field) =>
-        validFields.includes(field as any),
+      type FieldKey = (typeof validFields)[number];
+
+      const selectedFields: FieldKey[] = fields.filter(
+        (field): field is FieldKey => validFields.includes(field as FieldKey),
       );
 
       if (selectedFields.length === 0) {
         throw new Error("Nenhum campo válido selecionado");
       }
 
-      const fieldToHeader: Record<(typeof validFields)[number], string> = {
+      const fieldToHeader: Record<FieldKey, string> = {
         nome: "Nome",
         documento: "Documento",
         email: "E-mail",
@@ -293,12 +302,13 @@ export const CheckoutProvider = ({ children }: Props) => {
         cupom: "Cupom",
         valor: "Valor",
         data: "Data",
+        status: "Status",
         checkoutId: "ID do Checkout",
       };
 
       const fieldToData = (
         participant: EnhancedParticipant,
-        field: string,
+        field: FieldKey,
       ): string => {
         switch (field) {
           case "nome":
@@ -337,6 +347,9 @@ export const CheckoutProvider = ({ children }: Props) => {
                 })
               : "";
 
+          case "status":
+            return participant.checkout?.status ?? "";
+
           case "checkoutId":
             return participant.checkout?.id ?? "";
 
@@ -345,8 +358,14 @@ export const CheckoutProvider = ({ children }: Props) => {
         }
       };
 
+      // Filtrar participantes por status
+      const filteredParticipants = checkouts.filter((participant) => {
+        if (status === "all") return true;
+        return participant.checkout?.status === status;
+      });
+
       // Ordena por nome
-      const sortedParticipants = [...checkouts].sort((a, b) =>
+      const sortedParticipants = [...filteredParticipants].sort((a, b) =>
         (a.name ?? "").localeCompare(b.name ?? ""),
       );
 

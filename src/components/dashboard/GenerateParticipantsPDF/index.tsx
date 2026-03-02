@@ -18,6 +18,9 @@ interface GenerateParticipantsPDFProps {
 
 function GenerateParticipantsPDF({ onClose }: GenerateParticipantsPDFProps) {
   const { generateParticipantsExcel, loading } = useCheckout();
+  const [selectedStatus, setSelectedStatus] = useState<
+    "all" | "approved" | "rejected" | "processing"
+  >("all");
   const [selectedFields, setSelectedFields] = useState({
     nome: true,
     documento: true,
@@ -55,7 +58,7 @@ function GenerateParticipantsPDF({ onClose }: GenerateParticipantsPDFProps) {
     });
 
     try {
-      await generateParticipantsExcel([...fields, "valor", "data"]);
+      await generateParticipantsExcel(fields, selectedStatus);
       setSnackbar({
         open: true,
         message: "PDF gerado com sucesso!",
@@ -85,10 +88,43 @@ function GenerateParticipantsPDF({ onClose }: GenerateParticipantsPDFProps) {
 
       <FormControl component="fieldset" sx={{ mb: 3 }}>
         <Typography variant="subtitle1" gutterBottom>
+          Selecionar Status
+        </Typography>
+        <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+          {["all", "approved", "rejected", "processing"].map((status) => (
+            <FormControlLabel
+              key={status}
+              control={
+                <Checkbox
+                  checked={selectedStatus === status}
+                  onChange={() =>
+                    setSelectedStatus(
+                      status as "all" | "approved" | "rejected" | "processing",
+                    )
+                  }
+                />
+              }
+              label={status.charAt(0).toUpperCase() + status.slice(1)}
+            />
+          ))}
+        </Box>
+      </FormControl>
+
+      <FormControl component="fieldset" sx={{ mb: 3 }}>
+        <Typography variant="subtitle1" gutterBottom>
           Selecionar Campos
         </Typography>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-          {["nome", "documento", "email", "celular", "cupom"].map((field) => (
+          {[
+            "nome",
+            "documento",
+            "email",
+            "celular",
+            "cupom",
+            "valor",
+            "data",
+            "status",
+          ].map((field) => (
             <FormControlLabel
               key={field}
               control={
