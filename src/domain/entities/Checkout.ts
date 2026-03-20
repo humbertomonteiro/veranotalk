@@ -33,6 +33,7 @@ export interface CheckoutProps {
     participantIds?: string[];
     eventId?: string;
     manualPayment?: boolean;
+    courtesy?: boolean;
     processedBy?: string;
     ticketType?: string;
   };

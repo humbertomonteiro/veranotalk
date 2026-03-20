@@ -40,6 +40,7 @@ function ParticipantList({ filtersPDVs }: ParticipantListProps) {
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   const [openPDFDialog, setOpenPDFDialog] = useState(false);
   const [filters, setFilters] = useState({
+    name: "",
     document: "",
     email: "",
     checkedIn: undefined as boolean | undefined,
@@ -59,11 +60,15 @@ function ParticipantList({ filtersPDVs }: ParticipantListProps) {
     "boleto",
     "cash",
     "transfer",
+    "courtesy",
     "other",
   ];
 
   const filteredParticipants = useMemo(() => {
     return checkouts.filter((participant) => {
+      const matchesName = filters.name
+        ? participant.name.toLowerCase().includes(filters.name.toLowerCase())
+        : true;
       const matchesDocument = filters.document
         ? participant.document
             .toLowerCase()
@@ -107,6 +112,7 @@ function ParticipantList({ filtersPDVs }: ParticipantListProps) {
       };
 
       return (
+        matchesName &&
         matchesDocument &&
         matchesEmail &&
         matchesCheckedIn &&
@@ -121,12 +127,12 @@ function ParticipantList({ filtersPDVs }: ParticipantListProps) {
 
   const paginatedParticipants = filteredParticipants.slice(
     (page - 1) * participantsPerPage,
-    page * participantsPerPage,
+    page * participantsPerPage
   );
 
   const handleFilterChange = (
     field: string,
-    value: string | boolean | undefined,
+    value: string | boolean | undefined
   ) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
     setPage(1);
@@ -134,7 +140,7 @@ function ParticipantList({ filtersPDVs }: ParticipantListProps) {
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
-    value: number,
+    value: number
   ) => {
     console.log(event);
     setPage(value);

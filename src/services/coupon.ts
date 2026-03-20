@@ -11,6 +11,11 @@ export interface CouponProps {
   id?: string;
   createdAt?: string;
   updatedAt?: string;
+
+  // Comissionamento
+  isCommissioned?: boolean;
+  commissionValue?: number;
+  commissionedTo?: string;
 }
 
 export class CouponService {
@@ -83,7 +88,7 @@ export class CouponService {
 
   async updateCoupon(
     id: string,
-    couponData: Partial<CouponProps>
+    couponData: Partial<CouponProps>,
   ): Promise<any> {
     try {
       const response = await fetch(`${config.baseUrl}/coupons/${id}`, {

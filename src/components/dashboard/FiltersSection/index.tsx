@@ -50,6 +50,14 @@ export default function FiltersSection({
       {showFilters && (
         <Box className={styles.filtersGrid}>
           <TextField
+            label="Nome"
+            value={filters.name}
+            onChange={(e) => onFilterChange("name", e.target.value)}
+            className={styles.filterInput}
+            size="small"
+            placeholder="Buscar por nome..."
+          />
+          <TextField
             label="CPF"
             value={filters.document}
             onChange={(e) => onFilterChange("document", e.target.value)}
@@ -89,6 +97,8 @@ export default function FiltersSection({
                     ? "Transferência"
                     : method === "other"
                     ? "Outros"
+                    : method === "cortesy"
+                    ? "Cortesia"
                     : method}
                 </MenuItem>
               ))}

@@ -175,7 +175,7 @@ export default function ParticipantDetailsForm({
   const handleInputChange = (
     section: "participant" | "checkout",
     field: string,
-    value: any,
+    value: any
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -217,7 +217,7 @@ export default function ParticipantDetailsForm({
       await dashboardService.updateCheckoutAndParticipant(
         participant.id!,
         updateData.updateData,
-        updateData.repo,
+        updateData.repo
       );
 
       await fetchData();
@@ -346,6 +346,10 @@ export default function ParticipantDetailsForm({
         <Typography variant="body2" color="textSecondary">
           Valor Original: R${" "}
           {participant.checkout?.originalAmount?.toFixed(2) || "0,00"}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          Cortesia:
+          {participant.checkout?.metadata?.courtesy ? "Sim" : "Não"}
         </Typography>
         <Typography variant="body2" color="textSecondary">
           Mercado Pago ID: {participant.checkout?.mercadoPagoId || "N/A"}

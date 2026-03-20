@@ -17,6 +17,7 @@ interface SummaryCardProps {
   basePrice: number;
   discount: number | null;
   couponCode: string;
+  couponComissioned: boolean;
   participants: Participant[];
 }
 
@@ -28,6 +29,7 @@ export default function SummaryCard({
   basePrice,
   discount,
   couponCode,
+  couponComissioned,
   participants,
 }: SummaryCardProps) {
   const { setCheckout } = useCheckout();
@@ -39,7 +41,7 @@ export default function SummaryCard({
     e.preventDefault();
     if (participants.length !== totalTickets) {
       toast.error(
-        `Por favor, adicione informações para todos os ${totalTickets} participantes`
+        `Por favor, adicione informações para todos os ${totalTickets} participantes`,
       );
       return;
     }
@@ -55,6 +57,7 @@ export default function SummaryCard({
         fullTickets,
         halfTickets,
         couponCode: disableCoupons ? null : couponCode || undefined,
+        couponComissioned,
         metadata: {
           eventId: "verano-talk-2025",
           ticketType: id,
@@ -81,7 +84,7 @@ export default function SummaryCard({
       toast.error(
         error instanceof Error
           ? error.message
-          : "Ocorreu um erro ao processar seu pagamento. Tente novamente."
+          : "Ocorreu um erro ao processar seu pagamento. Tente novamente.",
       );
     } finally {
       setLoading(false);

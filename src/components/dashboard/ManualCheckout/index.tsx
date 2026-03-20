@@ -14,8 +14,17 @@ import {
   FormControl,
   InputLabel,
   Select,
+  FormControlLabel,
+  Switch,
+  Chip,
 } from "@mui/material";
-import { PointOfSale, Add, Remove, Delete } from "@mui/icons-material";
+import {
+  PointOfSale,
+  Add,
+  Remove,
+  Delete,
+  CardGiftcard,
+} from "@mui/icons-material";
 import { CheckoutService } from "../../../services/checkout";
 import useCheckout from "../../../hooks/useCheckout";
 import useUser from "../../../hooks/useUser";
@@ -57,6 +66,7 @@ function ManualCheckout() {
   >("credit_card");
   const [installments, setInstallments] = useState(1);
   const [submitting, setSubmitting] = useState(false);
+  const [isCourtesy, setIsCourtesy] = useState(false);
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
@@ -80,7 +90,7 @@ function ManualCheckout() {
       ? discountValueCoupon * totalTickets
       : subtotal * (discountValueCoupon / 100)
     : 0;
-  const totalAmount = Math.max(0, subtotal - discountAmount);
+  const totalAmount = isCourtesy ? 0 : Math.max(0, subtotal - discountAmount);
 
   const handleTicketChange = (value: number) => {
     const newValue = Math.max(1, Math.min(50, value));
@@ -211,6 +221,7 @@ function ManualCheckout() {
           metadata: {
             eventId: "verano-talk-2025",
             manualPayment: true,
+            courtesy: isCourtesy,
             processedBy: `${user?.name} - ${user?.email}`,
           },
         },
@@ -222,9 +233,11 @@ function ManualCheckout() {
 
       console.log(result);
       showSnackbar(
-        `Checkout criado com sucesso! ${totalTickets} ingresso(s) - R$ ${totalAmount.toFixed(
-          2
-        )}`,
+        isCourtesy
+          ? `Cortesia registrada! ${totalTickets} ingresso(s) gratuito(s)`
+          : `Checkout criado com sucesso! ${totalTickets} ingresso(s) - R$ ${totalAmount.toFixed(
+              2
+            )}`,
         "success"
       );
 
@@ -237,6 +250,7 @@ function ManualCheckout() {
       setCoupon({});
       setDiscountTypeCoupon("fixed");
       setDiscountValueCoupon(0);
+      setIsCourtesy(false);
     } catch (error) {
       console.error("Erro ao criar checkout:", error);
       showSnackbar(
@@ -265,6 +279,60 @@ function ManualCheckout() {
         <PointOfSale sx={{ mr: 1 }} />
         <Typography variant="h5">Checkout Manual</Typography>
       </Box>
+
+      {/* Toggle de cortesia */}
+      <Paper
+        sx={{
+          p: 2,
+          mb: 3,
+          border: isCourtesy ? "2px solid" : "1px solid",
+          borderColor: isCourtesy ? "secondary.main" : "divider",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <CardGiftcard color={isCourtesy ? "secondary" : "disabled"} />
+            <Box>
+              <Typography variant="subtitle1" fontWeight={600}>
+                Ingresso Cortesia
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Valor zerado — sem método de pagamento
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {isCourtesy && (
+              <Chip label="CORTESIA" color="secondary" size="small" />
+            )}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isCourtesy}
+                  onChange={(e) => {
+                    setIsCourtesy(e.target.checked);
+                    if (e.target.checked) {
+                      setCouponCode("");
+                      setCoupon({});
+                      setDiscountTypeCoupon("fixed");
+                      setDiscountValueCoupon(0);
+                    }
+                  }}
+                  color="secondary"
+                />
+              }
+              label=""
+              sx={{ m: 0 }}
+            />
+          </Box>
+        </Box>
+      </Paper>
 
       <Box
         sx={{
@@ -314,36 +382,38 @@ function ManualCheckout() {
               </Typography>
             </Box>
 
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                Cupom de Desconto
-              </Typography>
-              <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                <TextField
-                  fullWidth
-                  label="Código do Cupom"
-                  value={couponCode}
-                  onChange={handleCouponChange}
-                  placeholder="Insira o código do cupom"
-                />
-                <Button
-                  variant="outlined"
-                  onClick={() => handleApplyCoupon()}
-                  disabled={!couponCode}
-                >
-                  Aplicar
-                </Button>
-                {couponCode && (
+            {!isCourtesy && (
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="h6" gutterBottom>
+                  Cupom de Desconto
+                </Typography>
+                <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+                  <TextField
+                    fullWidth
+                    label="Código do Cupom"
+                    value={couponCode}
+                    onChange={handleCouponChange}
+                    placeholder="Insira o código do cupom"
+                  />
                   <Button
                     variant="outlined"
-                    color="error"
-                    onClick={handleClearCoupon}
+                    onClick={() => handleApplyCoupon()}
+                    disabled={!couponCode}
                   >
-                    Limpar
+                    Aplicar
                   </Button>
-                )}
+                  {couponCode && (
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={handleClearCoupon}
+                    >
+                      Limpar
+                    </Button>
+                  )}
+                </Box>
               </Box>
-            </Box>
+            )}
 
             <Typography variant="h6" gutterBottom>
               Informações dos Participantes ({participants.length}/
@@ -501,47 +571,59 @@ function ManualCheckout() {
               Método de Pagamento
             </Typography>
 
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel>Método</InputLabel>
-              <Select
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value as any)}
-                label="Método"
-              >
-                <MenuItem value="credit_card">Cartão de Crédito</MenuItem>
-                <MenuItem value="debit_card">Cartão de Débito</MenuItem>
-                <MenuItem value="pix">PIX</MenuItem>
-                <MenuItem value="boleto">Boleto</MenuItem>
-                <MenuItem value="cash">Dinheiro</MenuItem>
-                <MenuItem value="transfer">Transferência</MenuItem>
-                <MenuItem value="other">Outros</MenuItem>
-              </Select>
-            </FormControl>
+            {isCourtesy ? (
+              <Alert severity="info" icon={<CardGiftcard />} sx={{ mb: 2 }}>
+                Cortesia — sem cobrança
+              </Alert>
+            ) : (
+              <>
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <InputLabel>Método</InputLabel>
+                  <Select
+                    value={paymentMethod}
+                    onChange={(e) => setPaymentMethod(e.target.value as any)}
+                    label="Método"
+                  >
+                    <MenuItem value="credit_card">Cartão de Crédito</MenuItem>
+                    <MenuItem value="debit_card">Cartão de Débito</MenuItem>
+                    <MenuItem value="pix">PIX</MenuItem>
+                    <MenuItem value="boleto">Boleto</MenuItem>
+                    <MenuItem value="cash">Dinheiro</MenuItem>
+                    <MenuItem value="transfer">Transferência</MenuItem>
+                    <MenuItem value="other">Outros</MenuItem>
+                  </Select>
+                </FormControl>
 
-            {paymentMethod === "credit_card" && (
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel>Parcelas</InputLabel>
-                <Select
-                  value={installments}
-                  onChange={(e) =>
-                    setInstallments(parseInt(`${e.target.value}`))
-                  }
-                  label="Parcelas"
-                >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
-                    <MenuItem key={num} value={num}>
-                      {num}x {num > 1 ? "parcelas" : "parcela"}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+                {paymentMethod === "credit_card" && (
+                  <FormControl fullWidth sx={{ mb: 2 }}>
+                    <InputLabel>Parcelas</InputLabel>
+                    <Select
+                      value={installments}
+                      onChange={(e) =>
+                        setInstallments(parseInt(`${e.target.value}`))
+                      }
+                      label="Parcelas"
+                    >
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
+                        <MenuItem key={num} value={num}>
+                          {num}x {num > 1 ? "parcelas" : "parcela"}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
 
-            {paymentMethod === "credit_card" && installments > 1 && (
-              <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-                {installments} parcelas de R${" "}
-                {(totalAmount / installments).toFixed(2)}
-              </Typography>
+                {paymentMethod === "credit_card" && installments > 1 && (
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    sx={{ mb: 2 }}
+                  >
+                    {installments} parcelas de R${" "}
+                    {(totalAmount / installments).toFixed(2)}
+                  </Typography>
+                )}
+              </>
             )}
 
             <Button
@@ -550,10 +632,21 @@ function ManualCheckout() {
               fullWidth
               onClick={handleSubmit}
               disabled={submitting || participants.length !== totalTickets}
-              startIcon={submitting ? <></> : <PointOfSale />}
+              startIcon={
+                submitting ? (
+                  <></>
+                ) : isCourtesy ? (
+                  <CardGiftcard />
+                ) : (
+                  <PointOfSale />
+                )
+              }
+              color={isCourtesy ? "secondary" : "primary"}
             >
               {submitting ? (
                 <>Processando...</>
+              ) : isCourtesy ? (
+                <>Registrar Cortesia — R$ 0,00</>
               ) : (
                 <>Criar Checkout - R$ {totalAmount.toFixed(2)}</>
               )}

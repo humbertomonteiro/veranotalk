@@ -45,6 +45,7 @@ export class CheckoutService {
       totalAmount: number;
       metadata: {
         eventId: string;
+        courtesy?: boolean;
         manualPayment: boolean;
         processedBy: string;
       };
