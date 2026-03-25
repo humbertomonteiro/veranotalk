@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useRef } from "react";
 import { UserService } from "../services/user";
 
 export interface UserProps {
@@ -63,18 +63,25 @@ export default function UserProvider({
     { id: "manage_coupons", label: "Gestão de Cupons" },
   ]);
 
-  async function getUsers() {
-    try {
-      const users = await userService.getUsers();
+  const isFetchingUsers = useRef(false);
 
-      setUsers(users);
+  async function getUsers() {
+    // Deduplicação: evita chamadas simultâneas
+    if (isFetchingUsers.current) return;
+    // Cache: se já tem usuários carregados, não busca de novo
+    if (users.length > 0) return;
+    isFetchingUsers.current = true;
+    try {
+      const result = await userService.getUsers();
+      setUsers(result);
     } catch (error) {
       console.log(error);
+    } finally {
+      isFetchingUsers.current = false;
     }
   }
-  useEffect(() => {
-    getUsers();
-  }, []);
+  // Removido useEffect que chamava getUsers() no mount de todo o app.
+  // Agora só é buscado quando a aba de gestão de usuários for aberta.
 
   return (
     <UserContext.Provider

@@ -11,6 +11,7 @@ import styles from "./dashboard.module.css";
 import useUser from "../../hooks/useUser";
 import CouponManagement from "../../components/dashboard/CouponManagement";
 import TransactionManagement from "../../components/dashboard/TransactionManagement";
+import CertificateConfig from "../../components/dashboard/CertificateConfigPanel";
 
 export type DashboardTab =
   | "dashboard"
@@ -18,7 +19,8 @@ export type DashboardTab =
   | "manual-checkout"
   | "credentialing"
   | "user-management"
-  | "coupon-management";
+  | "coupon-management"
+  | "certificate-config";
 
 function Dashboard() {
   const { user } = useUser();
@@ -65,6 +67,8 @@ function Dashboard() {
         return <UserManagement />;
       case "coupon-management":
         return <CouponManagement />;
+      case "certificate-config":
+        return <CertificateConfig />;
       default:
         return (
           <>

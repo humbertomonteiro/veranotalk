@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Paper,
@@ -22,9 +22,14 @@ import FormNewUser from "../FormNewUser";
 import FormEditUser from "../FormEditUser";
 
 function UserManagement() {
-  const { users, permissionsList } = useUser();
+  const { users, permissionsList, getUsers } = useUser();
   const [openDialog, setOpenDialog] = useState<"create" | "edit" | null>(null);
   const [editingUser, setEditingUser] = useState<any>(null);
+
+  // Carrega usuários apenas quando esta aba for aberta
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const handleEditUser = (user: any) => {
     setEditingUser(user);

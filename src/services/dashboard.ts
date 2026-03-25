@@ -157,6 +157,42 @@ export class DashboardService {
     }
   }
 
+  // Calcula stats a partir de checkouts já carregados — sem query extra ao Firestore
+  calculateStats(
+    allCheckouts: CheckoutProps[],
+    allParticipants: ParticipantProps[]
+  ) {
+    const approvedCheckouts = allCheckouts.filter(
+      (c) => c.status === "approved"
+    );
+
+    const totalValue = approvedCheckouts.reduce(
+      (sum, c) => sum + (c.totalAmount || 0),
+      0
+    );
+    const totalApprovedCheckouts = approvedCheckouts.length;
+    const totalParticipantsInApproved = approvedCheckouts.reduce(
+      (sum, c) => sum + (c.metadata?.participantIds?.length || 0),
+      0
+    );
+    const pendingCheckouts = allCheckouts.filter(
+      (c) => c.status === "pending"
+    ).length;
+    const checkedInParticipants = allParticipants.filter(
+      (p) => p.checkedIn
+    ).length;
+    const totalParticipants = allParticipants.length;
+
+    return {
+      totalValue,
+      totalApprovedCheckouts,
+      totalParticipantsInApproved,
+      pendingCheckouts,
+      checkedInParticipants,
+      totalParticipants,
+    };
+  }
+
   async getStats() {
     try {
       console.log("Buscando estatísticas para checkouts aprovados...");

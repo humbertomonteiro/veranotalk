@@ -12,6 +12,10 @@ import Location from "../../components/sections/Location";
 import About from "../../components/sections/About";
 import Speakers from "../../components/sections/Speakers";
 import jsPDF from "jspdf";
+import {
+  loadCertificateConfig,
+  downloadCertificatePDF,
+} from "../../utils/generateCertificate";
 
 const AreaParticipante = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -22,6 +26,7 @@ const AreaParticipante = () => {
   const [activeTab, setActiveTab] = useState<string>("ingressos");
   const [showAsideMobile, setShowAsideMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [certificateLoading, setCertificateLoading] = useState(false);
 
   const handleAuthentication = useCallback(
     debounce(async () => {
@@ -36,19 +41,19 @@ const AreaParticipante = () => {
       try {
         const normalizedDocument = documento.replace(/\D/g, "");
         console.log(
-          `Enviando requisição para documento: ${normalizedDocument}`,
+          `Enviando requisição para documento: ${normalizedDocument}`
         );
         const response = await fetch(
           `${config.baseUrl}/participant/${normalizedDocument}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-          },
+          }
         );
 
         if (!response.ok) {
           throw new Error(
-            `Erro HTTP: ${response.status} ${response.statusText}`,
+            `Erro HTTP: ${response.status} ${response.statusText}`
           );
         }
 
@@ -73,7 +78,7 @@ const AreaParticipante = () => {
         setIsLoading(false);
       }
     }, 500),
-    [documento],
+    [documento]
   );
 
   const handleLogout = () => {
@@ -83,10 +88,35 @@ const AreaParticipante = () => {
     setDocumento("");
   };
 
+  const downloadCertificate = async () => {
+    if (!participanteData?.name) return;
+    setCertificateLoading(true);
+    try {
+      const cfg = await loadCertificateConfig();
+      if (!cfg.imageUrl) {
+        toast.error(
+          "Certificado ainda não está disponível. Tente novamente em breve."
+        );
+        return;
+      }
+      await downloadCertificatePDF(
+        participanteData.name,
+        cfg,
+        cfg.imageUrl,
+        `certificado-verano-talk-${participanteData.id}`
+      );
+      toast.success("Certificado baixado com sucesso!");
+    } catch {
+      toast.error("Erro ao gerar certificado. Tente novamente.");
+    } finally {
+      setCertificateLoading(false);
+    }
+  };
+
   const downloadQRCode = async () => {
     try {
       const canvas = document.getElementById(
-        "qrCodeCanvas",
+        "qrCodeCanvas"
       ) as HTMLCanvasElement;
       if (
         !canvas ||
@@ -138,22 +168,22 @@ const AreaParticipante = () => {
       doc.text(
         `DOCUMENTO: ${participanteData.document.replace(
           /(\d{3})(\d{3})(\d{3})(\d{2})/,
-          "$1.$2.$3-$4",
+          "$1.$2.$3-$4"
         )}`,
         110,
-        startY + 15,
+        startY + 15
       );
       doc.text(
         `TIPO: ${participanteData.ticketType === "all" ? "Inteiro" : "Meia"}`,
         110,
-        startY + 20,
+        startY + 20
       );
       doc.text(
         `STATUS: ${
           participanteData.checkedIn ? "Check-in realizado" : "Ativo"
         }`,
         110,
-        startY + 25,
+        startY + 25
       );
 
       // Linha divisória do rodapé
@@ -297,7 +327,25 @@ const AreaParticipante = () => {
               <div className={styles.divider}></div>
             </div>
             {checkoutData && checkoutData.status === "approved" ? (
-              <p>Certificado disponível após o evento.</p>
+              <div>
+                <p>Seu certificado de participação está disponível.</p>
+                <div
+                  className={styles.buttonWrapper}
+                  style={{ marginTop: "1.5rem" }}
+                >
+                  <MainButton
+                    data={{
+                      type: "button",
+                      color: "gold",
+                      text: certificateLoading
+                        ? "GERANDO..."
+                        : "BAIXAR CERTIFICADO",
+                      onClick: downloadCertificate,
+                      disabled: certificateLoading,
+                    }}
+                  />
+                </div>
+              </div>
             ) : (
               <p>Certificado disponível apenas para pagamentos aprovados.</p>
             )}

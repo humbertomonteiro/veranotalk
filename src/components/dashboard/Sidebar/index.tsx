@@ -16,6 +16,7 @@ import {
   People,
   Discount,
   ConfirmationNumber,
+  CardMembership,
 } from "@mui/icons-material";
 import { type DashboardTab } from "../../../pages/Dashboard";
 import styles from "./sidebar.module.css";
@@ -74,6 +75,12 @@ function Sidebar({
       label: "Credenciamento",
       icon: <Badge />,
       requiredPermission: "manage_credentials",
+    },
+    {
+      id: "certificate-config" as DashboardTab,
+      label: "Certificados",
+      icon: <CardMembership />,
+      requiredPermission: "view_dashboard",
     },
   ];
 

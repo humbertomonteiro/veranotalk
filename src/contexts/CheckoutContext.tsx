@@ -523,7 +523,7 @@ type CheckoutContextType = {
     fields: string[],
     status: "all" | "approved" | "rejected" | "processing",
     dateRange?: DateRange,
-    sortBy?: "nome" | "data",
+    sortBy?: "nome" | "data"
   ) => Promise<void>;
 };
 
@@ -545,7 +545,7 @@ type DateRange = {
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 export const CheckoutContext = createContext<CheckoutContextType | undefined>(
-  undefined,
+  undefined
 );
 
 type Props = {
@@ -574,10 +574,8 @@ export const CheckoutProvider = ({ children }: Props) => {
   // ─── Fetch unificado ────────────────────────────────────────────────────────
 
   const fetchAll = async (force = false) => {
-    // Deduplicação: ignora se já tem uma busca em andamento
     if (isFetching.current) return;
 
-    // Cache: ignora se os dados ainda estão frescos (a menos que force=true)
     const now = Date.now();
     if (
       !force &&
@@ -593,26 +591,29 @@ export const CheckoutProvider = ({ children }: Props) => {
     try {
       const dashboardService = new DashboardService();
 
-      // Busca paralela: stats + participantes + checkouts em uma rodada só
-      const [statsData, participantsData, checkoutsData] = await Promise.all([
-        dashboardService.getStats(),
+      // Duas queries paralelas — participants + checkouts
+      // getStats é calculado a partir dos dados já carregados (sem query extra)
+      const [participantsData, checkoutsData] = await Promise.all([
         dashboardService.getParticipants({}),
         dashboardService.getCheckouts({}),
       ]);
 
-      const checkoutMap = checkoutsData.reduce(
-        (map, co) => {
-          map[co.id!] = co;
-          return map;
-        },
-        {} as Record<string, CheckoutProps>,
-      );
+      const checkoutMap = checkoutsData.reduce((map, co) => {
+        map[co.id!] = co;
+        return map;
+      }, {} as Record<string, CheckoutProps>);
 
       const enhancedParticipants: EnhancedParticipant[] = participantsData.map(
         (participant) => ({
           ...participant,
           checkout: checkoutMap[participant.checkoutId],
-        }),
+        })
+      );
+
+      // Stats calculadas em memória — zero leituras extras no Firestore
+      const statsData = dashboardService.calculateStats(
+        checkoutsData,
+        participantsData
       );
 
       setStats(statsData as any);
@@ -653,14 +654,14 @@ export const CheckoutProvider = ({ children }: Props) => {
     try {
       const validFields = ["nome", "documento", "email", "celular", "cupom"];
       const selectedFields = fields.filter((field) =>
-        validFields.includes(field),
+        validFields.includes(field)
       );
       if (selectedFields.length === 0) {
         throw new Error("Nenhum campo válido selecionado");
       }
 
       const sortedParticipants = [...checkouts].sort((a, b) =>
-        a.name.localeCompare(b.name),
+        a.name.localeCompare(b.name)
       );
 
       const fieldToHeader: { [key: string]: string } = {
@@ -690,7 +691,7 @@ export const CheckoutProvider = ({ children }: Props) => {
             return escapeLatex(participant.checkout?.totalAmount?.toFixed(2));
           case "data":
             return escapeLatex(
-              participant.checkout?.createdAt?.toLocaleDateString(),
+              participant.checkout?.createdAt?.toLocaleDateString()
             );
           case "status":
             return escapeLatex(participant.checkout?.status);
@@ -749,7 +750,9 @@ export const CheckoutProvider = ({ children }: Props) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `participantes_${new Date().toISOString().split("T")[0]}.pdf`;
+      a.download = `participantes_${
+        new Date().toISOString().split("T")[0]
+      }.pdf`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -766,7 +769,7 @@ export const CheckoutProvider = ({ children }: Props) => {
     fields: string[],
     status: "all" | "approved" | "rejected" | "processing" = "all",
     dateRange?: DateRange,
-    sortBy: "nome" | "data" = "nome",
+    sortBy: "nome" | "data" = "nome"
   ) => {
     try {
       const validFields = [
@@ -784,7 +787,7 @@ export const CheckoutProvider = ({ children }: Props) => {
       type FieldKey = (typeof validFields)[number];
 
       const selectedFields: FieldKey[] = fields.filter(
-        (field): field is FieldKey => validFields.includes(field as FieldKey),
+        (field): field is FieldKey => validFields.includes(field as FieldKey)
       );
 
       if (selectedFields.length === 0) {
@@ -805,7 +808,7 @@ export const CheckoutProvider = ({ children }: Props) => {
 
       const fieldToData = (
         participant: EnhancedParticipant,
-        field: FieldKey,
+        field: FieldKey
       ): string => {
         switch (field) {
           case "nome":
@@ -887,7 +890,7 @@ export const CheckoutProvider = ({ children }: Props) => {
 
       const headers = selectedFields.map((f) => fieldToHeader[f]);
       const rows = sortedParticipants.map((p) =>
-        selectedFields.map((f) => fieldToData(p, f)),
+        selectedFields.map((f) => fieldToData(p, f))
       );
       const worksheetData = [headers, ...rows];
 
@@ -897,7 +900,7 @@ export const CheckoutProvider = ({ children }: Props) => {
         wch:
           Math.max(
             header.length,
-            ...rows.map((row) => (row[colIdx] ?? "").length),
+            ...rows.map((row) => (row[colIdx] ?? "").length)
           ) + 3,
       }));
 
@@ -911,7 +914,9 @@ export const CheckoutProvider = ({ children }: Props) => {
 
       XLSX.writeFile(
         workbook,
-        `participantes${dateSuffix}_${new Date().toISOString().split("T")[0]}.xlsx`,
+        `participantes${dateSuffix}_${
+          new Date().toISOString().split("T")[0]
+        }.xlsx`
       );
     } catch (error) {
       console.error("Erro ao gerar Excel:", error);
