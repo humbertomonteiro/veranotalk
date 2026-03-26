@@ -57,6 +57,14 @@ export default function Hero({ sponsor }: HeroProps) {
                 color: "gold",
               }}
             />
+            // <MainButton
+            //   data={{
+            //     type: "link",
+            //     link: "/certificado",
+            //     text: "EMITA SEU CERTIFICADO",
+            //     color: "white",
+            //   }}
+            // />
           )}
           <div className={styles.desktop}>
             <SubText />

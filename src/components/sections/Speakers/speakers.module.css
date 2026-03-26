@@ -13,8 +13,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background:
-    linear-gradient(to bottom, #000000a8, #00000093),
+  background: linear-gradient(to bottom, #000000a8, #00000093),
     url("../../../assets/bg/abstract-effect.png") center/cover no-repeat;
   opacity: 0.4;
   z-index: -1;
@@ -225,6 +224,10 @@
 
   .speakerTitle {
     font-size: 0.9rem;
+  }
+
+  .speakersGrid {
+    grid-template-columns: 1fr;
   }
 }
 

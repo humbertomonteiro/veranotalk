@@ -72,14 +72,16 @@ export default function Tickets() {
           <ul className={styles.benefits}>
             <li>✓ Menor preço</li>
             <li>✓ Acesso a todas as palestras</li>
-            <li>✓ Material exclusivo em PDF</li>
+            {/* <li>✓ Material exclusivo em PDF</li> */}
             <li>✓ Certificado digital</li>
           </ul>
           <MainButton
             data={{
-              type: "link",
-              link: "/checkout/1",
-              text: "COMPRAR AGORA",
+              // type: "link",
+              // link: "/checkout/1",
+              type: "button",
+              disabled: true,
+              text: "Evento encerrado",
               color: "gold",
             }}
           />
@@ -111,16 +113,18 @@ export default function Tickets() {
           <ul className={styles.benefits}>
             <li>✓ Desconto especial para duplas (mínimo 2 ingressos)</li>
             <li>✓ Acesso a todas as palestras</li>
-            <li>✓ Material exclusivo em PDF</li>
+            {/* <li>✓ Material exclusivo em PDF</li> */}
             <li>✓ Certificado digital</li>
           </ul>
           <MainButton
             data={{
-              type: "link",
-              link: "/checkout/2",
-              text: "COMPRAR AGORA",
-              color: "white",
+              // type: "link",
+              // link: "/checkout/2",
+              // text: "COMPRAR AGORA",
+              type: "button",
               disabled: true,
+              text: "Evento encerrado",
+              color: "white",
             }}
           />
         </div>
@@ -151,15 +155,18 @@ export default function Tickets() {
           <ul className={styles.benefits}>
             <li>✓ Desconto especial para grupos (mínimo 5 ingressos)</li>
             <li>✓ Acesso a todas as palestras</li>
-            <li>✓ Material exclusivo em PDF</li>
+            {/* <li>✓ Material exclusivo em PDF</li> */}
             <li>✓ Certificado digital</li>
           </ul>
           <MainButton
             data={{
-              type: "link",
-              link: "/checkout/3",
-              text: "COMPRAR AGORA",
+              // type: "link",
+              // link: "/checkout/3",
+              // text: "COMPRAR AGORA",
               color: "gold",
+              type: "button",
+              disabled: true,
+              text: "Evento encerrado",
             }}
           />
         </div>

@@ -12,6 +12,7 @@ import Login from "../pages/Login";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/Dashboard";
 import WebArchive from "../pages/WebArchive";
+import CertificatePage from "../pages/CertificatePage";
 
 export default function RoutesApp() {
   return (
@@ -97,6 +98,7 @@ export default function RoutesApp() {
       <Route path="/checkout/:id" element={<Checkout />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/area-participant" element={<AreaParticipante />} />
+      <Route path="/certificado" element={<CertificatePage />} />
 
       <Route path="/fly" element={<ImageFly />} />
 
