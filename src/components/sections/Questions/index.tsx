@@ -66,6 +66,17 @@ const questions = [
     response: `O reembolso é garantido até 7 dias após a compra. Mas você pode transferir sua vaga para outra pessoa após esse prazo. Basta comunicar a organização de no mínimo 30 dias.`,
     link: "",
   },
+  {
+    id: 7,
+    question: "Onde pego meu certificado?",
+    response: `Seu certificado fica disponível por até 90 dias corridos e pode ser emitido na `,
+    link: (
+      <Link to={"/area-participant"}>
+        <strong>Área do participante</strong>, Clique aqui para entrar com seu
+        cpf.
+      </Link>
+    ),
+  },
   // Adicione mais perguntas conforme necessário
 ];
 
