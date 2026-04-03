@@ -1,12 +1,11 @@
 /**
  * generateCertificate.ts
- * Geração de certificados com configuração persistida no Firestore
- * e imagem no Firebase Storage.
+ * Configuração persistida no Firestore — imagem salva como base64
+ * direto no documento, sem precisar do Firebase Storage.
  */
 
-import { db, storage } from "../config/firebaseConfig";
+import { db } from "../config/firebaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export interface CertificateConfig {
   xPercent: number;
@@ -17,7 +16,7 @@ export interface CertificateConfig {
   align: "left" | "center" | "right";
   bold: boolean;
   italic: boolean;
-  imageUrl?: string; // URL pública no Firebase Storage
+  imageBase64?: string; // imagem em base64 salva no Firestore
 }
 
 export const DEFAULT_CONFIG: CertificateConfig = {
@@ -53,12 +52,37 @@ export async function loadCertificateConfig(): Promise<CertificateConfig> {
   }
 }
 
-// ─── Firebase Storage ─────────────────────────────────────────────────────────
+// ─── Imagem — converte File para base64 comprimido ────────────────────────────
 
-export async function uploadCertificateImage(file: File): Promise<string> {
-  const storageRef = ref(storage, "certificate/background");
-  await uploadBytes(storageRef, file);
-  return getDownloadURL(storageRef);
+export async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+
+      const canvas = document.createElement("canvas");
+      // Limita a 2000px de largura para garantir que cabe no Firestore (< 1MB)
+      const maxWidth = 2000;
+      const scale =
+        img.naturalWidth > maxWidth ? maxWidth / img.naturalWidth : 1;
+      canvas.width = Math.round(img.naturalWidth * scale);
+      canvas.height = Math.round(img.naturalHeight * scale);
+
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // JPEG 0.85 — boa qualidade visual com tamanho reduzido
+      resolve(canvas.toDataURL("image/jpeg", 0.85));
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error("Falha ao carregar imagem"));
+    };
+    img.src = objectUrl;
+  });
 }
 
 // ─── Canvas / PDF ─────────────────────────────────────────────────────────────
@@ -66,16 +90,14 @@ export async function uploadCertificateImage(file: File): Promise<string> {
 export async function renderCertificateCanvas(
   name: string,
   config: CertificateConfig,
-  imageUrl: string
+  imageSource: string
 ): Promise<HTMLCanvasElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-
-    // crossOrigin só é necessário para URLs remotas (Firebase Storage).
-    // Blob URLs e data URLs locais não precisam e quebram com essa flag.
-    const isRemote =
-      imageUrl.startsWith("http://") || imageUrl.startsWith("https://");
-    if (isRemote) {
+    if (
+      imageSource.startsWith("http://") ||
+      imageSource.startsWith("https://")
+    ) {
       img.crossOrigin = "anonymous";
     }
 
@@ -84,7 +106,6 @@ export async function renderCertificateCanvas(
       canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
       const ctx = canvas.getContext("2d")!;
-
       ctx.drawImage(img, 0, 0);
 
       const fontStyle = [
@@ -104,39 +125,39 @@ export async function renderCertificateCanvas(
       ctx.fillStyle = config.color;
       ctx.textAlign = config.align;
       ctx.textBaseline = "middle";
-
-      const x = (config.xPercent / 100) * canvas.width;
-      const y = (config.yPercent / 100) * canvas.height;
-      ctx.fillText(name, x, y);
+      ctx.fillText(
+        name,
+        (config.xPercent / 100) * canvas.width,
+        (config.yPercent / 100) * canvas.height
+      );
 
       resolve(canvas);
     };
     img.onerror = reject;
-    img.src = imageUrl;
+    img.src = imageSource;
   });
 }
 
 export async function downloadCertificatePDF(
   name: string,
   config: CertificateConfig,
-  imageUrl: string,
+  imageSource: string,
   filename = "certificado-verano-talk-2026"
 ): Promise<void> {
   const { default: jsPDF } = await import("jspdf");
 
-  const canvas = await renderCertificateCanvas(name, config, imageUrl);
+  const canvas = await renderCertificateCanvas(name, config, imageSource);
   const imgData = canvas.toDataURL("image/jpeg", 0.95);
   const ratio = canvas.height / canvas.width;
-
   const isLandscape = ratio < 1;
-  const doc = new jsPDF({
+
+  const jsdoc = new jsPDF({
     orientation: isLandscape ? "landscape" : "portrait",
     unit: "mm",
     format: "a4",
   });
-
-  const pageW = doc.internal.pageSize.getWidth();
-  const pageH = doc.internal.pageSize.getHeight();
+  const pageW = jsdoc.internal.pageSize.getWidth();
+  const pageH = jsdoc.internal.pageSize.getHeight();
 
   let drawW = pageW;
   let drawH = pageW * ratio;
@@ -145,9 +166,13 @@ export async function downloadCertificatePDF(
     drawW = pageH / ratio;
   }
 
-  const offsetX = (pageW - drawW) / 2;
-  const offsetY = (pageH - drawH) / 2;
-
-  doc.addImage(imgData, "JPEG", offsetX, offsetY, drawW, drawH);
-  doc.save(`${filename}.pdf`);
+  jsdoc.addImage(
+    imgData,
+    "JPEG",
+    (pageW - drawW) / 2,
+    (pageH - drawH) / 2,
+    drawW,
+    drawH
+  );
+  jsdoc.save(`${filename}.pdf`);
 }

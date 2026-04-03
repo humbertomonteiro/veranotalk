@@ -28,7 +28,6 @@ import {
   FormatAlignRight,
   CardMembership,
   RestartAlt,
-  CloudUpload,
   CheckCircle,
 } from "@mui/icons-material";
 import {
@@ -36,7 +35,7 @@ import {
   DEFAULT_CONFIG,
   saveCertificateConfig,
   loadCertificateConfig,
-  uploadCertificateImage,
+  fileToBase64,
   renderCertificateCanvas,
   downloadCertificatePDF,
 } from "../../../utils/generateCertificate";
@@ -45,14 +44,14 @@ const PREVIEW_NAME = "Maria da Silva Santos";
 
 export default function CertificateConfigPanel() {
   const [config, setConfig] = useState<CertificateConfig>(DEFAULT_CONFIG);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageSource, setImageSource] = useState<string | null>(null); // base64 ou blob URL
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [converting, setConverting] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [sizeWarning, setSizeWarning] = useState<string | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -61,24 +60,24 @@ export default function CertificateConfigPanel() {
   useEffect(() => {
     loadCertificateConfig().then((cfg) => {
       setConfig(cfg);
-      if (cfg.imageUrl) setImageUrl(cfg.imageUrl);
+      if (cfg.imageBase64) setImageSource(cfg.imageBase64);
       setLoading(false);
     });
   }, []);
 
   // Re-renderiza preview
   const renderPreview = useCallback(async () => {
-    if (!imageUrl || !canvasRef.current) return;
+    if (!imageSource || !canvasRef.current) return;
     const canvas = await renderCertificateCanvas(
       PREVIEW_NAME,
       config,
-      imageUrl
+      imageSource
     );
     const ctx = canvasRef.current.getContext("2d")!;
     canvasRef.current.width = canvas.width;
     canvasRef.current.height = canvas.height;
     ctx.drawImage(canvas, 0, 0);
-  }, [config, imageUrl]);
+  }, [config, imageSource]);
 
   useEffect(() => {
     renderPreview();
@@ -88,54 +87,74 @@ export default function CertificateConfigPanel() {
     const file = e.target.files?.[0];
     if (!file) return;
     e.target.value = "";
-
-    setUploading(true);
-    setUploadProgress(30);
+    setSizeWarning(null);
+    setConverting(true);
 
     try {
-      // Preview local imediato enquanto faz upload
-      const localUrl = URL.createObjectURL(file);
-      setImageUrl(localUrl);
-      setUploadProgress(60);
+      const base64 = await fileToBase64(file);
 
-      const publicUrl = await uploadCertificateImage(file);
-      setImageUrl(publicUrl);
-      setConfig((prev) => ({ ...prev, imageUrl: publicUrl }));
-      setUploadProgress(100);
-      setTimeout(() => setUploadProgress(0), 1000);
+      // Estima tamanho em bytes (base64 tem ~33% overhead)
+      const estimatedBytes = (base64.length * 3) / 4;
+      const estimatedKB = Math.round(estimatedBytes / 1024);
+
+      if (estimatedBytes > 900_000) {
+        setSizeWarning(
+          `Imagem muito grande (≈${estimatedKB}KB). O Firestore aceita até ~750KB para este campo. ` +
+            "Tente uma imagem menor ou com menos resolução."
+        );
+        setConverting(false);
+        return;
+      }
+
+      if (estimatedBytes > 600_000) {
+        setSizeWarning(
+          `Imagem grande (≈${estimatedKB}KB). Deve funcionar, mas se der erro ao salvar, use uma imagem menor.`
+        );
+      }
+
+      setImageSource(base64);
+      setConfig((prev) => ({ ...prev, imageBase64: base64 }));
     } catch {
-      alert("Erro ao fazer upload da imagem. Tente novamente.");
+      alert("Erro ao processar a imagem. Tente novamente.");
     } finally {
-      setUploading(false);
+      setConverting(false);
     }
   };
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      await saveCertificateConfig({
-        ...config,
-        imageUrl: imageUrl ?? undefined,
-      });
+      await saveCertificateConfig(config);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
-    } catch {
-      alert("Erro ao salvar configuração.");
+    } catch (err: any) {
+      if (err?.message?.includes("exceeds")) {
+        alert(
+          "Imagem muito grande para o Firestore. Use uma imagem com menos resolução."
+        );
+      } else {
+        alert("Erro ao salvar configuração.");
+      }
     } finally {
       setSaving(false);
     }
   };
 
-  const handleReset = () => setConfig(DEFAULT_CONFIG);
+  const handleReset = () =>
+    setConfig((prev) => ({
+      ...prev,
+      ...DEFAULT_CONFIG,
+      imageBase64: prev.imageBase64,
+    }));
 
   const handleTestDownload = async () => {
-    if (!imageUrl) return;
+    if (!imageSource) return;
     setGenerating(true);
     try {
       await downloadCertificatePDF(
         PREVIEW_NAME,
         config,
-        imageUrl,
+        imageSource,
         "certificado-teste"
       );
     } finally {
@@ -143,7 +162,6 @@ export default function CertificateConfigPanel() {
     }
   };
 
-  // Drag no canvas para posicionar o nome
   const moveMarker = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = canvasRef.current!.getBoundingClientRect();
     setConfig((prev) => ({
@@ -164,14 +182,7 @@ export default function CertificateConfigPanel() {
 
   if (loading) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          py: 8,
-        }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
         <CircularProgress />
       </Box>
     );
@@ -188,6 +199,15 @@ export default function CertificateConfigPanel() {
         <Alert severity="success" icon={<CheckCircle />} sx={{ mb: 2 }}>
           Configuração salva! Todos os participantes já podem baixar o
           certificado.
+        </Alert>
+      )}
+      {sizeWarning && (
+        <Alert
+          severity="warning"
+          sx={{ mb: 2 }}
+          onClose={() => setSizeWarning(null)}
+        >
+          {sizeWarning}
         </Alert>
       )}
 
@@ -220,42 +240,27 @@ export default function CertificateConfigPanel() {
               variant="outlined"
               fullWidth
               startIcon={
-                uploading ? <CircularProgress size={16} /> : <CloudUpload />
+                converting ? <CircularProgress size={16} /> : <Upload />
               }
               onClick={() => fileInputRef.current?.click()}
-              disabled={uploading}
+              disabled={converting}
             >
-              {uploading
-                ? "Enviando..."
-                : imageUrl
+              {converting
+                ? "Processando..."
+                : imageSource
                 ? "Trocar imagem"
                 : "Fazer upload"}
             </Button>
-            {uploading && (
-              <LinearProgress
-                variant="determinate"
-                value={uploadProgress}
-                sx={{ mt: 1, borderRadius: 1 }}
-              />
-            )}
-            {!imageUrl && !uploading && (
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ display: "block", mt: 0.5 }}
-              >
-                PNG ou JPG — imagem vai para o Firebase Storage
-              </Typography>
-            )}
-            {imageUrl && !uploading && (
-              <Typography
-                variant="caption"
-                color="success.main"
-                sx={{ display: "block", mt: 0.5 }}
-              >
-                ✓ Imagem disponível para todos os participantes
-              </Typography>
-            )}
+            {converting && <LinearProgress sx={{ mt: 1, borderRadius: 1 }} />}
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block", mt: 0.5 }}
+            >
+              {imageSource
+                ? "✓ Imagem pronta — será salva no Firestore junto com a configuração"
+                : "PNG ou JPG — será comprimida e salva no Firestore (grátis)"}
+            </Typography>
           </Box>
 
           <Divider sx={{ my: 2 }} />
@@ -380,13 +385,12 @@ export default function CertificateConfigPanel() {
 
           <Divider sx={{ my: 2 }} />
 
-          {/* Ações */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
             <Button
               variant="contained"
               size="large"
               onClick={handleSave}
-              disabled={!imageUrl || saving}
+              disabled={!imageSource || saving}
               startIcon={saving ? <CircularProgress size={16} /> : undefined}
             >
               {saving ? "Salvando..." : "Salvar configuração"}
@@ -397,7 +401,7 @@ export default function CertificateConfigPanel() {
                 generating ? <CircularProgress size={16} /> : <Download />
               }
               onClick={handleTestDownload}
-              disabled={!imageUrl || generating}
+              disabled={!imageSource || generating}
             >
               Baixar certificado de teste
             </Button>
@@ -419,7 +423,7 @@ export default function CertificateConfigPanel() {
             <Typography variant="subtitle2" gutterBottom>
               Preview — clique e arraste para posicionar o nome
             </Typography>
-            {imageUrl ? (
+            {imageSource ? (
               <Box
                 sx={{
                   position: "relative",
@@ -445,7 +449,6 @@ export default function CertificateConfigPanel() {
                   }}
                   onMouseUp={() => setDragging(false)}
                 />
-                {/* Marcador */}
                 <Box
                   sx={{
                     position: "absolute",

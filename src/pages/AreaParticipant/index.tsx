@@ -40,9 +40,6 @@ const AreaParticipante = () => {
 
       try {
         const normalizedDocument = documento.replace(/\D/g, "");
-        console.log(
-          `Enviando requisição para documento: ${normalizedDocument}`
-        );
         const response = await fetch(
           `${config.baseUrl}/participant/${normalizedDocument}`,
           {
@@ -58,7 +55,6 @@ const AreaParticipante = () => {
         }
 
         const data = await response.json();
-        console.log("Resposta do backend:", data);
         setParticipanteData({
           id: data.participant.id,
           name: data.participant.name,
@@ -93,7 +89,7 @@ const AreaParticipante = () => {
     setCertificateLoading(true);
     try {
       const cfg = await loadCertificateConfig();
-      if (!cfg.imageUrl) {
+      if (!cfg.imageBase64) {
         toast.error(
           "Certificado ainda não está disponível. Tente novamente em breve."
         );
@@ -102,7 +98,7 @@ const AreaParticipante = () => {
       await downloadCertificatePDF(
         participanteData.name,
         cfg,
-        cfg.imageUrl,
+        cfg.imageBase64,
         `certificado-verano-talk-${participanteData.id}`
       );
       toast.success("Certificado baixado com sucesso!");
@@ -134,32 +130,24 @@ const AreaParticipante = () => {
         format: "a4",
       });
 
-      // Cores do tema
-      const primaryColor = "#000000"; // Preto
-      // const secondaryColor = "#ddd3c3"; // Bege
+      const primaryColor = "#000000";
 
-      // Configurações gerais
       doc.setFont("helvetica", "normal");
       doc.setTextColor(primaryColor);
 
-      // Cabeçalho (topo da página)
       doc.setFontSize(16);
       doc.text("VERANO TALK 2026", 105, 20, { align: "center" });
       doc.setFontSize(10);
       doc.text("21 DE MARÇO | SÃO LUÍS - MA", 105, 26, { align: "center" });
 
-      // Linha divisória do cabeçalho
       doc.setDrawColor(primaryColor);
       doc.setLineWidth(0.2);
       doc.line(30, 30, 180, 30);
 
-      // Posicionamento central do conteúdo (calculado para centralizar verticalmente)
-      const startY = 70; // Posição Y onde começa o conteúdo principal
+      const startY = 70;
 
-      // QR Code (lado esquerdo)
       doc.addImage(qrImage, "PNG", 35, startY, 50, 50);
 
-      // Informações (lado direito)
       doc.setFontSize(12);
       doc.text("INGRESSO VERANO TALK - 2026", 110, startY + 5);
 
@@ -186,10 +174,8 @@ const AreaParticipante = () => {
         startY + 25
       );
 
-      // Linha divisória do rodapé
       doc.line(30, 250, 180, 250);
 
-      // Rodapé (fundo da página)
       doc.setFontSize(8);
       doc.text("© 2025 VeranoTalk - Todos os direitos reservados", 105, 260, {
         align: "center",
@@ -198,7 +184,6 @@ const AreaParticipante = () => {
         align: "center",
       });
 
-      // Baixar PDF
       doc.save(`ingresso-verano-talk-2026-${participanteData.id}.pdf`);
       toast.success("Ingresso baixado com sucesso!");
     } catch (error) {

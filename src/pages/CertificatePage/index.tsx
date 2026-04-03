@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import MainButton from "../../components/shared/MainButton";
 import Title from "../../components/shared/Title";
+import TopBar from "../../components/template/Topbar";
 import Footer from "../../components/template/Footer";
 import { config } from "../../config";
 import {
@@ -78,7 +79,7 @@ export default function CertificatePage() {
 
       // Carrega config do certificado
       const cfg = await loadCertificateConfig();
-      if (!cfg.imageUrl) {
+      if (!cfg.imageBase64) {
         setErrorMsg(
           "O certificado ainda não está disponível. Tente novamente em breve."
         );
@@ -87,7 +88,11 @@ export default function CertificatePage() {
       }
 
       // Gera o canvas com o nome
-      const canvas = await renderCertificateCanvas(p.name, cfg, cfg.imageUrl);
+      const canvas = await renderCertificateCanvas(
+        p.name,
+        cfg,
+        cfg.imageBase64
+      );
 
       // Cria URL de preview (JPEG para exibir na tela)
       const previewUrl = canvas.toDataURL("image/jpeg", 0.92);
@@ -105,7 +110,7 @@ export default function CertificatePage() {
     setDownloading(true);
     try {
       const cfg = await loadCertificateConfig();
-      if (!cfg.imageUrl) {
+      if (!cfg.imageBase64) {
         toast.error("Certificado indisponível.");
         return;
       }
@@ -114,7 +119,7 @@ export default function CertificatePage() {
       await downloadCertificatePDF(
         participant.name,
         cfg,
-        cfg.imageUrl,
+        cfg.imageBase64,
         `certificado-verano-talk-${participant.id}`
       );
     } catch {
@@ -139,6 +144,7 @@ export default function CertificatePage() {
 
   return (
     <div className={styles.page}>
+      <TopBar />
       <ToastContainer />
 
       <section className={styles.section}>
